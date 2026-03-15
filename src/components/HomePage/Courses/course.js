@@ -6,6 +6,7 @@ import norskkursB1 from '../../../images/сourses/norskkursB1.jpg'
 import Vladimir from '../../../images/leadership/Vladimir.jpg';
 import Valentina from '../../../images/leadership/Valentina.jpg';
 import Sviatoslav from '../../../images/leadership/Sviatoslav.jpg';
+import YogaTeacher from '../../../images/leadership/YogaTeacher.jpg';
 
 const course = [
     {
@@ -44,7 +45,7 @@ const course = [
         duration: 'yogaCourse.duration',
         name: 'yogaCourse.name',
         description: 'yogaCourse.description',
-        teacherPhoto: Yoga, // placeholder for now
+        teacherPhoto: YogaTeacher,
         teacherNameKey: 'yogaCourse.teacherName',
         teacherInfoKey: 'yogaCourse.teacherInfo'
     }
