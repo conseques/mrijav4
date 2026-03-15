@@ -7,6 +7,7 @@ import Registration from "../Modal/Registration/Registration";
 import Successfully from "../Modal/Successfully";
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from "react-i18next";
+import TelegramWidget from "../TelegramWidget/TelegramWidget";
 
 const Layout = () => {
     const modal = useRef();
@@ -46,6 +47,7 @@ const Layout = () => {
             </Modal>
             <Outlet  context={{ closeModal: handleCloseModal, openModal: handleOpenModal }} />
             <Footer/>
+            <TelegramWidget />
         </>
     );
 };
