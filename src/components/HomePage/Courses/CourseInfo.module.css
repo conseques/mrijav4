@@ -1,0 +1,99 @@
+.container {
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close img {
+    width: 24px;
+    height: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.teacherInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.teacherImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.teacherDetails h4 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #222;
+}
+
+.teacherDetails p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.courseDetails p {
+    margin: 5px 0;
+    font-size: 15px;
+    color: #444;
+}
+
+.desc {
+    margin-top: 15px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #555 !important;
+}
+
+.btn_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.enrollBtn {
+    background: #FFD166;
+    color: #111;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.enrollBtn:hover {
+    background: #ffc433;
+}
