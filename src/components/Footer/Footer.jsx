@@ -20,13 +20,12 @@ const Footer = () => {
                         </div>
                         <div className={styles.contact_row}>
                             <h3 className={styles.email}>{t("email")}</h3>
-                            <p>info@mriJa-norway.no</p>
-                            <p>contact@mriJa-norway.no</p>
+                            <p>mrija.i.drammen@gmail.com</p>
                         </div>
                         <div className={styles.contact_row}>
                             <h3 className={styles.phone}>{t("phone")}</h3>
-                            <p>+47 123 45 678</p>
-                            <p>+47 987 65 432</p>
+                            <p>+47 912 54 807</p>
+                            <p>+47 967 36 535</p>
                         </div>
                         <div className={styles.contact_row}>
                             <h3 >{t("socials")}</h3>
