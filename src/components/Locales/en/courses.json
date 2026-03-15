@@ -7,18 +7,33 @@
     "levels": "Support",
     "duration": "Saturday 11:00–12:30",
     "name": "Digital World",
-    "description": "A course for those who need help with the Norwegian digital system"
+    "description": "A course for those who need help with the Norwegian digital system",
+    "teacherName": "Sviatoslav",
+    "teacherInfo": "Digital literacy and IT specialist."
   },
   "norskKursA1": {
-  "levels": "A1",
-  "duration": "Saturday 12:30–14:00",
-  "name": "Norwegian Course A1",
-  "description": "Language course for beginners"
-},
+    "levels": "A1",
+    "duration": "Saturday 12:30–14:00",
+    "name": "Norwegian Course A1",
+    "description": "Language course for beginners",
+    "teacherName": "Volodymyr Vasiuta",
+    "teacherInfo": "Experienced Norwegian teacher for beginners."
+  },
   "norskKursB1": {
     "levels": "B1",
     "duration": "Tuesday 12:00–13:30",
     "name": "Norwegian Course B1",
-    "description": "Language course for those with basic knowledge of Norwegian"
-  }
+    "description": "Language course for those with basic knowledge of Norwegian",
+    "teacherName": "Valentyna Bielobotska",
+    "teacherInfo": "Expert in B1 level test preparation."
+  },
+  "yogaCourse": {
+    "name": "Yoga Course",
+    "levels": "All levels",
+    "duration": "1.5 hours",
+    "description": "Yoga classes for physical and mental well-being.",
+    "teacherName": "Yoga Teacher",
+    "teacherInfo": "Certified yoga instructor."
+  },
+  "moreInfo": "More Info"
 }

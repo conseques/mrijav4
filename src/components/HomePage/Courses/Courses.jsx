@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Courses.module.css';
 import course from "./course";
 import {useTranslation} from "react-i18next";
 import {useOutletContext} from "react-router-dom";
+import Modal from "../../Modal/Modal";
+import CourseInfo from "./CourseInfo";
 
 const Courses = () => {
     const { t } = useTranslation("courses");
     const { openModal } = useOutletContext();
+    const infoModalRef = useRef();
+    const [selectedCourse, setSelectedCourse] = useState(null);
+
+    const handleOpenInfo = (item) => {
+        setSelectedCourse(item);
+        infoModalRef.current.open();
+    };
+
+    const handleEnroll = () => {
+        infoModalRef.current.close();
+        openModal({ name: t(selectedCourse.name) });
+    };
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.courses_container}>
@@ -15,7 +30,7 @@ const Courses = () => {
                 <p className={styles.subtitle}>{t("subtitle")}</p>
                 <div className={styles.courses_content}>
                     {course.map((item, i) => <div className={styles.card} key={i}>
-                        <div className={styles.image_wrapper}><img className={styles.image} src={item.image} alt=""/>
+                        <div className={styles.image_wrapper}><img className={styles.image} src={item.image} alt="" loading="lazy"/>
                         </div>
                         <div className={styles.header}>
                             <div className={styles.column}>
@@ -27,10 +42,24 @@ const Courses = () => {
                             <h2>{t(item.name)}</h2>
                             <p>{t(item.description)}</p>
                         </div>
-                        <button onClick={() => openModal({ name: t(item.name)})} className={styles.btn}>{t("enroll")}</button>
+                        <div className={styles.actions} style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                            <button onClick={() => handleOpenInfo(item)} className={styles.btn} style={{ background: '#eee', color: '#333' }}>
+                                {t("moreInfo", "Детальніше")}
+                            </button>
+                            <button onClick={() => openModal({ name: t(item.name)})} className={styles.btn}>
+                                {t("enroll")}
+                            </button>
+                        </div>
                     </div>)}
                 </div>
             </div>
+            <Modal ref={infoModalRef}>
+                <CourseInfo 
+                    courseData={selectedCourse} 
+                    onClose={() => infoModalRef.current.close()} 
+                    onEnroll={handleEnroll} 
+                />
+            </Modal>
         </div>
     );
 };

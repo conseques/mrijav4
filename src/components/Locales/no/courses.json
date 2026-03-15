@@ -7,18 +7,33 @@
     "levels": "Støtte",
     "duration": "Hver lørdag 11:00–12:30",
     "name": "Digital Verden",
-    "description": "Et kurs for dem som trenger hjelp med det norske digitale systemet"
+    "description": "Et kurs for dem som trenger hjelp med det norske digitale systemet",
+    "teacherName": "Sviatoslav",
+    "teacherInfo": "Digital literacy and IT specialist."
   },
   "norskKursA1": {
     "levels": "A1",
     "duration": "Hver lørdag 12:30–14:00",
     "name": "Norskkurs A1",
-    "description": "Språkkurs for nybegynnere"
+    "description": "Språkkurs for nybegynnere",
+    "teacherName": "Volodymyr Vasiuta",
+    "teacherInfo": "Experienced Norwegian teacher for beginners."
   },
   "norskKursB1": {
     "levels": "B1",
     "duration": "Hver tirsdag 12:00–13:30",
     "name": "Norskkurs B1",
-    "description": "Språkkurs for dem som har grunnleggende kunnskaper i norsk"
-  }
+    "description": "Språkkurs for dem som har grunnleggende kunnskaper i norsk",
+    "teacherName": "Valentyna Bielobotska",
+    "teacherInfo": "Expert in B1 level test preparation."
+  },
+  "yogaCourse": {
+    "name": "Yoga Course",
+    "levels": "All levels",
+    "duration": "1.5 hours",
+    "description": "Yoga classes for physical and mental well-being.",
+    "teacherName": "Yoga Teacher",
+    "teacherInfo": "Certified yoga instructor."
+  },
+  "moreInfo": "More Info"
 }
