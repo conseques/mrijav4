@@ -1,0 +1,24 @@
+{
+  "education": "Utdanning og integrering",
+  "title": "Våre kurs",
+  "subtitle": " Lær, utvikle deg og integrer deg i det norske samfunnet",
+  "enroll": "Meld deg på nå →",
+  "digitalVerden": {
+    "levels": "Støtte",
+    "duration": "Hver lørdag 11:00–12:30",
+    "name": "Digital Verden",
+    "description": "Et kurs for dem som trenger hjelp med det norske digitale systemet"
+  },
+  "norskKursA1": {
+    "levels": "A1",
+    "duration": "Hver lørdag 12:30–14:00",
+    "name": "Norskkurs A1",
+    "description": "Språkkurs for nybegynnere"
+  },
+  "norskKursB1": {
+    "levels": "B1",
+    "duration": "Hver tirsdag 12:00–13:30",
+    "name": "Norskkurs B1",
+    "description": "Språkkurs for dem som har grunnleggende kunnskaper i norsk"
+  }
+}

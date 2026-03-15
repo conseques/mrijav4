@@ -1,0 +1,81 @@
+.container {
+    max-width: 616px;
+    text-align: center;
+    position: relative;
+}
+.type {
+    text-transform: lowercase;
+}
+.name {
+    color: #366CCF;
+}
+.title {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 26px;
+    line-height: 100%;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.desc {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: #8693A5;
+}
+.desc span {
+    color: #366CCF;
+}
+.close {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: -9px;
+    cursor: pointer;
+}
+.form {
+    margin-top: 20px;
+    text-align: left;
+    max-width: 616px;
+}
+.form label {
+    display: block;
+    margin-bottom: 12px;
+}
+.form button {
+    margin: 0 auto;
+    color: #366CCF;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 10px 90px;
+    border: 1px solid #366CCF;
+    border-radius: 20px;
+    margin-top: 8px;
+    transition: 0.2s;
+}
+.btn_container {
+    text-align: center;
+}
+.form button:hover {
+    background-color: #366CCF;
+    color: white;
+}
+.form button:active {
+    background-color: #184EB1;
+    color: white;
+}
+.form label p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+}
+.form input {
+    font-size: 16px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #E6ECF3;
+    padding: 14px 8px;
+}

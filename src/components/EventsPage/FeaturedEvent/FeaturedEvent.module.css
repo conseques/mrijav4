@@ -1,0 +1,177 @@
+.container {
+    max-width: 1054px;
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 80px;
+}
+.title {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    color: #12305A;
+    margin: 16px 0 48px 0;
+}
+.h2 {
+    color: #12305A;
+}
+.card {
+    display: flex;
+    border: 1px solid #B5D4FF;
+    border-radius: 15px;
+    background-color: #FBFCFD;
+    margin: 0 15px;
+}
+.image_wrapper {
+    height: 268px;
+    max-width: 453px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image_wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px 0 0 15px;
+}
+.card_content {
+    max-width: 571px;
+    padding: 24px;
+    text-align: left;
+}
+.properties {
+    margin-bottom: 24px;
+}
+.properties span {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #12305A;
+    background-color: #F6FAFF;
+    border-radius: 10px;
+    border: 1px solid #B5D4FF;
+}
+.students {
+    position: relative;
+    padding: 4px 6px 4px 25px;
+    margin-right: 6px;
+}
+.free {
+    padding: 4px 6px;
+}
+
+.students:before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 48%;
+    transform: translateY(-50%);
+    height: 14px;
+    width: 14px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('./UsersThree.svg');
+}
+.duration {
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #636363;
+}
+.duration span {
+    position: relative;
+    padding-left: 22px;
+}
+.date {
+    margin-right: 12px;
+}
+.date:before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 14px;
+    width: 14px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('./CalendarDots.svg');
+}
+.time:before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 14px;
+    width: 14px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('./Clock.svg');
+}
+.name {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 28px;
+    color: #12305A;
+    margin-bottom: 12px;
+}
+.description {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    color: #202020;
+    margin-bottom: 24px;
+}
+.card_content button {
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: white;
+    background-color: #0057B8;
+    padding: 11px 0;
+    border-radius: 10px;
+    transition: 0.2s ease;
+}
+.card_content button:hover {
+    background-color: #366CCF;
+    color: #fff;
+}
+.card_content button:active {
+    background-color: #184EB1;
+}
+@media (max-width: 915px) {
+    .card {
+        display: block;
+        max-width: 454px;
+        margin: 0 auto;
+    }
+    .image_wrapper img {
+
+        border-radius: 15px 15px 0 0;
+    }
+
+}
+@media (max-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+}
+@media (max-width: 485px) {
+    .card {
+        margin: 0 15px;
+    }
+    .properties {
+        margin-bottom: 24px;
+    }
+    .duration {
+        margin-bottom: 12px;
+    }
+    .name {
+        margin-bottom: 12px;
+    }
+}

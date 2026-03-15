@@ -1,0 +1,24 @@
+{
+  "education": "Education & Integration",
+  "title": "Our Courses",
+  "subtitle": "Learn, grow, and integrate into Norwegian society",
+  "enroll": "Enroll Now →",
+  "digitalVerden": {
+    "levels": "Support",
+    "duration": "Saturday 11:00–12:30",
+    "name": "Digital World",
+    "description": "A course for those who need help with the Norwegian digital system"
+  },
+  "norskKursA1": {
+  "levels": "A1",
+  "duration": "Saturday 12:30–14:00",
+  "name": "Norwegian Course A1",
+  "description": "Language course for beginners"
+},
+  "norskKursB1": {
+    "levels": "B1",
+    "duration": "Tuesday 12:00–13:30",
+    "name": "Norwegian Course B1",
+    "description": "Language course for those with basic knowledge of Norwegian"
+  }
+}

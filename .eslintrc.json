@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "jsx-a11y/img-redundant-alt": "off",
+    "react/jsx-no-target-blank": "off"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Register for",
+  "desc": "We’re excited to see you at our events! To register, please fill in the form using the same details you shared when becoming a member. Remember, event access is available only to ",
+  "active": "active members.",
+  "name": "Name",
+  "surname": "Surname",
+  "phone": "Phone number",
+  "register": "Register",
+  "notCorrectPhone": "Enter at least 8 digits"
+}

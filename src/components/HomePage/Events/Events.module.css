@@ -1,0 +1,214 @@
+.container {
+    text-align: center;
+    max-width: 1244px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+.title {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    color: #12305A;
+    margin: 16px 0 12px 0;
+}
+.subtitle {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #12305A;
+    margin-bottom: 48px;;
+}
+.h2 {
+    padding-bottom: 80px;
+    color: #12305A;
+}
+.image_wrapper {
+    height: 238px;
+    width: 380px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    width: 267px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px 0 0 15px;
+}
+.card {
+    height: auto;
+    display: flex;
+    width: 100%;
+    max-width: 534px;
+    border-radius: 15px;
+    background: #FBFCFD;
+    margin: 0 auto 134px auto;
+    box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.18);
+    -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.18);
+    -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.18);
+}
+.card_content {
+    padding: 24px;
+    text-align: left;
+    max-width: 289px;
+}
+.day, .time {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    position: relative;
+    color: #636363;
+    padding-left: 18px;
+}
+.day:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    background-image: url("./day.svg");
+    height: 14px;
+    width: 14px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.time:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    background-image: url("./time.svg");
+    height: 14px;
+    width: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.duration {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 24px;
+    margin-bottom: 12px;
+}
+.name {
+     font-weight: 700;
+     font-size: 20px;
+     line-height: 28px;
+     margin: 12px 0;
+     color: #12305A;
+}
+.description {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 24px;
+    color: #202020;
+}
+.btn {
+    width: 100%;
+    background-color: #0057B8;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    padding: 12px 0;
+    border-radius: 10px;
+    transition: 0.2s ease;
+}
+.btn:hover {
+    background-color: #366CCF;
+    color: #fff;
+}
+.btn:active {
+    background-color: #184EB1;
+}
+.swiperWrapper {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.prevBtn,
+.nextBtn {
+    position: absolute;
+    transform: translateY(-680%);
+    background: #E9F3FF;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 20px;
+    z-index: 2;
+}
+
+.prevBtn {
+    left: -20px;
+    transition: 0.3s ease;
+}
+
+.nextBtn {
+    right: -20px;
+    transition: 0.3s ease;
+}
+.prevBtn:hover, .nextBtn:hover {
+    opacity: 0.6;
+    color: white;
+}
+.prevBtn:active,
+.nextBtn:active {
+    transform: translateY(-680%) scale(0.8);
+}
+@media (max-width: 1280px) {
+    .swiperWrapper {
+        max-width: 800px;
+    }
+}
+@media (max-width: 886px) {
+    .swiperWrapper {
+        max-width: 700px;
+    }
+}
+@media (max-width: 768px) {
+    .swiperWrapper {
+        max-width: 650px;
+    }
+    .card {
+        display: block;
+        max-width: 343px;
+        margin-bottom: 80px;
+        box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.18);
+        -webkit-box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.18);
+        -moz-box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.18);
+    }
+    .image_wrapper {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px 10px 0 0;
+    }
+    .title {
+        font-size: 36px;
+    }
+    .subtitle {
+        font-size: 20px;
+        padding: 0 15px;
+    }
+    .image {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px 10px 0 0;
+    }
+    .prevBtn {
+        display: none;
+    }
+
+    .nextBtn {
+        display: none;
+    }
+
+}
+@media (max-width: 439px) {
+    .card  {
+        max-width: 95%;
+    }
+}

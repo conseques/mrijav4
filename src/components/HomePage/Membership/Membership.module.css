@@ -1,0 +1,151 @@
+.membership_wrapper {
+    background-color: #FDFDFD;
+    text-align: center;
+}
+.membership_container {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+.title {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    margin: 16px 0 12px 0;
+    color: #12305A;
+}
+.subtitle {
+    margin-bottom: 48px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #12305A;
+    padding: 0 20px;
+}
+.membership_content {
+    display: flex;
+    align-items: center;
+    max-width: 1024px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin: 0 auto 80px auto;
+}
+.card {
+    width: 328px;
+    text-align: center;
+    border: 2px solid #B5D4FF;
+    border-radius: 20px;
+    padding: 40px 20px 20px 20px;
+    position: relative;
+    box-shadow: 3px -5px 11px -8px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 3px -5px 11px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px -5px 11px -8px rgba(0,0,0,0.75);
+}
+.middle_card {
+    border: 2px solid #F7D56B;
+}
+.card img {
+    margin: 0 auto;
+}
+.name {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    margin: 10px 0;
+    color: #1362C4;
+}
+.price_container {
+    margin-bottom: 32px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #1362C4;
+}
+.contact, .price {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    margin-bottom: 32px;
+    color: #1362C4;
+}
+.description {
+    text-align: left;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #12305A;
+    margin-bottom: 16px;
+}
+.list {
+    text-align: left;
+    margin-bottom: 24px;
+}
+.list li {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 12px;
+    color: #12305A;
+    position: relative;
+    padding-left: 24px;
+}
+.list li::before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-image: url("./SealCheck.png");
+    left: 0;
+}
+.btn {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 100%;
+    width: 100%;
+    padding: 15px 0;
+    background-color: #0057B8;
+    color: #fff;
+    border-radius: 10px;
+    display: inline-block;
+    transition: 0.2s ease;
+}
+.btn:hover {
+    background-color: #366CCF;
+    color: #fff;
+}
+.btn:active {
+    background-color: #184EB1;
+}
+.popular{
+    position: absolute;
+    top: 20px;
+    right: -10px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 4px 13px;
+    background-color: #FFD400;
+    border-radius: 20px;
+    box-shadow: 3px -5px 8px -8px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 3px -5px 8px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px -5px 8px -8px rgba(0,0,0,0.75);
+}
+
+@media (max-width: 1038px) {
+    .membership_content {
+        max-width: 700px;
+    }
+}
+@media (max-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+    .subtitle {
+        font-size: 20px;
+    }
+}
+@media (max-width: 720px) {
+    .membership_content {
+        max-width: 330px;
+    }
+}

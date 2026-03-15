@@ -1,0 +1,10 @@
+{
+  "wantToHost": "Vil du arrangere et arrangement?",
+  "title": "Ta kontakt",
+  "subtitle": "Har du en idé til et fellesskapsarrangement? Vi vil gjerne høre fra deg! Kontakt oss for å diskutere hvordan du kan arrangere ditt eget arrangement.",
+  "name": "Navn",
+  "email": "E-post",
+  "message": "Melding",
+  "send": "Send",
+  "emailError" : "E-posten må inneholde tegnet \"@\"."
+}

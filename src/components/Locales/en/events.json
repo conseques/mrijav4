@@ -1,0 +1,34 @@
+{
+  "community": "Community Events",
+  "title": "Upcoming Events",
+  "subtitle": "Connect with fellow Ukrainians and build lasting friendships",
+  "h2": "New events coming soon",
+  "button": "Register now",
+  "comingSoon": "Coming Soon",
+  "allEventsTitle": "All Upcoming Events",
+  "allEventsSubtitle": "Browse and register for upcoming community events",
+  "memories": "Memories",
+  "pastEventsTitle": "Past Events",
+  "pastEventsSubtitle": "Take a look at our recent community gatherings",
+  "culturalEvening": {
+    "day": "Every Friday",
+    "time": "18:00 - 21:00",
+    "name": "Cultural Evening",
+    "description": "Join us for traditional Ukrainian music, food, and fellowship"
+  },
+  "easterEvent": {
+    "name": "Ukrainian Easter",
+    "day": "April 12",
+    "description": "Join us for a traditional Ukrainian Easter celebration with the community."
+  },
+  "ivanKupalaEvent": {
+    "name": "Ivana Kupala Festival",
+    "day": "July 6",
+    "description": "Traditional Ukrainian midsummer celebration with flower wreaths and bonfires."
+  },
+  "annualReportEvent": {
+    "name": "Annual General Meeting",
+    "day": "March 15",
+    "description": "Summarizing our work for the past year and sharing plans for the future."
+  }
+}

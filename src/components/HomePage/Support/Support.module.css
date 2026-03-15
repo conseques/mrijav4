@@ -1,0 +1,119 @@
+.support_wrapper {
+    background-color: #F6FAFF;
+    padding-bottom: 80px;
+}
+.support_container {
+    text-align: center;
+}
+.title {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    margin: 16px 0 12px 0;
+    color: #12305A;
+}
+.subtitle {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #12305A;
+    margin-bottom: 48px;
+    padding: 0 20px;
+}
+.support_content {
+    max-width: 1024px;
+    display: flex;
+    margin: 0 auto;
+    padding-bottom: 48px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+.card {
+    max-width: 502px;
+    text-align: left;
+    background-color:#FFFFFF ;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
+    -moz-box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
+    transition: 0.2s ease;
+}
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card img {
+    margin-bottom: 20px;
+}
+.card_title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    color: #12305A;
+    margin-bottom: 16px;
+}
+.card_desc {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #636363;
+    margin-bottom: 20px;
+}
+.card_link  {
+    padding: 12.5px 0;
+    color: #0047A7;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+}
+.image_wrapper {
+    max-width: 1044px;
+    height: 419px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 48px 10px 0 10px;
+    border-radius: 15px;
+    box-shadow: 6px 1px 62px -21px rgba(0,0,0,0.66);
+    -webkit-box-shadow: 6px 1px 62px -21px rgba(0,0,0,0.66);
+    -moz-box-shadow: 6px 1px 62px -21px rgba(0,0,0,0.66);
+    margin: 0 auto;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 15px;
+}
+@media (max-width: 1065px) {
+    .image_wrapper {
+        margin: 0 10px;
+    }
+}
+@media (max-width: 1038px) {
+    .support_content {
+        max-width: 500px;
+    }
+}
+@media (max-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+    .subtitle {
+        font-size: 20px;
+    }
+}
+@media (max-width: 720px) {
+    .support_content {
+        max-width: 343px;
+    }
+    .image_wrapper {
+        height: 343px;
+    }
+
+}

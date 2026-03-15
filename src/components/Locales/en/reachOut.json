@@ -1,0 +1,10 @@
+{
+  "wantToHost": "Want to Host an Event?",
+  "title": "Reach out",
+  "subtitle": "Do you have an idea for a community event? We'd love to hear from you! Contact us to discuss hosting your own event.",
+  "name": "Name",
+  "email": "Email",
+  "message": "Message",
+  "send": "Send",
+  "emailError": "The email must contain the \"@\" symbol."
+}

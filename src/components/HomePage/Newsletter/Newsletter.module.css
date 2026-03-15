@@ -1,0 +1,84 @@
+.newsletter_wrapper {
+    margin: 0 16px;
+}
+.newsletter_container {
+    max-width: 1024px;
+    margin: 80px auto;
+    background-color: #FFE26F;
+    text-align: center;
+    border-radius: 20px;
+    background-image: url('./background.png'), url('./background2.png');
+    background-position: bottom left, top right;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 250px, 230px;
+    box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
+    -moz-box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
+
+}
+.newsletter_container h2 {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    color: #443B1E;
+    padding: 64px 0 24px 0;
+}
+.form {
+    margin: 0 auto;
+    padding: 0 16px;
+    padding-bottom: 64px;
+    max-width: 609px;
+}
+.input_wrapper input {
+    padding: 14px 16px 14px 60px;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 10px;
+}
+.input_wrapper {
+    position: relative;
+    display: inline-block;
+    margin-right: 16px;
+    width: 70%;
+}
+.input_wrapper:before {
+    position: absolute;
+    content: '';
+    height: 24px;
+    width: 24px;
+    background-image: url("./MagnifyingGlass.png");
+    z-index: 5;
+    top: 15px;
+    left: 15px;
+}
+.form button {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 15px 24px;
+    color: white;
+    background-color: #0057B8;
+    border-radius: 10px;
+    transition: 0.2s ease;
+}
+.form button:hover {
+    background-color: #366CCF;
+    color: #fff;
+}
+.form button:active {
+    background-color: #184EB1;
+}
+@media (max-width: 608px) {
+    .input_wrapper {
+        margin-right: 0px;
+        width: 100%;
+    }
+    .form button {
+        margin-top: 16px;
+        width: 100%;
+    }
+    .newsletter_container h2 {
+        margin: 0 20px;
+        text-align: left;
+    }
+}
