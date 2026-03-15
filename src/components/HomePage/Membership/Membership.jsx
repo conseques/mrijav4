@@ -17,7 +17,7 @@ const Membership = () => {
                     <div className={styles.card}>
                         <img src={individual} alt="individual"/>
                         <p className={styles.name}>
-                            {t("Adult")}
+                            {t("Voksen")}
                         </p>
                         <p className={styles.price_container}><span className={styles.price}>100 NOK</span>/{t("year")}</p>
                         <div>
