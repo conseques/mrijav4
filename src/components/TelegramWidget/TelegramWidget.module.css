@@ -1,0 +1,27 @@
+.widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #0088cc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 136, 204, 0.4);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1000;
+}
+
+.widget:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 14px rgba(0, 136, 204, 0.6);
+}
+
+.widget svg {
+    margin-right: 2px; /* slight visual offset for the paper plane */
+    width: 35px;
+    height: 35px;
+}
