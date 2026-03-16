@@ -19,11 +19,6 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } }
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.8 } }
-};
-
 const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15 } }
@@ -34,22 +29,21 @@ const scaleIn = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: 'easeOut' } }
 };
 
-/* Reusable animated section wrapper */
+/* Reusable animated section wrapper - uses div, not section, to avoid nesting */
 function AnimatedSection({ children, className, id }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   
   return (
-    <motion.section
-      ref={ref}
-      id={id}
-      className={className}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={fadeUp}
-    >
-      {children}
-    </motion.section>
+    <div ref={ref} id={id} className={className}>
+      <motion.div
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+        variants={fadeUp}
+      >
+        {children}
+      </motion.div>
+    </div>
   );
 }
 
@@ -188,7 +182,13 @@ const Landing3D = () => {
       <AnimatedSection className={styles.about} id="about">
         <div className={styles.container}>
           <div className={styles.aboutGrid}>
-            <div className={styles.aboutText}>
+            <motion.div 
+              className={styles.aboutText}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-100px' }}
+              variants={staggerContainer}
+            >
               <motion.span className={styles.label} variants={fadeUp}>Who We Are</motion.span>
               <motion.h2 className={styles.sectionTitle} variants={fadeUp}>
                 A dream rooted in <em>Ukraine's</em><br />golden soil
@@ -207,9 +207,15 @@ const Landing3D = () => {
               <motion.a href="#programs" className={styles.btnGhost} style={{ marginTop: '1.2rem' }} variants={fadeUp}>
                 See What We Do
               </motion.a>
-            </div>
+            </motion.div>
             
-            <motion.div className={styles.sunflowerWrap} variants={scaleIn}>
+            <motion.div 
+              className={styles.sunflowerWrap}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.8 }}
+            >
               <Suspense fallback={<SceneLoader />}>
                 <SunflowerScene />
               </Suspense>
@@ -222,15 +228,27 @@ const Landing3D = () => {
       </AnimatedSection>
 
       {/* ═══ VALUES SECTION ═══ */}
-      <AnimatedSection className={styles.values} id="values">
+      <section className={styles.values} id="values">
         <div className={styles.container}>
-          <div className={styles.valuesHead}>
+          <motion.div 
+            className={styles.valuesHead}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={staggerContainer}
+          >
             <motion.span className={styles.label} variants={fadeUp}>What We Stand For</motion.span>
             <motion.h2 className={styles.sectionTitle} variants={fadeUp}>
               The spirit that <em>guides</em> every step
             </motion.h2>
-          </div>
-          <motion.div className={styles.vGrid} variants={staggerContainer}>
+          </motion.div>
+          <motion.div 
+            className={styles.vGrid}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={staggerContainer}
+          >
             {[
               { icon: '🌾', ua: 'Стійкість', title: 'Resilience', desc: "Ukraine has endured for centuries and emerged stronger each time. We carry that same unbreakable spirit into every mission." },
               { icon: '🤝', ua: 'Єдність', title: 'Unity', desc: "No dream is built alone. We are strongest standing together — Ukrainians and friends of Ukraine, united by purpose." },
@@ -245,12 +263,18 @@ const Landing3D = () => {
             ))}
           </motion.div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* ═══ STATS SECTION ═══ */}
-      <AnimatedSection className={styles.stats}>
+      <section className={styles.stats}>
         <div className={styles.container}>
-          <motion.div className={styles.sGrid} variants={staggerContainer}>
+          <motion.div 
+            className={styles.sGrid}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={staggerContainer}
+          >
             {[
               { end: 3500, suffix: '+', label: 'Volunteers' },
               { end: 220, suffix: '', label: 'Missions Completed' },
@@ -266,12 +290,18 @@ const Landing3D = () => {
             ))}
           </motion.div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* ═══ PROGRAMS SECTION ═══ */}
-      <AnimatedSection className={styles.programs} id="programs">
+      <section className={styles.programs} id="programs">
         <div className={styles.container}>
-          <div className={styles.progHead}>
+          <motion.div 
+            className={styles.progHead}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={staggerContainer}
+          >
             <div>
               <motion.span className={styles.label} variants={fadeUp}>What We Do</motion.span>
               <motion.h2 className={styles.sectionTitle} variants={fadeUp}>
@@ -279,20 +309,26 @@ const Landing3D = () => {
               </motion.h2>
             </div>
             <motion.a href="#cta" className={styles.btnGhost} variants={fadeUp}>View All</motion.a>
-          </div>
+          </motion.div>
 
-          <motion.div className={styles.pGrid} variants={staggerContainer}>
+          <motion.div 
+            className={styles.pGrid}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={staggerContainer}
+          >
             {/* Humanitarian Aid */}
             <motion.div className={styles.pCard} variants={fadeUp}>
               <div className={styles.assetStrip}>
                 <Suspense fallback={<SceneLoader />}>
                   <HeartScene />
                 </Suspense>
-                <span className={styles.assetBadge}>3D Asset</span>
+                <span className={styles.assetBadge}>3D</span>
               </div>
               <p className={styles.pTag}>Humanitarian Aid · Гуманітарна допомога</p>
               <h3>Серце Нації</h3>
-              <p>Delivering food, medicine, and essentials to displaced Ukrainians across the country. Where roads close, we find another way.</p>
+              <p>Delivering food, medicine, and essentials to displaced Ukrainians across the country.</p>
               <a href="#" className={styles.pLink}>Learn More</a>
             </motion.div>
 
@@ -302,11 +338,11 @@ const Landing3D = () => {
                 <Suspense fallback={<SceneLoader />}>
                   <CubeWaveScene />
                 </Suspense>
-                <span className={styles.assetBadge}>3D Asset</span>
+                <span className={styles.assetBadge}>3D</span>
               </div>
               <p className={styles.pTag}>Reconstruction · Відбудова</p>
               <h3>Відбудова</h3>
-              <p>Brick by brick, we restore homes, schools, and community centers — turning rubble back into the places where life happens.</p>
+              <p>Brick by brick, we restore homes, schools, and community centers.</p>
               <a href="#" className={styles.pLink}>Learn More</a>
             </motion.div>
 
@@ -316,11 +352,11 @@ const Landing3D = () => {
                 <Suspense fallback={<SceneLoader />}>
                   <BookScene />
                 </Suspense>
-                <span className={styles.assetBadge}>3D Asset</span>
+                <span className={styles.assetBadge}>3D</span>
               </div>
               <p className={styles.pTag}>Education · Освіта</p>
               <h3>Мрії Дітям</h3>
-              <p>Ensuring that every Ukrainian child has access to safe learning spaces, qualified teachers, and the right to imagine their future.</p>
+              <p>Every Ukrainian child deserves access to safe learning spaces and a future.</p>
               <a href="#" className={styles.pLink}>Learn More</a>
             </motion.div>
 
@@ -330,21 +366,27 @@ const Landing3D = () => {
                 <Suspense fallback={<SceneLoader />}>
                   <CrystalScene />
                 </Suspense>
-                <span className={styles.assetBadge}>3D Asset</span>
+                <span className={styles.assetBadge}>3D</span>
               </div>
               <p className={styles.pTag}>Heritage · Культурна пам'ять</p>
               <h3>Культурна Пам'ять</h3>
-              <p>Preserving Ukraine's language, art, music, and traditions so that what makes us Ukrainian is never lost — it lives on.</p>
+              <p>Preserving Ukraine's language, art, music, and traditions for generations.</p>
               <a href="#" className={styles.pLink}>Learn More</a>
             </motion.div>
           </motion.div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* ═══ CTA SECTION ═══ */}
-      <AnimatedSection className={styles.cta} id="cta">
+      <section className={styles.cta} id="cta">
         <div className={styles.container}>
-          <div className={styles.ctaInner}>
+          <motion.div 
+            className={styles.ctaInner}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={staggerContainer}
+          >
             <motion.span className={styles.label} variants={fadeUp}>Join the Mission</motion.span>
             <motion.h2 className={styles.sectionTitle} variants={fadeUp}>
               Your hands are part<br />of this <em>dream</em>
@@ -360,9 +402,9 @@ const Landing3D = () => {
               </a>
               <a href="#about" className={styles.btnGhost}>Learn More</a>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
-      </AnimatedSection>
+      </section>
     </div>
   );
 };
