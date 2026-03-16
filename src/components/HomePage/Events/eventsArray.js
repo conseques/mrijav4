@@ -2,6 +2,7 @@ import FirstImage from '../../../images/events/1image.jpg'
 import SecondImage from '../../../images/events/2image.jpg'
 import ThirdImage from '../../../images/events/3image.jpg'
 import KaraokeImage from '../../../images/events/karaoke.jpg'
+import PoetryImage from '../../../images/gallery/poezikveld1.jpg'
 
 const eventsArray = [
     {
@@ -19,13 +20,6 @@ const eventsArray = [
         descriptionKey: 'ivanKupalaEvent.description',
     },
     {
-        image: ThirdImage,
-        nameKey: 'annualReportEvent.name',
-        dayKey: 'annualReportEvent.day',
-        timeKey: '10:00 - 13:00',
-        descriptionKey: 'annualReportEvent.description',
-    },
-    {
         image: KaraokeImage,
         nameKey: 'karaokeEvent.name',
         dayKey: 'karaokeEvent.day',
@@ -33,7 +27,7 @@ const eventsArray = [
         descriptionKey: 'karaokeEvent.description',
     },
     {
-        image: SecondImage,
+        image: PoetryImage,
         nameKey: 'poetryEvent.name',
         dayKey: 'poetryEvent.day',
         timeKey: '18:30 - 21:30',

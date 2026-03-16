@@ -10,11 +10,12 @@ const EventsBanner = () => {
             <div className={styles.container}>
                 <div className={styles.splineContainer}>
                     <iframe 
-                        src='https://my.spline.design/dynamiciphonemockup-NyeR1oXIVPXnSWtlJ5C29pbT/' 
+                        className={styles.splineIframe}
+                        src='https://my.spline.design/particleshand-KJUEqyJ3hWU227HrmFu9nYdV/' 
                         frameBorder='0' 
                         width='100%' 
                         height='100%'
-                        title="Spline iPhone Mockup"
+                        title="Spline Hand Mockup"
                     ></iframe>
                 </div>
                 <div className={styles.content}>

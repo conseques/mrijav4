@@ -55,7 +55,8 @@
       "education": "Education",
       "culture": "Culture",
       "literature": "Literature",
-      "community": "Community"
+      "community": "Community",
+      "meeting": "Meeting"
     },
     "events": {
       "julebord": {
@@ -77,6 +78,10 @@
       "independence": {
         "title": "Independence Day Celebration",
         "desc": "A vibrant celebration of freedom and identity with hundreds gathering in traditional embroidery."
+      },
+      "annualReport": {
+        "title": "Annual General Meeting",
+        "desc": "Summarizing our work for the past year and sharing plans for the future."
       }
     },
     "stats": {

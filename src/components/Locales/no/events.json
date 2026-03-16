@@ -51,32 +51,37 @@
     "subtitle": "Feiring av livene vi har berørt og de levende lokalsamfunnene vi har bygget sammen. Hvert bilde forteller en historie om håp, mot og felles innsats.",
     "viewGallery": "Se bildegalleri",
     "tags": {
-      "annual": "Årlig Høydepunkt",
+      "annual": "Årlig høydepunkt",
       "education": "Utdanning",
       "culture": "Kultur",
       "literature": "Litteratur",
-      "community": "Fellesskap"
+      "community": "Fellesskap",
+      "meeting": "Møte"
     },
     "events": {
       "julebord": {
-        "title": "Ukrainsk Vinterfest (Julebord)",
-        "desc": "Årets største fellesskapsarrangement samlet over 500 støttespillere, og feiret vår motstandskraft og enhet i Norge."
+        "title": "Ukrainsk vintersamling",
+        "desc": "Årets største arrangement samlet over 500 støttespillere for å feire vår motstandskraft og samhold i Norge."
       },
       "teachers": {
-        "title": "Ukrainsk Lærerforum",
-        "desc": "Et dedikert nettverks- og idéutvekslingsarrangement som styrker ukrainske lærere til å integrere seg og trives."
+        "title": "Ukrainsk lærerforum",
+        "desc": "Et dedikert nettverksbyggende og idéutvekslende arrangement som styrker ukrainske lærere i å integreres og trives."
       },
       "kupala": {
-        "title": "Ivana Kupala-festival",
-        "desc": "Tradisjonell ukrainsk midtsommerfeiring som bevarer vår rike kulturarv med musikk og blomsterkranser."
+        "title": "Ivana Kupala-festivalen",
+        "desc": "Tradisjonell ukrainsk sankthansfeiring som bevarer vår rike kulturarv med musikk og blomsterkranser."
       },
       "poetry": {
-        "title": "Ukrainsk Poesikveld",
-        "desc": "En koselig samling som knytter samfunnet vårt dypt sammen gjennom klassisk og moderne ukrainsk litteratur."
+        "title": "Ukrainsk poesikveld",
+        "desc": "En koselig samling som knytter fellesskapet vårt dypt sammen gjennom klassisk og moderne ukrainsk litteratur."
       },
       "independence": {
-        "title": "Feiring av Uavhengighetsdagen",
-        "desc": "En levende feiring av frihet og identitet der hundrevis samles i tradisjonelle broderier (vyshyvanka)."
+        "title": "Feiring av uavhengighetsdagen",
+        "desc": "En levende feiring av frihet og identitet med hundrevis samlet i tradisjonelt broderi."
+      },
+      "annualReport": {
+        "title": "Årsmøte",
+        "desc": "Oppsummering av arbeidet vårt det siste året og deling av planer for fremtiden."
       }
     },
     "stats": {

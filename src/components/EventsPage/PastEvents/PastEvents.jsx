@@ -112,20 +112,20 @@ const PastEvents = () => {
                             </div>
                         </div>
 
-                        {/* Nasjonaldagen [7] */}
+                        {/* General Meeting [New Entry] */}
                         <div className={`${styles.card} ${styles.smallCard}`}>
                             <div className={styles.imageWrapper}>
-                                <img src={pastEventsArray[7].image} alt="Independence Day" loading="lazy" />
+                                <img src={pastEventsArray[7].image} alt="Annual General Meeting" loading="lazy" />
                             </div>
                             <div className={styles.cardContent}>
                                 <div className={styles.cardHeader}>
-                                    <span className={styles.tag} style={{ backgroundColor: "#e0e7ff", color: "#4338ca" }}>
-                                        {t("past.tags.community")}
+                                    <span className={styles.tag} style={{ backgroundColor: "#fef3c7", color: "#b45309" }}>
+                                        {t("past.tags.meeting")}
                                     </span>
-                                    <span className={styles.date}>Aug 24, 2023</span>
+                                    <span className={styles.date}>Mar 15, 2024</span>
                                 </div>
-                                <h3 className={styles.cardTitle}>{t("past.events.independence.title")}</h3>
-                                <p className={styles.cardDesc}>{t("past.events.independence.desc")}</p>
+                                <h3 className={styles.cardTitle}>{t("past.events.annualReport.title")}</h3>
+                                <p className={styles.cardDesc}>{t("past.events.annualReport.desc")}</p>
                             </div>
                         </div>
                     </div>
