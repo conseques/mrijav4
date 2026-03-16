@@ -10,7 +10,6 @@ const AllEvents = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>
-                <p className='main-p'>{t("comingSoon")}</p>
                 <h2 className={styles.title}>{t("allEventsTitle")}</h2>
                 <p className={styles.subtitle}>{t("allEventsSubtitle")}</p>
                 <div className={styles.content}>

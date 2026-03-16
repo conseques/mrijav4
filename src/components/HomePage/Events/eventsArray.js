@@ -23,6 +23,27 @@ const eventsArray = [
         dayKey: 'annualReportEvent.day',
         timeKey: '10:00 - 13:00',
         descriptionKey: 'annualReportEvent.description',
+    },
+    {
+        image: FirstImage,
+        nameKey: 'karaokeEvent.name',
+        dayKey: 'karaokeEvent.day',
+        timeKey: '19:00 - 22:00',
+        descriptionKey: 'karaokeEvent.description',
+    },
+    {
+        image: SecondImage,
+        nameKey: 'poetryEvent.name',
+        dayKey: 'poetryEvent.day',
+        timeKey: '18:30 - 21:30',
+        descriptionKey: 'poetryEvent.description',
+    },
+    {
+        image: ThirdImage,
+        nameKey: 'teachersForumEvent.name',
+        dayKey: 'teachersForumEvent.day',
+        timeKey: '09:00 - 16:00',
+        descriptionKey: 'teachersForumEvent.description',
     }
 ]
 

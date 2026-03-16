@@ -30,5 +30,66 @@
     "name": "Annual General Meeting",
     "day": "March 15",
     "description": "Summarizing our work for the past year and sharing plans for the future."
+  },
+  "karaokeEvent": {
+    "name": "Karaoke+",
+    "day": "May 5",
+    "description": "An evening of singing, fun, and connecting with the community."
+  },
+  "poetryEvent": {
+    "name": "Poetry Evening",
+    "day": "June 10",
+    "description": "A cozy gathering to share and listen to classic and modern Ukrainian poetry."
+  },
+  "teachersForumEvent": {
+    "name": "Teachers Forum",
+    "day": "August 20",
+    "description": "A networking and idea-sharing event for Ukrainian educators."
+  },
+  "past": {
+    "title": "Past Events",
+    "subtitle": "Celebrating the lives we've touched and the vibrant communities we've built together. Each photo tells a story of hope, resilience, and collective action.",
+    "viewGallery": "View Gallery Archive",
+    "tags": {
+      "annual": "Annual Highlight",
+      "education": "Education",
+      "culture": "Culture",
+      "literature": "Literature",
+      "community": "Community"
+    },
+    "events": {
+      "julebord": {
+        "title": "Ukrainian Winter Gathering",
+        "desc": "Our biggest community event of the year brought together over 500 supporters, celebrating our resilience and unity in Norway."
+      },
+      "teachers": {
+        "title": "Ukrainian Teachers Forum",
+        "desc": "A dedicated networking and idea-sharing event empowering Ukrainian educators to integrate and thrive."
+      },
+      "kupala": {
+        "title": "Ivana Kupala Festival",
+        "desc": "Traditional Ukrainian midsummer celebration preserving our rich cultural heritage with music and flower wreaths."
+      },
+      "poetry": {
+        "title": "Ukrainian Poetry Evening",
+        "desc": "A cozy gathering deeply connecting our community through classic and modern Ukrainian literature."
+      },
+      "independence": {
+        "title": "Independence Day Celebration",
+        "desc": "A vibrant celebration of freedom and identity with hundreds gathering in traditional embroidery."
+      }
+    },
+    "stats": {
+      "events": "Total Events",
+      "volunteers": "Volunteers",
+      "impacted": "Lives Impacted",
+      "countries": "Countries"
+    },
+    "cta": {
+      "title": "Want to be part of our next event?",
+      "desc": "Join our community of volunteers and start making a difference today. Every helping hand brings us closer to a better world.",
+      "volunteer": "Become a Volunteer",
+      "upcoming": "Upcoming Events"
+    }
   }
 }

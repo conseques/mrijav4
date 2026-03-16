@@ -15,8 +15,8 @@ const Footer = () => {
                     <div className={styles.footer_contact}>
                         <div className={styles.contact_row}>
                             <h3 className={styles.address}>{t("address")}</h3>
-                            <p>Storgata 15</p>
-                            <p>Oslo, Norway, 0155</p>
+                            <p>Cappelens gate 34</p>
+                            <p>Drammen, Norway</p>
                         </div>
                         <div className={styles.contact_row}>
                             <h3 className={styles.email}>{t("email")}</h3>

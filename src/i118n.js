@@ -18,6 +18,8 @@ import enReachOut from './components/Locales/en/reachOut.json'
 import enEventsBanner from './components/Locales/en/eventsBanner.json'
 import enFeaturedEvent from './components/Locales/en/featuredEvent.json'
 import enRegister from './components/Locales/en/register.json'
+import enDonationImpact from './components/Locales/en/donationImpact.json'
+import enReport from './components/Locales/en/report.json'
 
 //no
 import noHeader from './components/Locales/no/header.json'
@@ -35,6 +37,8 @@ import noReachOut from './components/Locales/no/reachOut.json'
 import noEventsBanner from './components/Locales/no/eventsBanner.json'
 import noFeaturedEvent from './components/Locales/no/featuredEvent.json'
 import noRegister from './components/Locales/no/register.json'
+import noDonationImpact from './components/Locales/no/donationImpact.json'
+import noReport from './components/Locales/no/report.json'
 
 //ua
 import uaHeader from './components/Locales/ua/header.json'
@@ -52,6 +56,8 @@ import uaReachOut from './components/Locales/ua/reachOut.json'
 import uaEventsBanner from './components/Locales/ua/eventsBanner.json'
 import uaFeaturedEvent from './components/Locales/ua/featuredEvent.json'
 import uaRegister from './components/Locales/ua/register.json'
+import uaDonationImpact from './components/Locales/ua/donationImpact.json'
+import uaReport from './components/Locales/ua/report.json'
 
 
 i18n.use(initReactI18next).init({
@@ -72,6 +78,8 @@ i18n.use(initReactI18next).init({
             eventsBanner: enEventsBanner,
             featuredEvent: enFeaturedEvent,
             register: enRegister,
+            donationImpact: enDonationImpact,
+            report: enReport,
         },
         ua: {
             header: uaHeader,
@@ -89,6 +97,8 @@ i18n.use(initReactI18next).init({
             eventsBanner: uaEventsBanner,
             featuredEvent: uaFeaturedEvent,
             register: uaRegister,
+            donationImpact: uaDonationImpact,
+            report: uaReport,
         },
         no: {
             header: noHeader,
@@ -106,6 +116,8 @@ i18n.use(initReactI18next).init({
             eventsBanner: noEventsBanner,
             featuredEvent: noFeaturedEvent,
             register: noRegister,
+            donationImpact: noDonationImpact,
+            report: noReport,
         },
     },
     lng: "en",

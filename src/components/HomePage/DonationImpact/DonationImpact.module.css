@@ -1,0 +1,299 @@
+.section {
+  background-color: #F8F9FA; /* Light off-white background from design */
+  padding: 6rem 2rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #0F172A;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 650px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #E0E7FF;
+  color: #1D4ED8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #FACC15;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Main Card */
+.mainCard {
+  background-color: #FFFFFF;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  padding: 3rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.mainCardSubtitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem 0;
+}
+
+.amountContainer {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.currency {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #94A3B8;
+  margin-right: 0.25rem;
+}
+
+.amount {
+  font-size: clamp(4rem, 8vw, 6rem);
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* Progress Section */
+.progressSection {
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  text-align: left;
+}
+
+.progressLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.goalText {
+  color: #2563EB;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.percentText {
+  color: #0F172A;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.progressBarBg {
+  width: 100%;
+  height: 12px;
+  background-color: #F1F5F9;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progressBarFill {
+  height: 100%;
+  width: 75%;
+  background: linear-gradient(90deg, #2563EB 85%, #FACC15 85%, #FACC15 100%);
+  border-radius: 9999px;
+}
+
+.trendRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.trendIcon {
+  color: #22C55E;
+}
+
+.trendText {
+  font-size: 0.9rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.trendGreen {
+  color: #16A34A;
+  font-weight: 600;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.primaryButton {
+  background-color: #2563EB;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+}
+
+.primaryButton:hover {
+  background-color: #1D4ED8;
+  transform: translateY(-1px);
+}
+
+.secondaryLink {
+  color: #64748B;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.secondaryLink:hover {
+  color: #0F172A;
+}
+
+/* Features Grid */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+.featureCard {
+  background-color: #FFFFFF;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+  text-align: left;
+}
+
+.iconWrapperBlue {
+  background-color: #EFF6FF;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.blueIcon {
+  color: #2563EB;
+}
+
+.featureTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 0.3rem 0;
+}
+
+.featureDesc {
+  font-size: 0.85rem;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Footer Accent */
+.footerAccent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.colors {
+  display: flex;
+}
+
+.colorBlue {
+  width: 30px;
+  height: 3px;
+  background-color: #2563EB;
+}
+
+.colorYellow {
+  width: 30px;
+  height: 3px;
+  background-color: #FACC15;
+}
+
+.footerText {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #94A3B8;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainCard {
+    padding: 2rem 1.5rem;
+  }
+}

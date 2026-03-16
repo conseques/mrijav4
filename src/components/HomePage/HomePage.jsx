@@ -6,6 +6,7 @@ import Membership from "./Membership/Membership";
 import Support from "./Support/Support";
 import Newsletter from "./Newsletter/Newsletter";
 import {useLocation} from "react-router-dom";
+import DonationImpact from "./DonationImpact/DonationImpact";
 
 const HomePage = () => {
     const { hash } = useLocation();
@@ -21,6 +22,7 @@ const HomePage = () => {
     return (
         <>
             <Hero />
+            <DonationImpact />
             <Events />
             <Courses />
             <Membership />

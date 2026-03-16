@@ -1,75 +1,173 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import styles from './PastEvents.module.css';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import {pastEventsArray} from "./pastEventsArray";
-import {useTranslation} from "react-i18next";
+// We import the exact same photos from the existing array but cherry-pick the ones we want
+import { pastEventsArray } from "./pastEventsArray";
 
+import { Users, Globe2, Building2, CalendarCheck, HelpCircle } from "lucide-react";
+
+/**
+ * Image Mapping based on `pastEventsArray.js`:
+ * [0] - advokatmøte1.jpg
+ * [1] - globusfest3.jpg
+ * [2] - ivana_kupala.jpg
+ * [3] - julebord2.jpg
+ * [4] - lærerforum.jpg
+ * [5] - pinsedag1.jpg
+ * [6] - poezikveld.jpg
+ * [7] - ukrainsk_nasjonaldagen2.jpg
+ */
 
 const PastEvents = () => {
-    const prevRef = useRef(null);
-    const nextRef = useRef(null);
-    const swiperRef = useRef(null);
     const { t } = useTranslation("events");
 
-    useEffect(() => {
-        if (swiperRef.current) {
-            swiperRef.current.params.navigation.prevEl = prevRef.current;
-            swiperRef.current.params.navigation.nextEl = nextRef.current;
-            swiperRef.current.navigation.init();
-            swiperRef.current.navigation.update();
-        }
-    }, []);
-
     return (
-        <div className={styles.wrapper}>
+        <section className={styles.wrapper}>
             <div className={styles.container}>
-                <p className="main-p">{t("memories")}</p>
-                <h2 className={styles.title}>{t("pastEventsTitle")}</h2>
-                <p className={styles.subtitle}>{t("pastEventsSubtitle")}</p>
-                <div className={styles.sliderWrapper}>
-                    <Swiper
-                        modules={[Navigation, Autoplay]}
-                        loop={true}
-                        spaceBetween={20}
-                        slidesPerView={4}
-                        autoplay={{
-                            delay: 5000,
-                            disableOnInteraction: false,
-                        }}
-                        breakpoints={{
-                            0: { slidesPerView: 1 },
-                            550: { slidesPerView: 2 },
-                            768: { slidesPerView: 3 },
-                            1280: { slidesPerView: 4 },
-                        }}
-                        onSwiper={(swiper) => (swiperRef.current = swiper)}
-                    >
-                        {pastEventsArray.map((src, i) => (
-                            <SwiperSlide key={i}>
-                                <div className={styles.photoWrapper}>
-                                    <img className={styles.photo} src={src.image} alt={`past-${i}`} loading="lazy" />
+                {/* Header Section */}
+                <div className={styles.header}>
+                    <div className={styles.headerText}>
+                        <h2 className={styles.title}>{t("past.title")}</h2>
+                        <p className={styles.subtitle}>{t("past.subtitle")}</p>
+                    </div>
+                    <Link to="/gallery" className={styles.galleryLink}>
+                        {t("past.viewGallery")} &rarr;
+                    </Link>
+                </div>
+
+                {/* Grid Layout (Top Row + Bottom Row) */}
+                <div className={styles.gridContainer}>
+                    {/* TOP ROW: 1 Large Feature, 1 Medium Side */}
+                    <div className={styles.topRow}>
+                        {/* Featured (Julebord [3]) */}
+                        <div className={`${styles.card} ${styles.featureCard}`}>
+                            <div className={styles.imageWrapper}>
+                                <img src={pastEventsArray[3].image} alt="Winter Gathering" loading="lazy" />
+                            </div>
+                            <div className={styles.cardContent}>
+                                <div className={styles.cardHeader}>
+                                    <span className={styles.tag} style={{ backgroundColor: "#e0f2fe", color: "#0369a1" }}>
+                                        {t("past.tags.annual")}
+                                    </span>
+                                    <span className={styles.date}>Dec 15, 2023</span>
                                 </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-
-                    <button ref={prevRef} className={styles.prevBtn}>❮</button>
-                    <button ref={nextRef} className={styles.nextBtn}>❯</button>
-                </div>
-                <div className={styles.images}>
-                    {pastEventsArray.map((src, i) => (
-                        <div className={styles.photoWrapper} key={i}>
-                            <img className={styles.photo} src={src.image} alt={`past-${i}`} loading="lazy" />
+                                <h3 className={styles.cardTitle}>{t("past.events.julebord.title")}</h3>
+                                <p className={styles.cardDesc}>{t("past.events.julebord.desc")}</p>
+                            </div>
                         </div>
-                    ))}
+
+                        {/* Side (Lærerforum [4]) */}
+                        <div className={`${styles.card} ${styles.sideCard}`}>
+                            <div className={styles.imageWrapper}>
+                                <img src={pastEventsArray[4].image} alt="Teachers Forum" loading="lazy" />
+                            </div>
+                            <div className={styles.cardContent}>
+                                <div className={styles.cardHeader}>
+                                    <span className={styles.tag} style={{ backgroundColor: "#ffedd5", color: "#c2410c" }}>
+                                        {t("past.tags.education")}
+                                    </span>
+                                    <span className={styles.date}>Nov 08, 2023</span>
+                                </div>
+                                <h3 className={styles.cardTitle}>{t("past.events.teachers.title")}</h3>
+                                <p className={styles.cardDesc}>{t("past.events.teachers.desc")}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* BOTTOM ROW: 3 Equal Small Cards */}
+                    <div className={styles.bottomRow}>
+                        {/* Ivana Kupala [2] */}
+                        <div className={`${styles.card} ${styles.smallCard}`}>
+                            <div className={styles.imageWrapper}>
+                                <img src={pastEventsArray[2].image} alt="Ivana Kupala" loading="lazy" />
+                            </div>
+                            <div className={styles.cardContent}>
+                                <div className={styles.cardHeader}>
+                                    <span className={styles.tag} style={{ backgroundColor: "#dcfce7", color: "#15803d" }}>
+                                        {t("past.tags.culture")}
+                                    </span>
+                                    <span className={styles.date}>Jul 06, 2023</span>
+                                </div>
+                                <h3 className={styles.cardTitle}>{t("past.events.kupala.title")}</h3>
+                                <p className={styles.cardDesc}>{t("past.events.kupala.desc")}</p>
+                            </div>
+                        </div>
+
+                        {/* Poezikveld [6] */}
+                        <div className={`${styles.card} ${styles.smallCard}`}>
+                            <div className={styles.imageWrapper}>
+                                <img src={pastEventsArray[6].image} alt="Poetry Evening" loading="lazy" />
+                            </div>
+                            <div className={styles.cardContent}>
+                                <div className={styles.cardHeader}>
+                                    <span className={styles.tag} style={{ backgroundColor: "#fce7f3", color: "#be185d" }}>
+                                        {t("past.tags.literature")}
+                                    </span>
+                                    <span className={styles.date}>Sep 14, 2023</span>
+                                </div>
+                                <h3 className={styles.cardTitle}>{t("past.events.poetry.title")}</h3>
+                                <p className={styles.cardDesc}>{t("past.events.poetry.desc")}</p>
+                            </div>
+                        </div>
+
+                        {/* Nasjonaldagen [7] */}
+                        <div className={`${styles.card} ${styles.smallCard}`}>
+                            <div className={styles.imageWrapper}>
+                                <img src={pastEventsArray[7].image} alt="Independence Day" loading="lazy" />
+                            </div>
+                            <div className={styles.cardContent}>
+                                <div className={styles.cardHeader}>
+                                    <span className={styles.tag} style={{ backgroundColor: "#e0e7ff", color: "#4338ca" }}>
+                                        {t("past.tags.community")}
+                                    </span>
+                                    <span className={styles.date}>Aug 24, 2023</span>
+                                </div>
+                                <h3 className={styles.cardTitle}>{t("past.events.independence.title")}</h3>
+                                <p className={styles.cardDesc}>{t("past.events.independence.desc")}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                {/* Impact Stats Row */}
+                <div className={styles.statsGrid}>
+                    <div className={styles.statCard}>
+                        <CalendarCheck className={styles.statIcon} color="#2563eb" size={28} />
+                        <span className={styles.statLabel}>{t("past.stats.events")}</span>
+                        <h4 className={styles.statValue}>120+</h4>
+                    </div>
+                    <div className={styles.statCard}>
+                        <Users className={styles.statIcon} color="#2563eb" size={28} />
+                        <span className={styles.statLabel}>{t("past.stats.volunteers")}</span>
+                        <h4 className={styles.statValue}>15k+</h4>
+                    </div>
+                    <div className={styles.statCard}>
+                        <HelpCircle className={styles.statIcon} color="#2563eb" size={28} />
+                        <span className={styles.statLabel}>{t("past.stats.impacted")}</span>
+                        <h4 className={styles.statValue}>250k+</h4>
+                    </div>
+                    <div className={styles.statCard}>
+                        <Globe2 className={styles.statIcon} color="#2563eb" size={28} />
+                        <span className={styles.statLabel}>{t("past.stats.countries")}</span>
+                        <h4 className={styles.statValue}>24</h4>
+                    </div>
+                </div>
+
+                {/* Blue CTA Block */}
+                <div className={styles.ctaBlock}>
+                    <div className={styles.ctaContent}>
+                        <h3 className={styles.ctaTitle}>{t("past.cta.title")}</h3>
+                        <p className={styles.ctaDesc}>{t("past.cta.desc")}</p>
+                    </div>
+                    <div className={styles.ctaButtons}>
+                        <a href="#membership" className={styles.btnSolid}>{t("past.cta.volunteer")}</a>
+                        <Link to="/events" className={styles.btnOutline}>{t("past.cta.upcoming")}</Link>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

@@ -30,5 +30,66 @@
     "name": "Årsmøte og rapport",
     "day": "15. Mars",
     "description": "Vi oppsummerer fjorårets arbeid og deler våre fremtidsplaner."
+  },
+  "karaokeEvent": {
+    "name": "Karaoke+",
+    "day": "5. Mai",
+    "description": "En kveld med sang, moro og å knytte bånd med fellesskapet."
+  },
+  "poetryEvent": {
+    "name": "Poezi Kveld",
+    "day": "10. Juni",
+    "description": "En koselig samling for å dele og lytte til klassisk og moderne ukrainsk poesi."
+  },
+  "teachersForumEvent": {
+    "name": "Lærerforum",
+    "day": "20. August",
+    "description": "Et arrangement for nettverksbygging og idéutveksling for ukrainske lærere."
+  },
+  "past": {
+    "title": "Tidligere arrangementer",
+    "subtitle": "Feiring av livene vi har berørt og de levende lokalsamfunnene vi har bygget sammen. Hvert bilde forteller en historie om håp, mot og felles innsats.",
+    "viewGallery": "Se bildegalleri",
+    "tags": {
+      "annual": "Årlig Høydepunkt",
+      "education": "Utdanning",
+      "culture": "Kultur",
+      "literature": "Litteratur",
+      "community": "Fellesskap"
+    },
+    "events": {
+      "julebord": {
+        "title": "Ukrainsk Vinterfest (Julebord)",
+        "desc": "Årets største fellesskapsarrangement samlet over 500 støttespillere, og feiret vår motstandskraft og enhet i Norge."
+      },
+      "teachers": {
+        "title": "Ukrainsk Lærerforum",
+        "desc": "Et dedikert nettverks- og idéutvekslingsarrangement som styrker ukrainske lærere til å integrere seg og trives."
+      },
+      "kupala": {
+        "title": "Ivana Kupala-festival",
+        "desc": "Tradisjonell ukrainsk midtsommerfeiring som bevarer vår rike kulturarv med musikk og blomsterkranser."
+      },
+      "poetry": {
+        "title": "Ukrainsk Poesikveld",
+        "desc": "En koselig samling som knytter samfunnet vårt dypt sammen gjennom klassisk og moderne ukrainsk litteratur."
+      },
+      "independence": {
+        "title": "Feiring av Uavhengighetsdagen",
+        "desc": "En levende feiring av frihet og identitet der hundrevis samles i tradisjonelle broderier (vyshyvanka)."
+      }
+    },
+    "stats": {
+      "events": "Totalt arrangementer",
+      "volunteers": "Frivillige",
+      "impacted": "Liv påvirket",
+      "countries": "Land"
+    },
+    "cta": {
+      "title": "Vil du være med på vårt neste arrangement?",
+      "desc": "Bli med i vårt fellesskap av frivillige og begynn å utgjøre en forskjell i dag. Hver hjelpende hånd bringer oss nærmere en bedre verden.",
+      "volunteer": "Bli Frivillig",
+      "upcoming": "Kommende Arrangementer"
+    }
   }
 }
