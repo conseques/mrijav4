@@ -157,7 +157,7 @@ const PastEvents = () => {
                         <p className={styles.ctaDesc}>{t("past.cta.desc")}</p>
                     </div>
                     <div className={styles.ctaButtons}>
-                        <a href="#membership" className={styles.btnSolid}>{t("past.cta.volunteer")}</a>
+                        <a href="/#membership" className={styles.btnSolid}>{t("past.cta.volunteer")}</a>
                         <Link to="/events" className={styles.btnOutline}>{t("past.cta.upcoming")}</Link>
                     </div>
                 </div>

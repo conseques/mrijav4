@@ -7,6 +7,11 @@ import styles from './DonationImpact.module.css';
 const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
 
+  const raisedAmount = 35000;
+  const goalAmount = 150000;
+  const progressPercent = Math.min(Math.round((raisedAmount / goalAmount) * 100), 100);
+  const remainingAmount = Math.max(goalAmount - raisedAmount, 0);
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -28,21 +33,21 @@ const DonationImpact = () => {
           <h3 className={styles.mainCardSubtitle}>{t('amountRaised')}</h3>
           <div className={styles.amountContainer}>
             <span className={styles.currency}>NOK</span>
-            <span className={styles.amount}>35,000</span>
+            <span className={styles.amount}>{raisedAmount.toLocaleString()}</span>
           </div>
 
           <div className={styles.progressSection}>
             <div className={styles.progressLabels}>
-              <span className={styles.goalText}>{t('goal')} 150,000</span>
-              <span className={styles.percentText}>23% {t('complete')}</span>
+              <span className={styles.goalText}>{t('goal')} {goalAmount.toLocaleString()}</span>
+              <span className={styles.percentText}>{progressPercent}% {t('complete')}</span>
             </div>
             <div className={styles.progressBarBg}>
-              <div className={styles.progressBarFill} style={{ width: '23.3%' }}></div>
+              <div className={styles.progressBarFill} style={{ width: `${progressPercent}%` }}></div>
             </div>
             <div className={styles.trendRow}>
               <TrendingUp size={16} className={styles.trendIcon} />
               <p className={styles.trendText}>
-                115,000 {t('remaining')} <span className={styles.trendGreen}>{t('trend')}</span>
+                {remainingAmount.toLocaleString()} {t('remaining')} <span className={styles.trendGreen}>{t('trend')}</span>
               </p>
             </div>
           </div>
