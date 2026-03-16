@@ -35,7 +35,7 @@ const Layout = () => {
         <>
             <Helmet>
                 <html lang={i18n.language || 'no'} />
-                <title>{i18n.language === 'ua' ? 'Mriya - Українська організация' : (i18n.language === 'en' ? 'Mriya - Ukrainian Organization' : 'Mriya - Ukrainsk Organisasjon')}</title>
+                <title>Ukrainsk forening MriJa</title>
                 <meta name="description" content="Mriya - community, events, courses, and support." />
             </Helmet>
             <Header/>
