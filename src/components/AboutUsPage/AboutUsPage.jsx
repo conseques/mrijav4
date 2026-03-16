@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import AboutHero from "./AboutHero/AboutHero";
+import AboutStats from "./AboutStats/AboutStats";
 import Mission from "./Mission/Mission";
 import Leadership from "./Leadership/Leadership";
 import ReachOut from "./ReactOut/ReachOut";
@@ -21,6 +22,7 @@ const AboutUsPage = () => {
     return (
         <>
             <AboutHero/>
+            <AboutStats/>
             <Mission/>
             <Leadership/>
             <ReachOut/>

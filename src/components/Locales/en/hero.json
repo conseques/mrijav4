@@ -3,5 +3,12 @@
   "norway": "Norway",
   "subtitle": "Helping Ukrainians integrate and thrive in Norway through community, education, and support",
   "become":  "Become a Member",
-  "learn": "Learn More"
+  "learn": "Learn More",
+  "statsMembers": "MEMBERS",
+  "statsEvents": "EVENTS",
+  "statsSupport": "Years OF SUPPORT",
+  "galleryCtaTitle": "Want to be part of our next event?",
+  "galleryCtaDesc": "Join our community of volunteers and start making a difference today. Every helping hand brings us closer to a better world.",
+  "galleryCtaVolBtn": "Become a Volunteer",
+  "galleryCtaEventsBtn": "Upcoming Events"
 }

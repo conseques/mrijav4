@@ -1,0 +1,82 @@
+.ctaContainer {
+    max-width: 1200px;
+    margin: 60px auto 0 auto;
+    padding: 0 20px;
+}
+
+.ctaBox {
+    background-color: #3B82F6; /* Matches the blue card color in Figma */
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    color: #ffffff;
+}
+
+.ctaTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.ctaDesc {
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 32px auto;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.btnGroup {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.primaryBtn {
+    background-color: #ffffff;
+    color: #3B82F6;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.primaryBtn:hover {
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+}
+
+.secondaryBtn {
+    background-color: transparent;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.secondaryBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+}
+
+.decorativeSend {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .btnGroup {
+        flex-direction: column;
+    }
+    .ctaBox {
+        padding: 40px 20px;
+    }
+}

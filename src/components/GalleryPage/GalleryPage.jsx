@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Gallery from "../AboutUsPage/Gallery/Gallery";
+import GalleryCTA from "./GalleryCTA/GalleryCTA";
 import styles from './GalleryPage.module.css';
 
 const GalleryPage = () => {
@@ -10,6 +11,7 @@ const GalleryPage = () => {
     return (
         <div className={styles.pageContainer}>
             <Gallery />
+            <GalleryCTA />
         </div>
     );
 };
