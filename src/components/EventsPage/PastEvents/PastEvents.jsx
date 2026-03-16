@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 // We import the exact same photos from the existing array but cherry-pick the ones we want
 import { pastEventsArray } from "./pastEventsArray";
 
-import { Users, Globe2, Building2, CalendarCheck, HelpCircle } from "lucide-react";
+import { Users, Building2, CalendarCheck, HelpCircle } from "lucide-react";
 
 /**
  * Image Mapping based on `pastEventsArray.js`:
@@ -136,22 +136,17 @@ const PastEvents = () => {
                     <div className={styles.statCard}>
                         <CalendarCheck className={styles.statIcon} color="#2563eb" size={28} />
                         <span className={styles.statLabel}>{t("past.stats.events")}</span>
-                        <h4 className={styles.statValue}>120+</h4>
+                        <h4 className={styles.statValue}>30+</h4>
                     </div>
                     <div className={styles.statCard}>
                         <Users className={styles.statIcon} color="#2563eb" size={28} />
                         <span className={styles.statLabel}>{t("past.stats.volunteers")}</span>
-                        <h4 className={styles.statValue}>15k+</h4>
+                        <h4 className={styles.statValue}>300+</h4>
                     </div>
                     <div className={styles.statCard}>
                         <HelpCircle className={styles.statIcon} color="#2563eb" size={28} />
                         <span className={styles.statLabel}>{t("past.stats.impacted")}</span>
-                        <h4 className={styles.statValue}>250k+</h4>
-                    </div>
-                    <div className={styles.statCard}>
-                        <Globe2 className={styles.statIcon} color="#2563eb" size={28} />
-                        <span className={styles.statLabel}>{t("past.stats.countries")}</span>
-                        <h4 className={styles.statValue}>24</h4>
+                        <h4 className={styles.statValue}>2000+</h4>
                     </div>
                 </div>
 

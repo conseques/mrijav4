@@ -82,8 +82,7 @@
     "stats": {
       "events": "Total Events",
       "volunteers": "Volunteers",
-      "impacted": "Lives Impacted",
-      "countries": "Countries"
+      "impacted": "Lives Impacted"
     },
     "cta": {
       "title": "Want to be part of our next event?",
