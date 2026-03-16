@@ -50,7 +50,9 @@ const Header = () => {
         <header className={styles.header}>
             <div className={styles.header_container}>
                 <div className={styles.logo_container}>
-                    <img src={Logo} alt="logo" />
+                    <Link to='/'>
+                        <img src={Logo} alt="logo" />
+                    </Link>
                 </div>
 
                 <nav>
