@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './AboutHero.module.css';
-import orgPhoto from '../../../images/hero/ukrainsk nasjonaldagen2 (1).jpg';
+import orgPhoto from '../../../images/hero/mriya_community.jpg';
 
 const AboutHero = () => {
     return (
