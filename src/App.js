@@ -7,6 +7,8 @@ import AboutUsPage from "./components/AboutUsPage/AboutUsPage";
 import EventsPage from "./components/EventsPage/EventsPage";
 import ReportPage from "./components/ReportPage/ReportPage";
 
+import GalleryPage from "./components/GalleryPage/GalleryPage";
+
 function App() {
     const router = createBrowserRouter([
         {
@@ -20,6 +22,7 @@ function App() {
             children: [
                 { index: true, element: <HomePage/>},
                 { path: '/about-us', element: <AboutUsPage/>},
+                { path: '/gallery', element: <GalleryPage/>},
                 { path: '/events', element: <EventsPage/>},
                 { path: '/report', element: <ReportPage/>},
             ],

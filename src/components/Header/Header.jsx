@@ -57,6 +57,7 @@ const Header = () => {
                     <ul className={styles.nav_list}>
                         <Link className={styles.link} to='/'>{t("home")}</Link>
                         <Link className={styles.link} to='/about-us'>{t("about")}</Link>
+                        <Link className={styles.link} to='/gallery'>{t("gallery")}</Link>
                         <Link className={styles.link} to='/events'>{t("events")}</Link>
                     </ul>
                 </nav>

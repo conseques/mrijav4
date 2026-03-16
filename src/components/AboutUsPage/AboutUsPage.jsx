@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Gallery from "./Gallery/Gallery";
+import AboutHero from "./AboutHero/AboutHero";
 import Mission from "./Mission/Mission";
 import Leadership from "./Leadership/Leadership";
 import ReachOut from "./ReactOut/ReachOut";
@@ -20,7 +20,7 @@ const AboutUsPage = () => {
 
     return (
         <>
-            <Gallery/>
+            <AboutHero/>
             <Mission/>
             <Leadership/>
             <ReachOut/>
