@@ -1,5 +1,15 @@
 {
   "moments": "Our Moments",
   "title": "Community Gallery",
-  "subtitle": "Explore the vibrant moments of our Ukrainian community in Norway. From cultural celebrations to educational programs, these images capture our journey of integration and connection."
+  "subtitle": "Explore the vibrant moments of our Ukrainian community in Norway. From cultural celebrations to educational programs, these images capture our journey of integration and connection.",
+  "events": {
+    "advokat": "Legal Assistance",
+    "julebord3": "Winter Gathering",
+    "pinsedag": "Pentecostal Celebration",
+    "pinsedag2": "Children's Activities",
+    "ece8ef": "Cultural Dialogue",
+    "julebord": "Community Dinner",
+    "poezikveld1": "Poetry Evening",
+    "demo": "Solidarity Rally"
+  }
 }

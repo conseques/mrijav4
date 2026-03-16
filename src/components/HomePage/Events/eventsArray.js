@@ -1,6 +1,7 @@
 import FirstImage from '../../../images/events/1image.jpg'
 import SecondImage from '../../../images/events/2image.jpg'
 import ThirdImage from '../../../images/events/3image.jpg'
+import KaraokeImage from '../../../images/events/karaoke.jpg'
 
 const eventsArray = [
     {
@@ -25,7 +26,7 @@ const eventsArray = [
         descriptionKey: 'annualReportEvent.description',
     },
     {
-        image: FirstImage,
+        image: KaraokeImage,
         nameKey: 'karaokeEvent.name',
         dayKey: 'karaokeEvent.day',
         timeKey: '19:00 - 22:00',
