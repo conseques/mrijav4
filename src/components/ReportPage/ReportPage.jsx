@@ -102,37 +102,37 @@ const ReportPage = () => {
             <div className={styles.distItem}>
               <div className={styles.distItemHeader}>
                 <span className={styles.distItemTitle}>{t('medicalAidTitle')}</span>
-                <span className={styles.distItemPercent}>55%</span>
+                <span className={styles.distItemPercent}>60%</span>
               </div>
               <p className={styles.distItemDesc}>{t('medicalAidDesc')}</p>
-              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '55%'}}></div></div>
+              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '60%'}}></div></div>
             </div>
 
             <div className={styles.distItem}>
               <div className={styles.distItemHeader}>
                 <span className={styles.distItemTitle}>{t('educationTitle')}</span>
-                <span className={styles.distItemPercent}>29%</span>
+                <span className={styles.distItemPercent}>25%</span>
               </div>
               <p className={styles.distItemDesc}>{t('educationDesc')}</p>
-              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '29%'}}></div></div>
+              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '25%'}}></div></div>
             </div>
 
             <div className={styles.distItem}>
               <div className={styles.distItemHeader}>
                 <span className={styles.distItemTitle}>{t('foodTitle')}</span>
-                <span className={styles.distItemPercent}>9%</span>
+                <span className={styles.distItemPercent}>10%</span>
               </div>
               <p className={styles.distItemDesc}>{t('foodDesc')}</p>
-              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '9%'}}></div></div>
+              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '10%'}}></div></div>
             </div>
 
             <div className={styles.distItem}>
               <div className={styles.distItemHeader}>
                 <span className={styles.distItemTitle}>{t('housingTitle')}</span>
-                <span className={styles.distItemPercent}>7%</span>
+                <span className={styles.distItemPercent}>5%</span>
               </div>
               <p className={styles.distItemDesc}>{t('housingDesc')}</p>
-              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '7%'}}></div></div>
+              <div className={styles.barBg}><div className={styles.barFillBlue} style={{width: '5%'}}></div></div>
             </div>
           </div>
 
