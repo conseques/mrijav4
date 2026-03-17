@@ -120,8 +120,8 @@ i18n.use(initReactI18next).init({
             report: noReport,
         },
     },
-    lng: "en",
-    fallbackLng: "en",
+    lng: "no",
+    fallbackLng: "no",
     interpolation: {
         escapeValue: false,
     },

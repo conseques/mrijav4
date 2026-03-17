@@ -131,6 +131,24 @@
     -moz-box-shadow: 3px -5px 8px -8px rgba(0,0,0,0.75);
 }
 
+.cardBody {
+    min-height: 250px;
+}
+
+.backBtn {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.backBtn:hover {
+    color: #1e293b;
+}
+
 @media (max-width: 1038px) {
     .membership_content {
         max-width: 700px;
