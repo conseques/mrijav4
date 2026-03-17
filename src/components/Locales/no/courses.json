@@ -7,10 +7,11 @@
     "levels": "Støtte",
     "duration": "Hver lørdag 11:00–12:30",
     "name": "Digital Verden",
-    "description": "Et kurs for dem som trenger hjelp med det norske digitale systemet",
+    "description": "Alt fra oversetter til alt du trenger hjelp med.",
     "teacherName": "Sviatoslav",
     "teacherInfo": "Digital literacy and IT specialist."
   },
+  "phoneLabel": "Telefon",
   "norskKursA1": {
     "levels": "A1",
     "duration": "Hver lørdag 12:30–14:00",

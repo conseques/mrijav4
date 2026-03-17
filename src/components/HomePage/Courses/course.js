@@ -17,7 +17,8 @@ const course = [
         description: 'norskKursA1.description',
         teacherPhoto: Vladimir,
         teacherNameKey: 'norskKursA1.teacherName',
-        teacherInfoKey: 'norskKursA1.teacherInfo'
+        teacherInfoKey: 'norskKursA1.teacherInfo',
+        phone: 'TBA'
     },
     {
         image: norskkursB1,
@@ -27,7 +28,8 @@ const course = [
         description: 'norskKursB1.description',
         teacherPhoto: Valentina,
         teacherNameKey: 'norskKursB1.teacherName',
-        teacherInfoKey: 'norskKursB1.teacherInfo'
+        teacherInfoKey: 'norskKursB1.teacherInfo',
+        phone: 'TBA'
     },
     {
         image: digitalverden,
@@ -37,7 +39,8 @@ const course = [
         description: 'digitalVerden.description',
         teacherPhoto: Sviatoslav,
         teacherNameKey: 'digitalVerden.teacherName',
-        teacherInfoKey: 'digitalVerden.teacherInfo'
+        teacherInfoKey: 'digitalVerden.teacherInfo',
+        phone: 'TBA'
     },
     {
         image: Yoga,
@@ -47,7 +50,8 @@ const course = [
         description: 'yogaCourse.description',
         teacherPhoto: YogaTeacher,
         teacherNameKey: 'yogaCourse.teacherName',
-        teacherInfoKey: 'yogaCourse.teacherInfo'
+        teacherInfoKey: 'yogaCourse.teacherInfo',
+        phone: 'TBA'
     }
 ]
 

@@ -7,10 +7,11 @@
     "levels": "Support",
     "duration": "Saturday 11:00–12:30",
     "name": "Digital World",
-    "description": "A course for those who need help with the Norwegian digital system",
+    "description": "Everything from a translator to anything you need help with.",
     "teacherName": "Sviatoslav",
     "teacherInfo": "Digital literacy and IT specialist."
   },
+  "phoneLabel": "Phone",
   "norskKursA1": {
     "levels": "A1",
     "duration": "Saturday 12:30–14:00",
