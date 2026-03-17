@@ -13,7 +13,7 @@ const Hero = () => {
             <div className={styles.hero_content}>
                 <div className={styles.banner}>
                     <img src={flower} alt="flower"/>
-                    <span className={styles.title}>{t("welcome")}<span style={{color: '#FECE00'}} > MriJa </span> {t("norway")}</span>
+                    <span className={styles.title}>{t("welcome")}<span style={{color: '#FECE00'}} >{t("brand")}</span></span>
                 </div>
                 <h2 className={styles.subtitle}>
                     {t("subtitle")}
