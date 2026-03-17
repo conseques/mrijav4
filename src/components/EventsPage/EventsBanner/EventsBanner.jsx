@@ -1,13 +1,19 @@
 import React from 'react';
 import styles from './EventsBanner.module.css';
 import {useTranslation} from "react-i18next";
-
+import { motion } from 'framer-motion';
 
 const EventsBanner = () => {
     const { t } = useTranslation("eventsBanner");
     return (
         <div className={styles.wrapper}>
-            <div className={styles.container}>
+            <motion.div 
+                className={styles.container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <div className={styles.splineContainer}>
                     <iframe 
                         className={styles.splineIframe}
@@ -23,7 +29,7 @@ const EventsBanner = () => {
                     <h2 className={styles.title}>{t("title")}</h2>
                     <p className={styles.subtitle}>{t("subtitle")}</p>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

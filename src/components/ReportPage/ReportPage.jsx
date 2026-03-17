@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { HeartPulse, Droplets, Home, Truck, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './ReportPage.module.css';
+import { motion } from 'framer-motion';
 
 const ReportPage = () => {
   const { t } = useTranslation('report');
@@ -54,19 +55,26 @@ const ReportPage = () => {
     }
   ];
 
+  const animationProps = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: "easeOut" }
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
         
         {/* Hero Section */}
-        <div className={styles.heroSection}>
+        <motion.div className={styles.heroSection} {...animationProps}>
           <div className={styles.badge}>{t('badge')}</div>
           <h1 className={styles.title}>{t('title')}</h1>
           <p className={styles.subtitle}>{t('subtitle')}</p>
-        </div>
+        </motion.div>
 
         {/* Top Metric Cards */}
-        <div className={styles.metricsGrid}>
+        <motion.div className={styles.metricsGrid} {...animationProps}>
           <div className={styles.metricCard}>
             <p className={styles.metricLabel}>{t('totalAmountLabel')}</p>
             <div className={styles.metricValueRow}>
@@ -92,10 +100,10 @@ const ReportPage = () => {
             </div>
             <p className={styles.metricSubInfoText}>{t('acrossRegions')}</p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Distribution Section */}
-        <div className={styles.distributionSection}>
+        <motion.div className={styles.distributionSection} {...animationProps}>
           <div className={styles.distCardLeft}>
             <h3 className={styles.cardHeader}>{t('fundsDistribution')}</h3>
             
@@ -172,10 +180,10 @@ const ReportPage = () => {
               <a href="#" className={styles.mapLink}>{t('viewMap')}</a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Table Section */}
-        <div className={styles.tableCard}>
+        <motion.div className={styles.tableCard} {...animationProps}>
           <div className={styles.tableHeader}>
             <div>
               <h3 className={styles.cardHeader}>{t('recentContributions')}</h3>
@@ -213,17 +221,17 @@ const ReportPage = () => {
           <div className={styles.loadMoreWrap}>
             <button className={styles.loadMoreBtn}>{t('loadMore')}</button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom CTA Block */}
-        <div className={styles.ctaBlock}>
+        <motion.div className={styles.ctaBlock} {...animationProps}>
           <h2 className={styles.ctaTitle}>{t('togetherTitle')}</h2>
           <p className={styles.ctaDesc}>{t('togetherDesc')}</p>
           <div className={styles.ctaButtons}>
             <Link to="/#membership" className={styles.btnWhite}>{t('startMonthly')}</Link>
             <button className={styles.btnOutline}>{t('downloadAudit')}</button>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </div>

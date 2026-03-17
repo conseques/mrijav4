@@ -5,12 +5,20 @@ import image from '../../../images/hero/ukrainsk nasjonaldagen2 (1).jpg'
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
+import { motion } from 'framer-motion';
+
 const Hero = () => {
     const { t } = useTranslation("hero");
 
     return (
         <section className={styles.hero_container}>
-            <div className={styles.hero_content}>
+            <motion.div 
+                className={styles.hero_content}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <div className={styles.banner}>
                     <img src={flower} alt="flower"/>
                     <span className={styles.title}>{t("welcome")}<span style={{color: '#FECE00'}} >{t("brand")}</span></span>
@@ -37,7 +45,7 @@ const Hero = () => {
                 <div className={styles.image_wrapper}>
                     <img className={styles.image} src={image} alt=""/>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

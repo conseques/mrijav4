@@ -7,11 +7,19 @@ import help from '../../../images/support/help.png'
 import image from "../../../images/support/image.jpg";
 import {useTranslation} from "react-i18next";
 
+import { motion } from 'framer-motion';
+
 const Support = () => {
     const { t } = useTranslation("support");
     return (
         <section className={styles.support_wrapper}>
-            <div className={styles.support_container}>
+            <motion.div 
+                className={styles.support_container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <p className='main-p'>{t("hereForYou")}</p>
                 <h2 className={styles.title}>{t("title")}</h2>
                 <p className={styles.subtitle}>{t("subtitle")}</p>
@@ -48,7 +56,7 @@ const Support = () => {
                 <div className={styles.image_wrapper}>
                     <img className={styles.image} src={image} alt="image"/>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

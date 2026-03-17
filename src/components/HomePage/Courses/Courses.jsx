@@ -6,6 +6,8 @@ import {useOutletContext} from "react-router-dom";
 import Modal from "../../Modal/Modal";
 import CourseInfo from "./CourseInfo";
 
+import { motion } from 'framer-motion';
+
 const Courses = () => {
     const { t } = useTranslation("courses");
     const { openModal } = useOutletContext();
@@ -24,7 +26,13 @@ const Courses = () => {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.courses_container}>
+            <motion.div 
+                className={styles.courses_container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <p className='main-p'>{t("education")}</p>
                 <h2 className={styles.title}>{t("title")}</h2>
                 <p className={styles.subtitle}>{t("subtitle")}</p>
@@ -52,7 +60,7 @@ const Courses = () => {
                         </div>
                     </div>)}
                 </div>
-            </div>
+            </motion.div>
             <Modal ref={infoModalRef}>
                 <CourseInfo 
                     courseData={selectedCourse} 

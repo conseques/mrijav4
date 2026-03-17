@@ -5,11 +5,19 @@ import family from '../../../images/membership/family.png';
 import organization from '../../../images/membership/organization.png';
 import {useTranslation} from "react-i18next";
 
+import { motion } from 'framer-motion';
+
 const Membership = () => {
     const { t } = useTranslation("membership");
     return (
         <section id='membership' className={styles.membership_wrapper}>
-            <div className={styles.membership_container}>
+            <motion.div 
+                className={styles.membership_container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <p className='main-p'>{t("join")}</p>
                 <h2 className={styles.title}>{t("title")}</h2>
                 <p className={styles.subtitle}>{t("subtitle")}</p>
@@ -64,7 +72,7 @@ const Membership = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

@@ -2,30 +2,22 @@ import React from "react";
 import styles from './PastEvents.module.css';
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-
-// We import the exact same photos from the existing array but cherry-pick the ones we want
 import { pastEventsArray } from "./pastEventsArray";
-
-import { Users, Building2, CalendarCheck, HelpCircle } from "lucide-react";
-
-/**
- * Image Mapping based on `pastEventsArray.js`:
- * [0] - advokatmøte1.jpg
- * [1] - globusfest3.jpg
- * [2] - ivana_kupala.jpg
- * [3] - julebord2.jpg
- * [4] - lærerforum.jpg
- * [5] - pinsedag1.jpg
- * [6] - poezikveld.jpg
- * [7] - ukrainsk_nasjonaldagen2.jpg
- */
+import { Users, CalendarCheck, HelpCircle } from "lucide-react";
+import { motion } from 'framer-motion';
 
 const PastEvents = () => {
     const { t } = useTranslation("events");
 
     return (
         <section className={styles.wrapper}>
-            <div className={styles.container}>
+            <motion.div 
+                className={styles.container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 {/* Header Section */}
                 <div className={styles.header}>
                     <div className={styles.headerText}>
@@ -161,7 +153,7 @@ const PastEvents = () => {
                         <Link to="/events" className={styles.btnOutline}>{t("past.cta.upcoming")}</Link>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

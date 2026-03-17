@@ -2,13 +2,20 @@ import React from 'react';
 import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom';
 import styles from './GalleryCTA.module.css';
+import { motion } from 'framer-motion';
 
 const GalleryCTA = () => {
     const { t } = useTranslation("hero");
 
     return (
         <div className={styles.ctaContainer}>
-            <div className={styles.ctaBox}>
+            <motion.div 
+                className={styles.ctaBox}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <h2 className={styles.ctaTitle}>{t("galleryCtaTitle")}</h2>
                 <p className={styles.ctaDesc}>
                     {t("galleryCtaDesc")}
@@ -25,7 +32,7 @@ const GalleryCTA = () => {
                         <path d="M5.5 11.5L20 5L12 20L10 14L5.5 11.5Z" fill="white"/>
                     </svg>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

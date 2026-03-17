@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styles from './ReachOut.module.css';
 import {useTranslation} from "react-i18next";
+import { motion } from 'framer-motion';
 
 const ReachOut = () => {
     const { t } = useTranslation("reachOut");
@@ -32,7 +33,13 @@ const ReachOut = () => {
 
     return (
         <div  className={styles.wrapper}>
-            <div className={styles.container}>
+            <motion.div 
+                className={styles.container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <div className={styles.content}>
                     <div className={styles.row}>
                         <p className={styles.p}>{t("wantToHost")}</p>
@@ -52,7 +59,7 @@ const ReachOut = () => {
                         <button>{t("send")}</button>
                     </form>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

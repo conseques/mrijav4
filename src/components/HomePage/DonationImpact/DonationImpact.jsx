@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styles from './DonationImpact.module.css';
 
+import { motion } from 'framer-motion';
+
 const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
 
@@ -14,7 +16,13 @@ const DonationImpact = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.container}>
+      <motion.div 
+        className={styles.container}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         
         {/* Header Section */}
         <div className={styles.header}>
@@ -100,7 +108,7 @@ const DonationImpact = () => {
           <p className={styles.footerText}>{t('footer')}</p>
         </div>
 
-      </div>
+      </motion.div>
     </section>
   );
 };

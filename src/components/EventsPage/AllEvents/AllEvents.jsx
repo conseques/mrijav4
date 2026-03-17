@@ -3,13 +3,20 @@ import styles from './AllEvents.module.css'
 import eventsArray from "../../HomePage/Events/eventsArray";
 import {useTranslation} from "react-i18next";
 import {useOutletContext} from "react-router-dom";
+import { motion } from 'framer-motion';
 
 const AllEvents = () => {
     const { t } = useTranslation("events");
     const { openModal } = useOutletContext();
     return (
         <div className={styles.wrapper}>
-            <div className={styles.container}>
+            <motion.div 
+                className={styles.container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <h2 className={styles.title}>{t("allEventsTitle")}</h2>
                 <p className={styles.subtitle}>{t("allEventsSubtitle")}</p>
                 <div className={styles.content}>
@@ -30,7 +37,7 @@ const AllEvents = () => {
                         </div>
                     </div>)}
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

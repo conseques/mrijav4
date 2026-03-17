@@ -1,12 +1,19 @@
 import React from 'react';
 import styles from './Mission.module.css';
 import {useTranslation} from "react-i18next";
+import { motion } from 'framer-motion';
 
 const Mission = () => {
     const { t } = useTranslation("missions");
     return (
         <div className={styles.wrapper}>
-            <div className={styles.container}>
+            <motion.div 
+                className={styles.container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <p className='main-p'>{t("whatDrivesUs")}</p>
                 <h2 className={styles.title}>{t("title")}</h2>
                 <p className={styles.subtitle}>{t("subtitle")}</p>
@@ -32,7 +39,7 @@ const Mission = () => {
                         <p>{t("shapeDesc")}</p>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

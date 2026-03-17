@@ -9,6 +9,8 @@ import "swiper/css/navigation";
 import {useTranslation} from "react-i18next";
 import {useOutletContext} from "react-router-dom";
 
+import { motion } from 'framer-motion';
+
 const Events = () => {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
@@ -27,7 +29,13 @@ const Events = () => {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.container}>
+            <motion.div 
+                className={styles.container}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <p className="main-p">{t("community")}</p>
                 <h2 className={styles.title}>{t("title")}</h2>
                 <p className={styles.subtitle}>
@@ -81,7 +89,7 @@ const Events = () => {
                         ❯
                     </button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

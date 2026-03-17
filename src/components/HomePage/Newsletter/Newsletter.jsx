@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styles from './Newsletter.module.css';
 import { useTranslation } from "react-i18next";
 
+import { motion } from 'framer-motion';
+
 const Newsletter = () => {
     const { t } = useTranslation("newsletter");
     const [email, setEmail] = useState("");
@@ -33,7 +35,13 @@ const Newsletter = () => {
 
     return (
         <section className={styles.newsletter_wrapper}>
-            <div className={styles.newsletter_container}>
+            <motion.div 
+                className={styles.newsletter_container}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
                 <h2>{t("stay")}</h2>
 
                 <form
@@ -63,7 +71,7 @@ const Newsletter = () => {
                         </p>
                     )}
                 </form>
-            </div>
+            </motion.div>
         </section>
     );
 };
