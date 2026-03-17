@@ -29,7 +29,7 @@ const course = [
         teacherPhoto: Valentina,
         teacherNameKey: 'norskKursB1.teacherName',
         teacherInfoKey: 'norskKursB1.teacherInfo',
-        phone: 'TBA'
+        phone: '468 207 24'
     },
     {
         image: digitalverden,
@@ -40,7 +40,7 @@ const course = [
         teacherPhoto: Sviatoslav,
         teacherNameKey: 'digitalVerden.teacherName',
         teacherInfoKey: 'digitalVerden.teacherInfo',
-        phone: 'TBA'
+        phone: '912 548 07'
     },
     {
         image: Yoga,
@@ -51,7 +51,7 @@ const course = [
         teacherPhoto: YogaTeacher,
         teacherNameKey: 'yogaCourse.teacherName',
         teacherInfoKey: 'yogaCourse.teacherInfo',
-        phone: 'TBA'
+        phone: '972 833 24'
     }
 ]
 
