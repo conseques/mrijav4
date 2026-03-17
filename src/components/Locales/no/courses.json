@@ -30,12 +30,14 @@
   },
   "yogaCourse": {
     "name": "Yoga Course",
-    "levels": "All levels",
-    "duration": "1.5 hours",
+    "levels": "Alle nivåer",
+    "duration": "1.5 timer",
     "description": "Yoga classes for physical and mental well-being.",
     "teacherName": "Maria Naplekova",
     "teacherInfo": "Certified yoga instructor."
   },
   "moreInfo": "More Info",
-  "adults": "Voksne"
+  "adults": "Voksne",
+  "level": "Nivå",
+  "duration": "Varighet"
 }

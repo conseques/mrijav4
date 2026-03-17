@@ -37,5 +37,7 @@
     "teacherInfo": "Certified yoga instructor."
   },
   "moreInfo": "More Info",
-  "adults": "Adults"
+  "adults": "Adults",
+  "level": "Level",
+  "duration": "Duration"
 }

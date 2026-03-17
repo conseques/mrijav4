@@ -23,9 +23,9 @@ const CourseInfo = ({ courseData, onClose, onEnroll }) => {
                     </div>
                 </div>
                 <div className={styles.courseDetails}>
-                    <p><strong>{t('level', 'Рівень/Level')}:</strong> {t(courseData.levels)}</p>
-                    <p><strong>{t('duration', 'Тривалість/Duration')}:</strong> {t(courseData.duration)}</p>
-                    <p><strong>{t('phoneLabel', 'Телефон/Phone')}:</strong> {courseData.phone}</p>
+                    <p><strong>{t('level')}:</strong> {t(courseData.levels)}</p>
+                    <p><strong>{t('duration')}:</strong> {t(courseData.duration)}</p>
+                    <p><strong>{t('phoneLabel')}:</strong> {courseData.phone}</p>
                     <p className={styles.desc}>{t(courseData.description)}</p>
                 </div>
             </div>
