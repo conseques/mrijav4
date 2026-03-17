@@ -25,6 +25,7 @@ const CourseInfo = ({ courseData, onClose, onEnroll }) => {
                 <div className={styles.courseDetails}>
                     <p><strong>{t('level')}:</strong> {t(courseData.levels)}</p>
                     <p><strong>{t('duration')}:</strong> {t(courseData.duration)}</p>
+                    <p><strong>{t('locationLabel')}:</strong> {t(courseData.locationKey)}</p>
                     <p><strong>{t('phoneLabel')}:</strong> {courseData.phone}</p>
                     <p className={styles.desc}>{t(courseData.description)}</p>
                 </div>

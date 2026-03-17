@@ -18,7 +18,8 @@ const course = [
         teacherPhoto: Vladimir,
         teacherNameKey: 'norskKursA1.teacherName',
         teacherInfoKey: 'norskKursA1.teacherInfo',
-        phone: 'TBA'
+        phone: 'TBA',
+        locationKey: 'drammenLibrary'
     },
     {
         image: norskkursB1,
@@ -29,7 +30,8 @@ const course = [
         teacherPhoto: Valentina,
         teacherNameKey: 'norskKursB1.teacherName',
         teacherInfoKey: 'norskKursB1.teacherInfo',
-        phone: '468 207 24'
+        phone: '468 207 24',
+        locationKey: 'TBA'
     },
     {
         image: digitalverden,
@@ -40,7 +42,8 @@ const course = [
         teacherPhoto: Sviatoslav,
         teacherNameKey: 'digitalVerden.teacherName',
         teacherInfoKey: 'digitalVerden.teacherInfo',
-        phone: '912 548 07'
+        phone: '912 548 07',
+        locationKey: 'drammenLibrary'
     },
     {
         image: Yoga,
@@ -51,7 +54,8 @@ const course = [
         teacherPhoto: YogaTeacher,
         teacherNameKey: 'yogaCourse.teacherName',
         teacherInfoKey: 'yogaCourse.teacherInfo',
-        phone: '972 833 24'
+        phone: '972 833 24',
+        locationKey: 'drammenLibrary'
     }
 ]
 

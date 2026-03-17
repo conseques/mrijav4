@@ -39,5 +39,7 @@
   "moreInfo": "More Info",
   "adults": "Voksne",
   "level": "Nivå",
-  "duration": "Varighet"
+  "duration": "Varighet",
+  "locationLabel": "Sted",
+  "drammenLibrary": "Drammen bibliotek"
 }

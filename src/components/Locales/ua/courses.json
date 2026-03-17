@@ -39,5 +39,7 @@
   "moreInfo": "Детальніше",
   "adults": "Дорослі",
   "level": "Рівень",
-  "duration": "Тривалість"
+  "duration": "Тривалість",
+  "locationLabel": "Локація",
+  "drammenLibrary": "Бібліотека Драммена"
 }

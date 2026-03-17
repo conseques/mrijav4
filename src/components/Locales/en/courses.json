@@ -39,5 +39,7 @@
   "moreInfo": "More Info",
   "adults": "Adults",
   "level": "Level",
-  "duration": "Duration"
+  "duration": "Duration",
+  "locationLabel": "Location",
+  "drammenLibrary": "Drammen Library"
 }
