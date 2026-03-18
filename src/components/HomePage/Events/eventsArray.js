@@ -1,6 +1,6 @@
-import FirstImage from '../../../images/events/1image.jpg'
-import SecondImage from '../../../images/events/2image.jpg'
-import ThirdImage from '../../../images/events/3image.jpg'
+import FirstImage from '../../../images/events/easter_new.jpg'
+import SecondImage from '../../../images/events/ivan_kupala_new.jpg'
+import ThirdImage from '../../../images/events/teachers_forum_new.jpg'
 import KaraokeImage from '../../../images/events/karaoke.jpg'
 import PoetryImage from '../../../images/gallery/poezikveld1.jpg'
 
