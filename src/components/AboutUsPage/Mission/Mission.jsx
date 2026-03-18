@@ -14,7 +14,7 @@ const Mission = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                <p className='main-p'>{t("whatDrivesUs")}</p>
+                <span className={styles.tag}>{t("whatDrivesUs")}</span>
                 <h2 className={styles.title}>{t("title")}</h2>
                 <p className={styles.subtitle}>{t("subtitle")}</p>
                 <div className={styles.mission_content}>
