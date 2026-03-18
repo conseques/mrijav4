@@ -64,6 +64,7 @@ const DonationImpact = () => {
             <a href="#membership" className={styles.primaryButton} style={{textDecoration: 'none'}}>{t('join')}</a>
             <Link to="/report" className={styles.secondaryLink}>{t('report')}</Link>
           </div>
+          <p className={styles.cancellationTerms}>{t('cancellationTerms')}</p>
         </div>
 
         {/* Features Grid */}

@@ -58,6 +58,9 @@ const Membership = () => {
                                         >
                                             {t("subscribe")}
                                         </button>
+                                        <p className={styles.cancellation_terms} style={{fontSize: '12px', marginTop: '15px', color: '#64748b', lineHeight: '1.4'}}>
+                                            {t("cancellationTerms")}
+                                        </p>
                                     </motion.div>
                                 ) : (
                                     <motion.div

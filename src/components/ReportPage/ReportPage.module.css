@@ -429,6 +429,16 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.ctaCancellation {
+  font-size: 0.75rem;
+  color: #DBEAFE;
+  margin-top: 1.5rem;
+  opacity: 0.8;
+  max-width: 500px;
+  margin: 1.5rem auto 0 auto;
+  line-height: 1.4;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .metricsGrid {

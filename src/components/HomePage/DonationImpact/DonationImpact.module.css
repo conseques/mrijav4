@@ -297,3 +297,14 @@
     padding: 2rem 1.5rem;
   }
 }
+
+.cancellationTerms {
+  font-size: 11px;
+  color: #64748B;
+  margin-top: 15px;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}

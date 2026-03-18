@@ -11,7 +11,13 @@ const Footer = () => {
         <footer id='footer' className={styles.footer_wrapper}>
             <div className={styles.footer_container}>
                 <div className={styles.footer_content}>
-                    <img className={styles.logo} src={logo} alt="logo"/>
+                    <div className={styles.logo_section}>
+                        <img className={styles.logo} src={logo} alt="logo"/>
+                        <div className={styles.org_info}>
+                            <h3 className={styles.org_name}>{t("orgName")}</h3>
+                            <p className={styles.org_number}>{t("orgNumber")}</p>
+                        </div>
+                    </div>
                     <div className={styles.footer_contact}>
                         <div className={styles.contact_row}>
                             <h3 className={styles.address}>{t("address")}</h3>

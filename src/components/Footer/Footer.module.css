@@ -12,9 +12,35 @@
     flex-wrap: wrap;
     border-bottom: 2px solid #D9D9D9;
 }
+.logo_section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
 .logo {
     height: 59px;
     width: 59px;
+    flex-shrink: 0;
+}
+.org_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.org_name {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #12305A;
+    margin: 0;
+}
+.org_number {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #12305A;
+    margin: 4px 0 0 0;
 }
 .footer_contact {
     display: flex;

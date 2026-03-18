@@ -231,6 +231,7 @@ const ReportPage = () => {
             <Link to="/#membership" className={styles.btnWhite}>{t('startMonthly')}</Link>
             <button className={styles.btnOutline}>{t('downloadAudit')}</button>
           </div>
+          <p className={styles.ctaCancellation}>{t('cancellationTerms')}</p>
         </motion.div>
 
       </div>
