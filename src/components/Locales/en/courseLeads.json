@@ -1,0 +1,21 @@
+{
+  "teamLabel": "Our Team",
+  "title": "Meet the course team",
+  "subtitle": "Our dedicated course leaders bring passion and expertise to every lesson, supporting your journey to new skills.",
+  "valentina": "Valentina Belobotskaya",
+  "valentinaRole": "Norwegian Teacher",
+  "valentinaDesc": "Valentina is an experienced Norwegian teacher with solid language and grammar knowledge.",
+  "valentinaLevel": "Level B1 - B2",
+  "vladimir": "Vladimir Vasyuta",
+  "vladimirRole": "Norwegian Teacher",
+  "vladimirDesc": "Vladimir is a Norwegian teacher focused on helping students master language fundamentals and grammar.",
+  "vladimirLevel": "Level A1 - A2",
+  "maria": "Maria Naplekova",
+  "mariaRole": "Certified Yoga Instructor",
+  "mariaDesc": "Maria leads yoga classes focusing on both physical and mental well-being for all community members.",
+  "mariaLevel": "All Levels",
+  "sviatoslav": "Sviatoslav Stanislavskyi",
+  "sviatoslavCourseRole": "Digital Literacy Specialist",
+  "sviatoslavDesc": "Sviatoslav helps community members master digital tools, from translation apps to essential computer skills.",
+  "sviatoslavLevel": "Digital Integration"
+}

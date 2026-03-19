@@ -128,12 +128,12 @@ const PastEvents = () => {
                     <div className={styles.statCard}>
                         <CalendarCheck className={styles.statIcon} color="#2563eb" size={28} />
                         <span className={styles.statLabel}>{t("past.stats.events")}</span>
-                        <h4 className={styles.statValue}>30+</h4>
+                        <h4 className={styles.statValue}>50+</h4>
                     </div>
                     <div className={styles.statCard}>
                         <Users className={styles.statIcon} color="#2563eb" size={28} />
                         <span className={styles.statLabel}>{t("past.stats.volunteers")}</span>
-                        <h4 className={styles.statValue}>300+</h4>
+                        <h4 className={styles.statValue}>500+</h4>
                     </div>
                     <div className={styles.statCard}>
                         <HelpCircle className={styles.statIcon} color="#2563eb" size={28} />

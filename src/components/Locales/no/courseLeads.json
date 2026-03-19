@@ -1,0 +1,21 @@
+{
+  "teamLabel": "Vårt Team",
+  "title": "Møt teamet bak kursene",
+  "subtitle": "Våre dedikerte kursledere bringer lidenskap og ekspertise til hver undervisningstime, og støtter reisen din mot nye ferdigheter.",
+  "valentina": "Valentina Belobotskaya",
+  "valentinaRole": "Norsklærer",
+  "valentinaDesc": "Valentina er en erfaren norsklærer med gode språkkunnskaper og kontroll på grammatikk.",
+  "valentinaLevel": "Nivå B1 - B2",
+  "vladimir": "Vladimir Vasyuta",
+  "vladimirRole": "Norsklærer",
+  "vladimirDesc": "Vladimir er en norsklærer som hjelper studenter med å mestre språkets grunnvoll og grammatikk.",
+  "vladimirLevel": "Nivå A1 - A2",
+  "maria": "Maria Naplekova",
+  "mariaRole": "Sertifisert yogainstruktør",
+  "mariaDesc": "Maria leder yogatimer med fokus på både fysisk og mentalt velvære for alle i fellesskapet.",
+  "mariaLevel": "Alle nivåer",
+  "sviatoslav": "Sviatoslav Stanislavskyi",
+  "sviatoslavCourseRole": "Spesialist på digital kompetanse",
+  "sviatoslavDesc": "Sviatoslav hjelper fellesskapet med å mestre digitale verktøy, fra oversettelsesapper til grunnleggende datakunnskaper.",
+  "sviatoslavLevel": "Digital integrering"
+}

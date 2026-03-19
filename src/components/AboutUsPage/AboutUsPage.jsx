@@ -6,6 +6,8 @@ import Leadership from "./Leadership/Leadership";
 import ReachOut from "./ReactOut/ReachOut";
 import {useLocation} from "react-router-dom";
 
+import CourseLeads from "./CourseLeads/CourseLeads";
+
 const AboutUsPage = () => {
     const { state } = useLocation();
 
@@ -25,6 +27,7 @@ const AboutUsPage = () => {
             <AboutStats/>
             <Mission/>
             <Leadership/>
+            <CourseLeads/>
             <ReachOut/>
         </>
     );

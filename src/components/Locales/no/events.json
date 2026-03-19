@@ -37,9 +37,18 @@
     "description": "En kveld med sang, moro og å knytte bånd med fellesskapet."
   },
   "poetryEvent": {
-    "name": "Poezi Kveld",
+    "name": "Litterær kveld",
     "day": "10. Juni",
-    "description": "En koselig samling for å dele og lytte til klassisk og moderne ukrainsk poesi."
+    "description": "En koselig samling for å dele og lytte til klassisk og moderne ukrainsk litteratur."
+  },
+  "tags": {
+    "annual": "Årlig arrangement",
+    "regular": "Regelmessig arrangement"
+  },
+  "retroRoomEvent": {
+    "name": "Retro Rom",
+    "day": "15. Juli",
+    "description": "En kveld med retromusikk, dans og varme samtaler."
   },
   "teachersForumEvent": {
     "name": "Lærerforum",

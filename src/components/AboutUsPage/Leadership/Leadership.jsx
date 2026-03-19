@@ -6,20 +6,19 @@ import oksana from '../../../images/leadership/Oksana.jpg';
 import roman from '../../../images/leadership/Roman.jpg';
 import sviatoslav from '../../../images/leadership/Sviatoslav.jpg';
 import tetiana from '../../../images/leadership/Tetiana.jpg';
-import valentina from '../../../images/leadership/Valentina.jpg';
-import vladimir from '../../../images/leadership/Vladimir.jpg';
 import { motion } from 'framer-motion';
 
 const Leadership = () => {
     const { t } = useTranslation("leadership");
 
     const leaders = [
-        { name: t("oksana"), position: t("oksanaP"), image: oksana },
         { name: t("roman"), position: t("romanP"), image: roman },
-        { name: t("sviatoslav"), position: t("sviatoslavP"), image: sviatoslav },
+        { 
+            name: t("sviatoslav"), 
+            position: t("sviatoslavP"), 
+            image: sviatoslav
+        },
         { name: t("tetiana"), position: t("tetianaP"), image: tetiana },
-        { name: t("valentina"), position: t("valentinaP"), image: valentina },
-        { name: t("vladimir"), position: t("vladimirP"), image: vladimir },
     ];
 
     return (
@@ -43,7 +42,11 @@ const Leadership = () => {
                         <div key={index} className={styles.card}>
                             <div className={styles.cardImageWrapper}>
                                 <div className={styles.cardImageOverlay}></div>
-                                <img className={styles.cardImage} src={leader.image} alt={leader.name} />
+                                <img 
+                                    className={styles.cardImage} 
+                                    src={leader.image} 
+                                    alt={leader.name} 
+                                />
                                 <div className={styles.cardMailWrapper}>
                                     <div className={styles.cardMailIcon}>
                                         <Mail size={20} />

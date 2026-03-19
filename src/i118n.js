@@ -20,6 +20,7 @@ import enFeaturedEvent from './components/Locales/en/featuredEvent.json'
 import enRegister from './components/Locales/en/register.json'
 import enDonationImpact from './components/Locales/en/donationImpact.json'
 import enReport from './components/Locales/en/report.json'
+import enCourseLeads from './components/Locales/en/courseLeads.json'
 
 //no
 import noHeader from './components/Locales/no/header.json'
@@ -39,6 +40,7 @@ import noFeaturedEvent from './components/Locales/no/featuredEvent.json'
 import noRegister from './components/Locales/no/register.json'
 import noDonationImpact from './components/Locales/no/donationImpact.json'
 import noReport from './components/Locales/no/report.json'
+import noCourseLeads from './components/Locales/no/courseLeads.json'
 
 //ua
 import uaHeader from './components/Locales/ua/header.json'
@@ -58,6 +60,7 @@ import uaFeaturedEvent from './components/Locales/ua/featuredEvent.json'
 import uaRegister from './components/Locales/ua/register.json'
 import uaDonationImpact from './components/Locales/ua/donationImpact.json'
 import uaReport from './components/Locales/ua/report.json'
+import uaCourseLeads from './components/Locales/ua/courseLeads.json'
 
 
 i18n.use(initReactI18next).init({
@@ -80,6 +83,7 @@ i18n.use(initReactI18next).init({
             register: enRegister,
             donationImpact: enDonationImpact,
             report: enReport,
+            courseLeads: enCourseLeads,
         },
         ua: {
             header: uaHeader,
@@ -99,6 +103,7 @@ i18n.use(initReactI18next).init({
             register: uaRegister,
             donationImpact: uaDonationImpact,
             report: uaReport,
+            courseLeads: uaCourseLeads,
         },
         no: {
             header: noHeader,
@@ -118,6 +123,7 @@ i18n.use(initReactI18next).init({
             register: noRegister,
             donationImpact: noDonationImpact,
             report: noReport,
+            courseLeads: noCourseLeads,
         },
     },
     lng: "no",

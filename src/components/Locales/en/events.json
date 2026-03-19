@@ -37,9 +37,18 @@
     "description": "An evening of singing, fun, and connecting with the community."
   },
   "poetryEvent": {
-    "name": "Poetry Evening",
+    "name": "Literary Evening",
     "day": "June 10",
-    "description": "A cozy gathering to share and listen to classic and modern Ukrainian poetry."
+    "description": "A cozy gathering to share and listen to classic and modern Ukrainian literature."
+  },
+  "tags": {
+    "annual": "Annual Event",
+    "regular": "Regular Event"
+  },
+  "retroRoomEvent": {
+    "name": "Retro Room",
+    "day": "July 15",
+    "description": "An evening of retro music, dancing, and warm conversations."
   },
   "teachersForumEvent": {
     "name": "Teachers Forum",

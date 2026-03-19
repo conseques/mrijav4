@@ -11,6 +11,9 @@ const eventsArray = [
         dayKey: 'easterEvent.day',
         timeKey: '12:00 - 15:00',
         descriptionKey: 'easterEvent.description',
+        tagKey: 'tags.annual',
+        tagType: 'annual',
+        reversed: false,
     },
     {
         image: SecondImage,
@@ -18,6 +21,9 @@ const eventsArray = [
         dayKey: 'ivanKupalaEvent.day',
         timeKey: '18:00 - 23:00',
         descriptionKey: 'ivanKupalaEvent.description',
+        tagKey: 'tags.annual',
+        tagType: 'annual',
+        reversed: true,
     },
     {
         image: KaraokeImage,
@@ -25,6 +31,9 @@ const eventsArray = [
         dayKey: 'karaokeEvent.day',
         timeKey: '19:00 - 22:00',
         descriptionKey: 'karaokeEvent.description',
+        tagKey: 'tags.regular',
+        tagType: 'regular',
+        reversed: false,
     },
     {
         image: PoetryImage,
@@ -32,6 +41,19 @@ const eventsArray = [
         dayKey: 'poetryEvent.day',
         timeKey: '18:30 - 21:30',
         descriptionKey: 'poetryEvent.description',
+        tagKey: 'tags.regular',
+        tagType: 'regular',
+        reversed: true,
+    },
+    {
+        image: KaraokeImage,
+        nameKey: 'retroRoomEvent.name',
+        dayKey: 'retroRoomEvent.day',
+        timeKey: '19:00 - 22:00',
+        descriptionKey: 'retroRoomEvent.description',
+        tagKey: 'tags.regular',
+        tagType: 'regular',
+        reversed: false,
     },
     {
         image: ThirdImage,
@@ -39,6 +61,9 @@ const eventsArray = [
         dayKey: 'teachersForumEvent.day',
         timeKey: '09:00 - 16:00',
         descriptionKey: 'teachersForumEvent.description',
+        tagKey: 'tags.regular',
+        tagType: 'regular',
+        reversed: true,
     }
 ]
 

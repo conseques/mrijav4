@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="nb"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-high": "#eae8e7",
+              "tertiary-container": "#486ca2",
+              "on-tertiary-fixed": "#001b3c",
+              "primary-fixed-dim": "#aec6ff",
+              "primary": "#004fac",
+              "on-tertiary-fixed-variant": "#1f477b",
+              "surface-container": "#f0eded",
+              "on-surface": "#1b1c1c",
+              "surface-bright": "#fbf9f8",
+              "tertiary": "#2e5388",
+              "error": "#ba1a1a",
+              "tertiary-fixed-dim": "#a7c8ff",
+              "secondary-fixed": "#ffe080",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e4e2e1",
+              "primary-fixed": "#d8e2ff",
+              "inverse-on-surface": "#f3f0f0",
+              "outline": "#727784",
+              "on-primary-container": "#e7ecff",
+              "secondary-fixed-dim": "#edc200",
+              "surface-container-low": "#f6f3f2",
+              "on-tertiary-container": "#e6edff",
+              "on-surface-variant": "#424753",
+              "on-secondary-fixed-variant": "#564500",
+              "surface-dim": "#dcd9d9",
+              "inverse-primary": "#aec6ff",
+              "secondary": "#725c00",
+              "on-primary-fixed-variant": "#004395",
+              "on-error-container": "#93000a",
+              "secondary-container": "#fed000",
+              "on-error": "#ffffff",
+              "on-secondary": "#ffffff",
+              "on-background": "#1b1c1c",
+              "error-container": "#ffdad6",
+              "outline-variant": "#c2c6d5",
+              "primary-container": "#2167d0",
+              "surface-tint": "#015ac3",
+              "inverse-surface": "#303030",
+              "background": "#fbf9f8",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#d5e3ff",
+              "surface-variant": "#e4e2e1",
+              "surface": "#fbf9f8",
+              "on-secondary-container": "#6f5900",
+              "on-primary-fixed": "#001a42",
+              "on-secondary-fixed": "#231b00"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg shadow-sm shadow-blue-900/5">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#004fac] dark:text-[#2167d0]">MriJa</div>
+<div class="hidden md:flex items-center gap-8 font-plus-jakarta text-sm font-semibold tracking-tight">
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#004fac] transition-all duration-300" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#004fac] transition-all duration-300" href="#">About us</a>
+<a class="text-[#004fac] dark:text-[#2167d0] border-b-2 border-[#fed000] pb-1" href="#">Events</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#004fac] transition-all duration-300" href="#">Donation Impact</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-semibold scale-95 duration-200 ease-in-out hover:bg-primary-container transition-all">
+                Join Us
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-8">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-16 max-w-2xl">
+<span class="inline-block px-4 py-1.5 mb-6 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase">
+                    Vårt Team
+                </span>
+<h1 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-6">
+                    Møt teamet bak kursene
+                </h1>
+<p class="text-lg text-on-surface-variant leading-relaxed font-light">
+                    Våre dedikerte kursledere bringer lidenskap og ekspertise til hver undervisningstime, og støtter reisen din mot nye ferdigheter.
+                </p>
+</div>
+<!-- Managers Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Manager Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 border border-transparent hover:border-outline-variant/15">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container-high relative">
+<img alt="Valentina" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" data-alt="Professional portrait of Valentina, course manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV8RWbP4KBrH-cyaA9TgmwWpL3j40ihfNCAqnaE-ob3VPAKp_1kdz6JN3idcI_b7eS4xsNLs4ma9yFX4NMDolQpm-6PFIj0oUx_o9vrJ1c_73rIlyqXCGtPcJQ78srGT27G8ZYANL1RXNOYEtFtoI3fq2ZKZ8FSliryAJVn1pozkpsUmt3ibdismRHiC9-oIm9Ywnpgk2lJP8LlAnbvEd-Kpr2YtE7dqkQ3w8zp6RTzK4vDWi_FUqEidUXLqucjPu5ZrY1q4WYgyA"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                                Nivå A1 - A2
+                            </span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Valentina</h3>
+<p class="text-sm text-on-surface-variant mb-4 font-medium italic">Seniorkonsulent og Språkpedagog</p>
+<p class="text-on-surface-variant leading-relaxed text-sm">
+                            Valentina har over 10 års erfaring med integreringsarbeid og brenner for å skape et inkluderende læringsmiljø for nybegynnere.
+                        </p>
+</div>
+</div>
+<!-- Manager Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 border border-transparent hover:border-outline-variant/15">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container-high relative">
+<img alt="Volodymyr" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" data-alt="Professional portrait of Volodymyr, course manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBkaIIkazIt_leLSYZhY_ThDb8BmO7mrjJcO1nMl7DGSMu248fz6_VEMAlfkb3RvAgXkGr7-OR2Jd2MBz8PLYwwOkjOLjrQedCd-ELBuGtYLvR4hylqls9fVGroAKpn-ut1iaPM4-eQ_oJhJmWaikbeSO3O8vw95qO4uvz3KmnoTGIHshenS0Snd9SC-eW1q3Btra9wwlze-tcysqvgCbiP3gxWNgAlC-2ELHWcnLpjcanjp6PBTxb1N5O73N9U2uIJr87mGvh-1Q"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                                Nivå B1 - B2
+                            </span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Volodymyr</h3>
+<p class="text-sm text-on-surface-variant mb-4 font-medium italic">Prosjektleder og Mentor</p>
+<p class="text-on-surface-variant leading-relaxed text-sm">
+                            Med bakgrunn i teknisk utdanning hjelper Volodymyr studenter på mellomnivå med å mestre fagterminologi og profesjonell kommunikasjon.
+                        </p>
+</div>
+</div>
+<!-- Manager Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 border border-transparent hover:border-outline-variant/15">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container-high relative">
+<img alt="Olena" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" data-alt="Professional portrait of Olena, course manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPIoOkgYSsl-L5FAlWc3HZ3i4eyS6-JhfHNN8_QDLFHhnO6ci3lZZ_tCgfaEba4PX-o9BNNn57syuIXCZnuoByS_OhFInz8Suuv9bMk7V19-v5NoWn04ZLQCFHAlO5ZNtxrSjsZRIanRYUarWv8F-TUcGZsmv7c7JxwazOu2Mcjc3m90JaiJmV3yzwESZyixsP9G8Qwuc-4f2JoTALmZIBZKfLfnhMh0Fc7IowEpHGcTDTRGm8WdG3ru4U6tcprGWaz5O_noWPkuw"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                                Videregående kurs
+                            </span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Olena</h3>
+<p class="text-sm text-on-surface-variant mb-4 font-medium italic">Kulturell Veileder</p>
+<p class="text-on-surface-variant leading-relaxed text-sm">
+                            Olena fokuserer på de finere nyansene i språket og kulturell forståelse for de som ønsker å mestre flytende samtale.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#fbf9f8] dark:bg-slate-900 w-full py-12 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6 font-inter text-sm text-slate-500">
+<div class="text-xl font-bold text-[#004fac]">MriJa</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-[#004fac] transition-colors hover:underline decoration-[#fed000] decoration-2 underline-offset-4" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-[#004fac] transition-colors hover:underline decoration-[#fed000] decoration-2 underline-offset-4" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-[#004fac] transition-colors hover:underline decoration-[#fed000] decoration-2 underline-offset-4" href="#">Contact</a>
+<a class="text-slate-500 hover:text-[#004fac] transition-colors hover:underline decoration-[#fed000] decoration-2 underline-offset-4" href="#">Support</a>
+</div>
+<p class="opacity-80">© 2024 MriJa. All rights reserved.</p>
+</div>
+</footer>
+</body></html>
