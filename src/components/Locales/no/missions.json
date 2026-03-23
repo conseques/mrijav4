@@ -13,5 +13,29 @@
   "narrativeTitle": "Hvorfor vi gjør det vi gjør",
   "narrativeDesc": "Hvert år hjelper MriJa hundrevis av nyankomne med å finne fotfeste i sitt nye hjemland, samtidig som vi sender kritiske forsyninger tilbake til Ukraina. Vårt mål er at ingen skal føle seg alene.",
   "btnHistory": "Les om vår historie",
-  "btnBylaws": "Våre vedtekter"
+  "btnBylaws": "Se vedtekter",
+  "history": {
+    "title": "Vår Historie",
+    "p1": "MriJa ble født ut av en dyp kjærlighet til Ukraina og en urokkelig tro på frihet. Navnet vårt betyr \"Drøm\" på ukrainsk, og det representerer håpet vi bærer sammen med det norske folk for en fredelig fremtid.",
+    "p2": "Det som startet som en liten gruppe frivillige i Norge som ønsket å gjøre en forskjell, har vokst til en robust organisasjon som bygger broer mellom våre to land gjennom humanitær hjelp, kulturell utveksling og politisk engasjement.",
+    "milestonesTitle": "Viktige Milepæler",
+    "m1": {
+      "year": "2023",
+      "title": "Begynnelsen",
+      "desc": "De første frøene ble sådd under Verdighetsrevolusjonen. Vi startet med innsamling av nødvendig utstyr."
+    },
+    "m2": {
+      "year": "2025",
+      "title": "Mobilisering",
+      "desc": "Da invasjonen rammet, mangedoblet vi innsatsen. Norge ble et knutepunkt for logistikk og støtte."
+    },
+    "m3": {
+      "year": "Nå",
+      "title": "En Levende Drøm",
+      "desc": "Vi drifter nå omfattende hjelpeprogram og fungerer som en stemme for Ukraina i det norske samfunnet."
+    },
+    "quote": "Sammen holder vi drømmen om et fritt Ukraina levende.",
+    "btnSupport": "Støtt Oss",
+    "btnClose": "Lukk"
+  }
 }

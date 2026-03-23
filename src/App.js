@@ -5,7 +5,6 @@ import Layout from "./components/Layout/Layout";
 import HomePage from "./components/HomePage/HomePage";
 import AboutUsPage from "./components/AboutUsPage/AboutUsPage";
 import EventsPage from "./components/EventsPage/EventsPage";
-import ReportPage from "./components/ReportPage/ReportPage";
 
 import GalleryPage from "./components/GalleryPage/GalleryPage";
 
@@ -24,7 +23,6 @@ function App() {
                 { path: '/about-us', element: <AboutUsPage/>},
                 { path: '/gallery', element: <GalleryPage/>},
                 { path: '/events', element: <EventsPage/>},
-                { path: '/report', element: <ReportPage/>},
             ],
         },
     ]);

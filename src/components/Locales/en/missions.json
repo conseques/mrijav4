@@ -13,5 +13,29 @@
   "narrativeTitle": "Why we do what we do",
   "narrativeDesc": "Every year, MriJa helps hundreds of newcomers find their footing in their new home country, while simultaneously sending critical supplies back to Ukraine. Our goal is that no one should feel alone.",
   "btnHistory": "Read our history",
-  "btnBylaws": "Our bylaws"
+  "btnBylaws": "View Bylaws",
+  "history": {
+    "title": "Our History",
+    "p1": "MriJa was born out of a deep love for Ukraine and an unwavering belief in freedom. Our name means \"Dream\" in Ukrainian, and it represents the hope we carry together with the Norwegian people for a peaceful future.",
+    "p2": "What started as a small group of volunteers in Norway wanting to make a difference has grown into a robust organization building bridges between our two countries through humanitarian aid, cultural exchange, and political engagement.",
+    "milestonesTitle": "Important Milestones",
+    "m1": {
+      "year": "2023",
+      "title": "The Beginning",
+      "desc": "The first seeds were sown during the Revolution of Dignity. We started with the collection of necessary equipment."
+    },
+    "m2": {
+      "year": "2025",
+      "title": "Mobilization",
+      "desc": "When the invasion hit, we multiplied our efforts. Norway became a hub for logistics and support."
+    },
+    "m3": {
+      "year": "Now",
+      "title": "A Living Dream",
+      "desc": "We now run extensive aid programs and serve as a voice for Ukraine in Norwegian society."
+    },
+    "quote": "Together, we keep the dream of a free Ukraine alive.",
+    "btnSupport": "Support Us",
+    "btnClose": "Close"
+  }
 }

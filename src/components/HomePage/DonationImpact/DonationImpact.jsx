@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShieldCheck, Truck, Users, TrendingUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import styles from './DonationImpact.module.css';
+import ReportModal from '../../ReportModal/ReportModal';
 
 import { motion } from 'framer-motion';
 
 const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
+  const [isReportOpen, setIsReportOpen] = useState(false);
 
   const raisedAmount = 35000;
   const goalAmount = 150000;
@@ -62,7 +63,9 @@ const DonationImpact = () => {
 
           <div className={styles.actions}>
             <a href="#membership" className={styles.primaryButton} style={{textDecoration: 'none'}}>{t('join')}</a>
-            <Link to="/report" className={styles.secondaryLink}>{t('report')}</Link>
+            <button className={styles.secondaryLink} onClick={() => setIsReportOpen(true)} style={{border: 'none', background: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit'}}>
+              {t('report')}
+            </button>
           </div>
           <p className={styles.cancellationTerms}>{t('cancellationTerms')}</p>
         </div>
@@ -100,7 +103,6 @@ const DonationImpact = () => {
           </div>
         </div>
 
-        {/* Footer Accent */}
         <div className={styles.footerAccent}>
           <div className={styles.colors}>
             <div className={styles.colorBlue}></div>
@@ -110,6 +112,7 @@ const DonationImpact = () => {
         </div>
 
       </motion.div>
+      <ReportModal isOpen={isReportOpen} onClose={() => setIsReportOpen(false)} />
     </section>
   );
 };

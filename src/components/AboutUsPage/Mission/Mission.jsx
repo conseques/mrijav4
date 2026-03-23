@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Mission.module.css';
 import {useTranslation} from "react-i18next";
 import { motion } from 'framer-motion';
+import HistoryModal from './HistoryModal/HistoryModal';
 
 const Mission = () => {
     const { t } = useTranslation("missions");
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
     return (
         <div className={styles.wrapper}>
             <motion.div 
@@ -46,7 +48,12 @@ const Mission = () => {
                             <h2 className={styles.narrativeTitle}>{t("narrativeTitle")}</h2>
                             <p className={styles.narrativeDesc}>{t("narrativeDesc")}</p>
                             <div className={styles.narrativeButtons}>
-                                <button className={styles.primaryBtn}>{t("btnHistory")}</button>
+                                <button 
+                                    className={styles.primaryBtn}
+                                    onClick={() => setIsHistoryOpen(true)}
+                                >
+                                    {t("btnHistory")}
+                                </button>
                                 <button className={styles.secondaryBtn}>{t("btnBylaws")}</button>
                             </div>
                         </div>
@@ -61,6 +68,10 @@ const Mission = () => {
                     </div>
                 </div>
             </motion.div>
+            <HistoryModal 
+                isOpen={isHistoryOpen} 
+                onClose={() => setIsHistoryOpen(false)} 
+            />
         </div>
     );
 };
