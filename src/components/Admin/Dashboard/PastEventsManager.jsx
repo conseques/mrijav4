@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../../firebase';
-import styles from './EventsManager.module.css';
+import styles from './PastEventsManager.module.css';
 
-const EventsManager = () => {
+const PastEventsManager = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -14,19 +14,18 @@ const EventsManager = () => {
   // Form State
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
-    day: '',
-    time: '',
-    tagType: 'regular',
+    date: '',
+    tag: 'community',
     imageUrl: '', // for keeping track of existing image during edit
-    name_no: '', desc_no: '',
-    name_en: '', desc_en: '',
-    name_ua: '', desc_ua: ''
+    title_no: '', desc_no: '',
+    title_en: '', desc_en: '',
+    title_ua: '', desc_ua: ''
   });
 
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const querySnapshot = await getDocs(collection(db, "events"));
+      const querySnapshot = await getDocs(collection(db, "past_events"));
       const eventsData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -35,7 +34,7 @@ const EventsManager = () => {
       eventsData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
       setEvents(eventsData);
     } catch (err) {
-      console.error("Error fetching events:", err);
+      console.error("Error fetching past events:", err);
     }
     setLoading(false);
   };
@@ -57,8 +56,8 @@ const EventsManager = () => {
 
   const resetForm = () => {
     setFormData({
-      day: '', time: '', tagType: 'regular', imageUrl: '',
-      name_no: '', desc_no: '', name_en: '', desc_en: '', name_ua: '', desc_ua: ''
+      date: '', tag: 'community', imageUrl: '',
+      title_no: '', desc_no: '', title_en: '', desc_en: '', title_ua: '', desc_ua: ''
     });
     setFile(null);
     setEditingId(null);
@@ -67,13 +66,12 @@ const EventsManager = () => {
 
   const handleEdit = (eventObj) => {
     setFormData({
-      day: eventObj.day || '',
-      time: eventObj.time || '',
-      tagType: eventObj.tagType || 'regular',
+      date: eventObj.date || '',
+      tag: eventObj.tag || 'community',
       imageUrl: eventObj.imageUrl || '',
-      name_no: eventObj.locales?.no?.name || '', desc_no: eventObj.locales?.no?.description || '',
-      name_en: eventObj.locales?.en?.name || '', desc_en: eventObj.locales?.en?.description || '',
-      name_ua: eventObj.locales?.ua?.name || '', desc_ua: eventObj.locales?.ua?.description || ''
+      title_no: eventObj.locales?.no?.title || '', desc_no: eventObj.locales?.no?.desc || '',
+      title_en: eventObj.locales?.en?.title || '', desc_en: eventObj.locales?.en?.desc || '',
+      title_ua: eventObj.locales?.ua?.title || '', desc_ua: eventObj.locales?.ua?.desc || ''
     });
     setEditingId(eventObj.id);
     setIsAdding(true);
@@ -93,50 +91,49 @@ const EventsManager = () => {
       
       // If user selected a new file, upload it
       if (file) {
-        const storageRef = ref(storage, `events/${Date.now()}_${file.name}`);
+        const storageRef = ref(storage, `past_events/${Date.now()}_${file.name}`);
         await uploadBytes(storageRef, file);
         finalImageUrl = await getDownloadURL(storageRef);
       }
 
       const eventDocData = {
         imageUrl: finalImageUrl,
-        day: formData.day,
-        time: formData.time,
-        tagType: formData.tagType,
+        date: formData.date,
+        tag: formData.tag,
         locales: {
-          no: { name: formData.name_no, description: formData.desc_no },
-          en: { name: formData.name_en, description: formData.desc_en },
-          ua: { name: formData.name_ua, description: formData.desc_ua }
+          no: { title: formData.title_no, desc: formData.desc_no },
+          en: { title: formData.title_en, desc: formData.desc_en },
+          ua: { title: formData.title_ua, desc: formData.desc_ua }
         }
       };
 
       if (editingId) {
         // Update existing document
-        await updateDoc(doc(db, "events", editingId), eventDocData);
+        await updateDoc(doc(db, "past_events", editingId), eventDocData);
       } else {
         // Create new document
         eventDocData.createdAt = serverTimestamp();
-        await addDoc(collection(db, "events"), eventDocData);
+        await addDoc(collection(db, "past_events"), eventDocData);
       }
       
       resetForm();
       fetchEvents();
 
     } catch (err) {
-      console.error("Error saving event:", err);
-      alert("Error saving event. See console.");
+      console.error("Error saving past event:", err);
+      alert("Error saving past event. See console.");
     }
     setSaving(false);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
+    if (window.confirm("Are you sure you want to delete this past event?")) {
       try {
-        await deleteDoc(doc(db, "events", id));
+        await deleteDoc(doc(db, "past_events", id));
         fetchEvents();
       } catch (err) {
-        console.error("Error deleting event:", err);
-        alert("Error deleting event");
+        console.error("Error deleting past event:", err);
+        alert("Error deleting past event");
       }
     }
   };
@@ -144,17 +141,17 @@ const EventsManager = () => {
   return (
     <div className={styles.managerContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Manage Events</h2>
+        <h2 className={styles.title}>Manage Past Events (Hendelser)</h2>
         {!isAdding && (
           <button className={styles.addBtn} onClick={() => { resetForm(); setIsAdding(true); }}>
-            + Add New Event
+            + Add Past Event
           </button>
         )}
       </div>
 
       {isAdding && (
         <div className={styles.formCard}>
-          <h3>{editingId ? 'Edit Event' : 'Add Event'}</h3>
+          <h3>{editingId ? 'Edit Past Event' : 'Add Past Event'}</h3>
           <form onSubmit={handleSubmit}>
             <div className={styles.formGrid}>
               
@@ -169,18 +166,18 @@ const EventsManager = () => {
                    <p style={{fontSize:'12px', color:'#666'}}>Current Image active.</p>
                 )}
                 <div className={styles.inputGroup}>
-                  <label>Day / Date String (e.g. "20. Juni")</label>
-                  <input type="text" name="day" value={formData.day} onChange={handleInputChange} required />
+                  <label>Date String (e.g. "Dec 15, 2023")</label>
+                  <input type="text" name="date" value={formData.date} onChange={handleInputChange} required />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Time String (e.g. "18:00 - 21:00")</label>
-                  <input type="text" name="time" value={formData.time} onChange={handleInputChange} required />
-                </div>
-                <div className={styles.inputGroup}>
-                  <label>Event Type</label>
-                  <select name="tagType" value={formData.tagType} onChange={handleInputChange}>
-                    <option value="regular">Regular Event</option>
+                  <label>Event Tag</label>
+                  <select name="tag" value={formData.tag} onChange={handleInputChange}>
                     <option value="annual">Annual Highlight</option>
+                    <option value="education">Education</option>
+                    <option value="culture">Culture</option>
+                    <option value="literature">Literature</option>
+                    <option value="community">Community</option>
+                    <option value="meeting">Meeting</option>
                   </select>
                 </div>
               </div>
@@ -189,8 +186,8 @@ const EventsManager = () => {
               <div className={styles.langSection}>
                 <h4>Norsk (no)</h4>
                 <div className={styles.inputGroup}>
-                  <label>Name</label>
-                  <input type="text" name="name_no" value={formData.name_no} onChange={handleInputChange} required />
+                  <label>Title</label>
+                  <input type="text" name="title_no" value={formData.title_no} onChange={handleInputChange} required />
                 </div>
                 <div className={styles.inputGroup}>
                   <label>Description</label>
@@ -202,8 +199,8 @@ const EventsManager = () => {
               <div className={styles.langSection}>
                 <h4>English (en)</h4>
                 <div className={styles.inputGroup}>
-                  <label>Name</label>
-                  <input type="text" name="name_en" value={formData.name_en} onChange={handleInputChange} required />
+                  <label>Title</label>
+                  <input type="text" name="title_en" value={formData.title_en} onChange={handleInputChange} required />
                 </div>
                 <div className={styles.inputGroup}>
                   <label>Description</label>
@@ -215,8 +212,8 @@ const EventsManager = () => {
               <div className={styles.langSection}>
                 <h4>Українська (ua)</h4>
                 <div className={styles.inputGroup}>
-                  <label>Name</label>
-                  <input type="text" name="name_ua" value={formData.name_ua} onChange={handleInputChange} required />
+                  <label>Title</label>
+                  <input type="text" name="title_ua" value={formData.title_ua} onChange={handleInputChange} required />
                 </div>
                 <div className={styles.inputGroup}>
                   <label>Description</label>
@@ -229,7 +226,7 @@ const EventsManager = () => {
             <div className={styles.formActions}>
               <button type="button" className={styles.cancelBtn} onClick={resetForm}>Cancel</button>
               <button type="submit" className={styles.submitBtn} disabled={saving}>
-                {saving ? 'Saving...' : (editingId ? 'Update Event' : 'Save Event')}
+                {saving ? 'Saving...' : (editingId ? 'Update Past Event' : 'Save Past Event')}
               </button>
             </div>
           </form>
@@ -237,16 +234,16 @@ const EventsManager = () => {
       )}
 
       {loading ? (
-        <p>Loading events...</p>
+        <p>Loading past events...</p>
       ) : (
         <div className={styles.eventsList}>
           {events.map(event => (
             <div key={event.id} className={styles.eventCard}>
-              <img src={event.imageUrl} alt={event.locales?.en?.name} className={styles.eventImage} />
+              <img src={event.imageUrl} alt={event.locales?.en?.title} className={styles.eventImage} />
               <div className={styles.eventContent}>
-                <span className={styles.eventTag}>{event.tagType}</span>
-                <h4 className={styles.eventName}>{event.locales?.en?.name} / {event.locales?.ua?.name}</h4>
-                <p className={styles.eventDate}>{event.day} | {event.time}</p>
+                <span className={styles.eventTag}>{event.tag}</span>
+                <h4 className={styles.eventName}>{event.locales?.en?.title} / {event.locales?.ua?.title}</h4>
+                <p className={styles.eventDate}>{event.date}</p>
               </div>
               <div className={styles.eventActions}>
                 <button className={styles.editBtn} onClick={() => handleEdit(event)} style={{marginRight: '10px', padding: '6px 14px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>Edit</button>
@@ -254,11 +251,11 @@ const EventsManager = () => {
               </div>
             </div>
           ))}
-          {events.length === 0 && <p>No events found. Add one above.</p>}
+          {events.length === 0 && <p>No past events found. Add one above.</p>}
         </div>
       )}
     </div>
   );
 };
 
-export default EventsManager;
+export default PastEventsManager;

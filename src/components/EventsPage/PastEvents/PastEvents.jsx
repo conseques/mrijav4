@@ -1,13 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from './PastEvents.module.css';
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { pastEventsArray } from "./pastEventsArray";
 import { Users, CalendarCheck, HelpCircle } from "lucide-react";
 import { motion } from 'framer-motion';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../firebase";
+
+// Helper function to assign colors based on tags
+const getTagStyle = (tag) => {
+    switch(tag?.toLowerCase()) {
+        case 'annual': return { backgroundColor: "#e0f2fe", color: "#0369a1" };
+        case 'education': return { backgroundColor: "#ffedd5", color: "#c2410c" };
+        case 'culture': return { backgroundColor: "#dcfce7", color: "#15803d" };
+        case 'literature': return { backgroundColor: "#fce7f3", color: "#be185d" };
+        case 'meeting': return { backgroundColor: "#fef3c7", color: "#b45309" };
+        case 'community': 
+        default: return { backgroundColor: "#f3f4f6", color: "#4b5563" };
+    }
+};
 
 const PastEvents = () => {
-    const { t } = useTranslation("events");
+    const { t, i18n } = useTranslation("events");
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const currentLang = i18n.language || 'no';
+
+    useEffect(() => {
+        const fetchPastEvents = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "past_events"));
+                const eventsData = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                // Sort descending based on createdAt
+                eventsData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                setEvents(eventsData);
+            } catch (err) {
+                console.error("Failed to fetch past events", err);
+            }
+            setLoading(false);
+        };
+        fetchPastEvents();
+    }, []);
+
+    // Split events into Top and Bottom rows
+    const topRowEvents = events.slice(0, 2);
+    const bottomRowEvents = events.slice(2);
 
     return (
         <section className={styles.wrapper}>
@@ -29,99 +70,57 @@ const PastEvents = () => {
                     </Link>
                 </div>
 
-                {/* Grid Layout (Top Row + Bottom Row) */}
-                <div className={styles.gridContainer}>
-                    {/* TOP ROW: 1 Large Feature, 1 Medium Side */}
-                    <div className={styles.topRow}>
-                        {/* Featured (Julebord [3]) */}
-                        <div className={`${styles.card} ${styles.featureCard}`}>
-                            <div className={styles.imageWrapper}>
-                                <img src={pastEventsArray[3].image} alt="Winter Gathering" loading="lazy" />
+                {loading ? (
+                    <p style={{textAlign: 'center', margin: '40px 0'}}>Loading past events...</p>
+                ) : (
+                    <div className={styles.gridContainer}>
+                        {/* TOP ROW: Up to 2 events */}
+                        {topRowEvents.length > 0 && (
+                            <div className={styles.topRow}>
+                                {topRowEvents.map((ev, idx) => (
+                                    <div key={ev.id} className={`${styles.card} ${idx === 0 ? styles.featureCard : styles.sideCard}`}>
+                                        <div className={styles.imageWrapper}>
+                                            <img src={ev.imageUrl} alt={ev.locales[currentLang]?.title} loading="lazy" />
+                                        </div>
+                                        <div className={styles.cardContent}>
+                                            <div className={styles.cardHeader}>
+                                                <span className={styles.tag} style={getTagStyle(ev.tag)}>
+                                                    {ev.tag}
+                                                </span>
+                                                <span className={styles.date}>{ev.date}</span>
+                                            </div>
+                                            <h3 className={styles.cardTitle}>{ev.locales[currentLang]?.title || ev.locales['en']?.title}</h3>
+                                            <p className={styles.cardDesc}>{ev.locales[currentLang]?.desc || ev.locales['en']?.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                            <div className={styles.cardContent}>
-                                <div className={styles.cardHeader}>
-                                    <span className={styles.tag} style={{ backgroundColor: "#e0f2fe", color: "#0369a1" }}>
-                                        {t("past.tags.annual")}
-                                    </span>
-                                    <span className={styles.date}>Dec 15, 2023</span>
-                                </div>
-                                <h3 className={styles.cardTitle}>{t("past.events.julebord.title")}</h3>
-                                <p className={styles.cardDesc}>{t("past.events.julebord.desc")}</p>
-                            </div>
-                        </div>
+                        )}
 
-                        {/* Side (Lærerforum [4]) */}
-                        <div className={`${styles.card} ${styles.sideCard}`}>
-                            <div className={styles.imageWrapper}>
-                                <img src={pastEventsArray[4].image} alt="Teachers Forum" loading="lazy" />
+                        {/* BOTTOM ROW: Remaining events */}
+                        {bottomRowEvents.length > 0 && (
+                            <div className={styles.bottomRow}>
+                                {bottomRowEvents.map((ev) => (
+                                    <div key={ev.id} className={`${styles.card} ${styles.smallCard}`}>
+                                        <div className={styles.imageWrapper}>
+                                            <img src={ev.imageUrl} alt={ev.locales[currentLang]?.title} loading="lazy" />
+                                        </div>
+                                        <div className={styles.cardContent}>
+                                            <div className={styles.cardHeader}>
+                                                <span className={styles.tag} style={getTagStyle(ev.tag)}>
+                                                    {ev.tag}
+                                                </span>
+                                                <span className={styles.date}>{ev.date}</span>
+                                            </div>
+                                            <h3 className={styles.cardTitle}>{ev.locales[currentLang]?.title || ev.locales['en']?.title}</h3>
+                                            <p className={styles.cardDesc}>{ev.locales[currentLang]?.desc || ev.locales['en']?.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                            <div className={styles.cardContent}>
-                                <div className={styles.cardHeader}>
-                                    <span className={styles.tag} style={{ backgroundColor: "#ffedd5", color: "#c2410c" }}>
-                                        {t("past.tags.education")}
-                                    </span>
-                                    <span className={styles.date}>Nov 08, 2023</span>
-                                </div>
-                                <h3 className={styles.cardTitle}>{t("past.events.teachers.title")}</h3>
-                                <p className={styles.cardDesc}>{t("past.events.teachers.desc")}</p>
-                            </div>
-                        </div>
+                        )}
                     </div>
-
-                    {/* BOTTOM ROW: 3 Equal Small Cards */}
-                    <div className={styles.bottomRow}>
-                        {/* Ivana Kupala [2] */}
-                        <div className={`${styles.card} ${styles.smallCard}`}>
-                            <div className={styles.imageWrapper}>
-                                <img src={pastEventsArray[2].image} alt="Ivana Kupala" loading="lazy" />
-                            </div>
-                            <div className={styles.cardContent}>
-                                <div className={styles.cardHeader}>
-                                    <span className={styles.tag} style={{ backgroundColor: "#dcfce7", color: "#15803d" }}>
-                                        {t("past.tags.culture")}
-                                    </span>
-                                    <span className={styles.date}>Jul 06, 2023</span>
-                                </div>
-                                <h3 className={styles.cardTitle}>{t("past.events.kupala.title")}</h3>
-                                <p className={styles.cardDesc}>{t("past.events.kupala.desc")}</p>
-                            </div>
-                        </div>
-
-                        {/* Poezikveld [6] */}
-                        <div className={`${styles.card} ${styles.smallCard}`}>
-                            <div className={styles.imageWrapper}>
-                                <img src={pastEventsArray[6].image} alt="Poetry Evening" loading="lazy" />
-                            </div>
-                            <div className={styles.cardContent}>
-                                <div className={styles.cardHeader}>
-                                    <span className={styles.tag} style={{ backgroundColor: "#fce7f3", color: "#be185d" }}>
-                                        {t("past.tags.literature")}
-                                    </span>
-                                    <span className={styles.date}>Sep 14, 2023</span>
-                                </div>
-                                <h3 className={styles.cardTitle}>{t("past.events.poetry.title")}</h3>
-                                <p className={styles.cardDesc}>{t("past.events.poetry.desc")}</p>
-                            </div>
-                        </div>
-
-                        {/* General Meeting [New Entry] */}
-                        <div className={`${styles.card} ${styles.smallCard}`}>
-                            <div className={styles.imageWrapper}>
-                                <img src={pastEventsArray[7].image} alt="Annual General Meeting" loading="lazy" />
-                            </div>
-                            <div className={styles.cardContent}>
-                                <div className={styles.cardHeader}>
-                                    <span className={styles.tag} style={{ backgroundColor: "#fef3c7", color: "#b45309" }}>
-                                        {t("past.tags.meeting")}
-                                    </span>
-                                    <span className={styles.date}>Mar 15, 2024</span>
-                                </div>
-                                <h3 className={styles.cardTitle}>{t("past.events.annualReport.title")}</h3>
-                                <p className={styles.cardDesc}>{t("past.events.annualReport.desc")}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                )}
 
                 {/* Impact Stats Row */}
                 <div className={styles.statsGrid}>
