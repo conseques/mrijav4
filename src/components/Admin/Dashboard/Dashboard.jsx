@@ -6,7 +6,6 @@ import styles from './Dashboard.module.css';
 
 import EventsManager from './EventsManager';
 import RegistrationsManager from './RegistrationsManager';
-import MigrateBtn from './MigrateBtn';
 import PastEventsManager from './PastEventsManager';
 import CoursesManager from './CoursesManager';
 
@@ -34,7 +33,7 @@ const Dashboard = () => {
             className={`${styles.navBtn} ${activeTab === 'events' ? styles.active : ''}`}
             onClick={() => setActiveTab('events')}
           >
-            Events Manager
+            Upcoming Events
           </button>
           <button 
             className={`${styles.navBtn} ${activeTab === 'pastevents' ? styles.active : ''}`}
@@ -62,10 +61,7 @@ const Dashboard = () => {
 
       <main className={styles.mainContent}>
         {activeTab === 'events' && (
-          <>
-            <MigrateBtn />
-            <EventsManager />
-          </>
+          <EventsManager />
         )}
         
         {activeTab === 'pastevents' && (

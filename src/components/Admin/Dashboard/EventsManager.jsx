@@ -144,7 +144,7 @@ const EventsManager = () => {
   return (
     <div className={styles.managerContainer}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Manage Events</h2>
+        <h2 className={styles.title}>Manage Upcoming Events</h2>
         {!isAdding && (
           <button className={styles.addBtn} onClick={() => { resetForm(); setIsAdding(true); }}>
             + Add New Event
