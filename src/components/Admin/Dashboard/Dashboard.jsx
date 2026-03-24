@@ -6,6 +6,7 @@ import styles from './Dashboard.module.css';
 
 import EventsManager from './EventsManager';
 import RegistrationsManager from './RegistrationsManager';
+import MigrateBtn from './MigrateBtn';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('events');
@@ -47,7 +48,10 @@ const Dashboard = () => {
 
       <main className={styles.mainContent}>
         {activeTab === 'events' && (
-          <EventsManager />
+          <>
+            <MigrateBtn />
+            <EventsManager />
+          </>
         )}
         
         {activeTab === 'registrations' && (
