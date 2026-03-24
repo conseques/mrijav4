@@ -7,6 +7,9 @@ import AboutUsPage from "./components/AboutUsPage/AboutUsPage";
 import EventsPage from "./components/EventsPage/EventsPage";
 
 import GalleryPage from "./components/GalleryPage/GalleryPage";
+import Login from "./components/Admin/Login/Login";
+import Dashboard from "./components/Admin/Dashboard/Dashboard";
+import ProtectedRoute from "./components/Admin/ProtectedRoute";
 
 function App() {
     const router = createBrowserRouter([
@@ -25,6 +28,18 @@ function App() {
                 { path: '/events', element: <EventsPage/>},
             ],
         },
+        {
+            path: "/admin/login",
+            element: <Login />
+        },
+        {
+            path: "/admin/dashboard",
+            element: (
+                <ProtectedRoute>
+                    <Dashboard />
+                </ProtectedRoute>
+            )
+        }
     ]);
 
     return <RouterProvider router={router} />;

@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import styles from './Registration.module.css';
 import close from './Close_MD.png'
 import {useTranslation} from "react-i18next";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../../firebase";
 
 const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
     const iframeRef = useRef(null);
@@ -35,6 +37,19 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
                 },
                 body: JSON.stringify(dataForWebhook)
             }).catch(err => console.error("Ошибка вебхука: ", err));
+        }
+
+        // 2.5 Сохраняем в Firebase
+        try {
+            await addDoc(collection(db, "registrations"), {
+                name: `${dataForWebhook.name} ${dataForWebhook.surname}`.trim(),
+                email: dataForWebhook.email || '',
+                phone: dataForWebhook.phone || '',
+                eventName: dataForWebhook.event,
+                createdAt: serverTimestamp()
+            });
+        } catch (err) {
+            console.error("Firebase Registration Error: ", err);
         }
 
         // 3. Стандартная отправка в Google Forms
