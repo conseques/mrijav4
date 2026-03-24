@@ -22,9 +22,9 @@
     "description": "Bli med på vår tradisjonelle ukrainske påskefeiring sammen med lokalsamfunnet."
   },
   "ivanKupalaEvent": {
-    "name": "Ivana Kupala",
-    "day": "6. Juli",
-    "description": "Tradisjonell ukrainsk midtsommerfeiring med blomsterkranser og bål."
+    "name": "SanHans dag",
+    "day": "20. Juni",
+    "description": "Tradisjonell feiring med blomsterkranser og bål."
   },
   "annualReportEvent": {
     "name": "Årsmøte og rapport",
@@ -32,28 +32,28 @@
     "description": "Vi oppsummerer fjorårets arbeid og deler våre fremtidsplaner."
   },
   "karaokeEvent": {
-    "name": "Karaoke+",
-    "day": "5. Mai",
-    "description": "En kveld med sang, moro og å knytte bånd med fellesskapet."
+    "name": "Karaoke +",
+    "day": "24. April",
+    "description": "Glede av sanger og å knytte bånd med fellesskapet."
   },
   "poetryEvent": {
-    "name": "Litterær kveld",
-    "day": "10. Juni",
-    "description": "En koselig samling for å dele og lytte til klassisk og moderne ukrainsk litteratur."
+    "name": "Litteraturkveld",
+    "day": "14. April",
+    "description": "Med litteraturviter Marina Hobbel."
   },
   "tags": {
     "annual": "Årlig arrangement",
     "regular": "Regelmessig arrangement"
   },
   "retroRoomEvent": {
-    "name": "Retro Rom",
-    "day": "15. Juli",
-    "description": "En kveld med retromusikk, dans og varme samtaler."
+    "name": "Litteraturkveld",
+    "day": "20. Mai",
+    "description": "Tema er: \"Det som kalles hjemme\"."
   },
   "teachersForumEvent": {
-    "name": "Lærerforum",
-    "day": "20. August",
-    "description": "Et arrangement for nettverksbygging og idéutveksling for ukrainske lærere."
+    "name": "Læreforum",
+    "day": "22. Mars",
+    "description": "For å skape nettverk for ukrainske lærere."
   },
   "past": {
     "title": "Tidligere arrangementer",

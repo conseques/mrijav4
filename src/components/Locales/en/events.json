@@ -22,9 +22,9 @@
     "description": "Join us for a traditional Ukrainian Easter celebration with the community."
   },
   "ivanKupalaEvent": {
-    "name": "Ivana Kupala Festival",
-    "day": "July 6",
-    "description": "Traditional Ukrainian midsummer celebration with flower wreaths and bonfires."
+    "name": "St. John's Eve",
+    "day": "June 20",
+    "description": "Traditional celebration with flower wreaths and bonfires."
   },
   "annualReportEvent": {
     "name": "Annual General Meeting",
@@ -32,28 +32,28 @@
     "description": "Summarizing our work for the past year and sharing plans for the future."
   },
   "karaokeEvent": {
-    "name": "Karaoke+",
-    "day": "May 5",
-    "description": "An evening of singing, fun, and connecting with the community."
+    "name": "Karaoke +",
+    "day": "April 24",
+    "description": "Joy of songs and bonding with the community."
   },
   "poetryEvent": {
-    "name": "Literary Evening",
-    "day": "June 10",
-    "description": "A cozy gathering to share and listen to classic and modern Ukrainian literature."
+    "name": "Literature Evening",
+    "day": "April 14",
+    "description": "With literary critic Marina Hobbel."
   },
   "tags": {
     "annual": "Annual Event",
     "regular": "Regular Event"
   },
   "retroRoomEvent": {
-    "name": "Retro Room",
-    "day": "July 15",
-    "description": "An evening of retro music, dancing, and warm conversations."
+    "name": "Literature Evening",
+    "day": "May 20",
+    "description": "Theme: \"What is called home\"."
   },
   "teachersForumEvent": {
     "name": "Teachers Forum",
-    "day": "August 20",
-    "description": "A networking and idea-sharing event for Ukrainian educators."
+    "day": "March 22",
+    "description": "To create networks for Ukrainian teachers."
   },
   "past": {
     "title": "Past Events",

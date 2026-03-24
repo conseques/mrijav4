@@ -46,7 +46,7 @@ const eventsArray = [
         reversed: true,
     },
     {
-        image: KaraokeImage,
+        image: PoetryImage,
         nameKey: 'retroRoomEvent.name',
         dayKey: 'retroRoomEvent.day',
         timeKey: '19:00 - 22:00',
