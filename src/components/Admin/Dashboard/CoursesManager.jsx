@@ -98,13 +98,17 @@ const CoursesManager = () => {
       
       if (imageFile) {
         const storageRef = ref(storage, `courses/${Date.now()}_${imageFile.name}`);
-        await uploadBytes(storageRef, imageFile);
+        const uploadTask = uploadBytes(storageRef, imageFile);
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Image upload timeout (CORS). Check Firebase Storage CORS rules.")), 15000));
+        await Promise.race([uploadTask, timeout]);
         finalImageUrl = await getDownloadURL(storageRef);
       }
       
       if (teacherFile) {
         const storageRef = ref(storage, `teachers/${Date.now()}_${teacherFile.name}`);
-        await uploadBytes(storageRef, teacherFile);
+        const uploadTask = uploadBytes(storageRef, teacherFile);
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Teacher Image upload timeout (CORS). Check Firebase Storage CORS rules.")), 15000));
+        await Promise.race([uploadTask, timeout]);
         finalTeacherUrl = await getDownloadURL(storageRef);
       }
 

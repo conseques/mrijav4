@@ -92,7 +92,9 @@ const PastEventsManager = () => {
       // If user selected a new file, upload it
       if (file) {
         const storageRef = ref(storage, `past_events/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
+        const uploadTask = uploadBytes(storageRef, file);
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Upload timeout. Check Firebase Storage CORS policy.")), 15000));
+        await Promise.race([uploadTask, timeout]);
         finalImageUrl = await getDownloadURL(storageRef);
       }
 
