@@ -87,7 +87,7 @@ const HistoryModal = ({ isOpen, onClose }) => {
                         <div className={styles.footer}>
                             <p className={styles.quote}>"{t("history.quote")}"</p>
                             <div className={styles.buttons}>
-                                <button className={styles.primaryBtn} onClick={() => { onClose(); window.location.href = '/#membership'; }}>
+                                <button className={styles.primaryBtn} onClick={() => { onClose(); window.location.href = '/#donations'; }}>
                                     {t("history.btnSupport")}
                                 </button>
                                 <button className={styles.secondaryBtn} onClick={onClose}>

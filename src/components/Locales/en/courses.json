@@ -21,12 +21,12 @@
     "teacherInfo": "Experienced Norwegian teacher for beginners."
   },
   "norskKursB1": {
-    "levels": "B1",
-    "duration": "Tuesday 12:00–13:30",
-    "name": "Norwegian Course B1",
-    "description": "Language course for those with basic knowledge of Norwegian",
+    "levels": "A2-B1",
+    "duration": "Tuesday 11:00–13:00",
+    "name": "Course: «Vi lærer norsk»",
+    "description": "Free, organized for active members of the Ukrainian union in Drammen and surroundings «MriJa».\nCourse goal: to deepen your knowledge of the Norwegian language.\nMain topics / content:\nfamilieliv, barn og barneoppdragelse, livsgang, bolig og privat økonomi, jobbsøking, i arbeid, helse og livstil and other topics.\nFormat: work in a small group. Uses presentations, exercises, tables, games, cards, etc.\nTarget audience: Adults.",
     "teacherName": "Valentyna Bilobotska",
-    "teacherInfo": "Expert in B1 level test preparation."
+    "teacherInfo": "Philologist, course organizer."
   },
   "yogaCourse": {
     "name": "Yoga Course",
@@ -41,5 +41,6 @@
   "level": "Level",
   "duration": "Duration",
   "locationLabel": "Location",
-  "drammenLibrary": "Drammen Library"
+  "drammenLibrary": "Drammen Library",
+  "locationDrammenLibB1": "2nd floor, Drammen Library + various locations"
 }

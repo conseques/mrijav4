@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Truck, Users, TrendingUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getReportData } from '../../../services/reportService';
 import styles from './DonationImpact.module.css';
 import ReportModal from '../../ReportModal/ReportModal';
 
@@ -9,14 +10,33 @@ import { motion } from 'framer-motion';
 const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
   const [isReportOpen, setIsReportOpen] = useState(false);
+  const [reportData, setReportData] = useState({
+    totalAmountRaised: 35000,
+    goalAmount: 150000
+  });
 
-  const raisedAmount = 35000;
-  const goalAmount = 150000;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getReportData();
+        setReportData({
+          totalAmountRaised: data.totalAmountRaised,
+          goalAmount: data.goalAmount
+        });
+      } catch (err) {
+        console.error("Error fetching donation impact data:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const raisedAmount = reportData.totalAmountRaised;
+  const goalAmount = reportData.goalAmount;
   const progressPercent = Math.min(Math.round((raisedAmount / goalAmount) * 100), 100);
   const remainingAmount = Math.max(goalAmount - raisedAmount, 0);
 
   return (
-    <section className={styles.section}>
+    <section id="donations" className={styles.section}>
       <motion.div 
         className={styles.container}
         initial={{ opacity: 0, y: 20 }}

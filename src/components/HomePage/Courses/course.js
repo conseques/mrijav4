@@ -31,7 +31,7 @@ const course = [
         teacherNameKey: 'norskKursB1.teacherName',
         teacherInfoKey: 'norskKursB1.teacherInfo',
         phone: '468 207 24',
-        locationKey: 'TBA'
+        locationKey: 'locationDrammenLibB1'
     },
     {
         image: digitalverden,

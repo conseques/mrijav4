@@ -8,6 +8,8 @@ import EventsManager from './EventsManager';
 import RegistrationsManager from './RegistrationsManager';
 import PastEventsManager from './PastEventsManager';
 import CoursesManager from './CoursesManager';
+import ReportManager from './ReportManager';
+
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('events');
@@ -53,7 +55,14 @@ const Dashboard = () => {
           >
             Registrations
           </button>
+          <button 
+            className={`${styles.navBtn} ${activeTab === 'report' ? styles.active : ''}`}
+            onClick={() => setActiveTab('report')}
+          >
+            Detailed Report
+          </button>
         </nav>
+
         <button onClick={handleLogout} className={styles.logoutBtn}>
           Sign Out
         </button>
@@ -75,7 +84,12 @@ const Dashboard = () => {
         {activeTab === 'registrations' && (
           <RegistrationsManager />
         )}
+
+        {activeTab === 'report' && (
+          <ReportManager />
+        )}
       </main>
+
     </div>
   );
 };
