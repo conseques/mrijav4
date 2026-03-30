@@ -3,13 +3,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8fafc;
+  background-color: var(--container-bg, #f8fafc);
   font-family: 'Inter', sans-serif;
   padding: 20px;
 }
 
 .loginCard {
-  background: white;
+  background: var(--container-bg, white);
   padding: 40px;
   border-radius: 16px;
   box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
@@ -24,13 +24,13 @@
 
 .logo h1 {
   font-size: 24px;
-  color: #0f172a;
+  color: var(--text-color, #0F172A);
   margin: 0;
   font-weight: 800;
 }
 
 .logo span {
-  color: #0047AB;
+  color: var(--primary-color, #0047AB);
 }
 
 .form {
@@ -48,12 +48,12 @@
 .inputGroup label {
   font-size: 14px;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-muted, #475569);
 }
 
 .inputGroup input {
   padding: 12px 16px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--outline-variant, #cbd5e1);
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.2s;
@@ -65,9 +65,9 @@
 }
 
 .error {
-  color: #ef4444;
+  color: var(--text-muted, #ef4444);
   font-size: 14px;
-  background: #fef2f2;
+  background: var(--container-bg, #fef2f2);
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 20px;

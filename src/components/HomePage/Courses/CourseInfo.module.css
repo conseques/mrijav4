@@ -1,6 +1,6 @@
 .container {
     padding: 30px;
-    background: #ffffff;
+    background: var(--container-bg, #ffffff);
     border-radius: 16px;
     position: relative;
     max-width: 500px;
@@ -25,7 +25,7 @@
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-color, #333);
 }
 
 .content {
@@ -38,7 +38,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    background: #f9f9f9;
+    background: var(--container-bg, #f9f9f9);
     padding: 15px;
     border-radius: 12px;
 }
@@ -53,20 +53,20 @@
 .teacherDetails h4 {
     margin: 0 0 5px 0;
     font-size: 18px;
-    color: #222;
+    color: var(--text-color, #222);
 }
 
 .teacherDetails p {
     margin: 0;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted, #666);
     line-height: 1.4;
 }
 
 .courseDetails p {
     margin: 5px 0;
     font-size: 15px;
-    color: #444;
+    color: var(--text-color, #444);
 }
 
 .desc {
@@ -74,7 +74,7 @@
     margin-top: 15px !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
-    color: #555 !important;
+    color: var(--text-muted, #555) !important;
 }
 
 .btn_container {
@@ -85,7 +85,7 @@
 
 .enrollBtn {
     background: #FFD166;
-    color: #111;
+    color: var(--text-color, #111);
     font-weight: 600;
     font-size: 16px;
     border: none;

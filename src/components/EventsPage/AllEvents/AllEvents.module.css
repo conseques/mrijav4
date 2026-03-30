@@ -1,5 +1,5 @@
 .wrapper {
-    background-color: #F6FAFF;
+    background-color: var(--bg-color, #F6FaFf);
     padding-bottom: 60px;
 }
 .container {
@@ -12,10 +12,10 @@
     font-size: 48px;
     line-height: 100%;
     margin: 16px 0 12px 0;
-    color: #12305A;
+    color: var(--text-color, #12305A);
 }
 .h2 {
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin: 0 auto;
 }
 .subtitle {
@@ -23,7 +23,7 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 28px;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     padding: 0 20px;
 }
 .content {
@@ -33,9 +33,9 @@
 }
 .card {
     display: flex;
-    border: 1px solid #B5D4FF;
+    border: 1px solid var(--outline-variant, #B5D4FF);
     border-radius: 15px;
-    background-color: #FBFCFD;
+    background-color: var(--container-highest-bg, #FBFCFD);
     max-width: 502px;
     margin-bottom: 20px;
     margin-right: 5px;
@@ -66,7 +66,7 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color: #636363;
+    color: var(--text-muted, #636363);
 }
 .duration span {
     position: relative;
@@ -103,14 +103,14 @@
     font-weight: 600;
     font-size: 22px;
     line-height: 28px;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin-bottom: 12px;
 }
 .description {
     font-weight: 300;
     font-size: 14px;
     line-height: 20px;
-    color: #202020;
+    color: var(--text-color, #202020);
     margin-bottom: 24px;
 }
 .card_content button {
@@ -119,7 +119,7 @@
     font-size: 14px;
     line-height: 100%;
     color: white;
-    background-color: #0057B8;
+    background-color: var(--primary-color, #0057B8);
     padding: 11px 0;
     border-radius: 10px;
     transition: 0.2s ease;

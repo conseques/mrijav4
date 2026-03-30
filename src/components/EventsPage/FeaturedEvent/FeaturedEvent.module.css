@@ -8,17 +8,17 @@
     font-weight: 600;
     font-size: 48px;
     line-height: 100%;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin: 16px 0 48px 0;
 }
 .h2 {
-    color: #12305A;
+    color: var(--text-color, #12305A);
 }
 .card {
     display: flex;
-    border: 1px solid #B5D4FF;
+    border: 1px solid var(--outline-variant, #B5D4FF);
     border-radius: 15px;
-    background-color: #FBFCFD;
+    background-color: var(--container-highest-bg, #FBFCFD);
     margin: 0 15px;
 }
 .image_wrapper {
@@ -48,10 +48,10 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color: #12305A;
-    background-color: #F6FAFF;
+    color: var(--text-color, #12305A);
+    background-color: var(--bg-color, #F6FaFf);
     border-radius: 10px;
-    border: 1px solid #B5D4FF;
+    border: 1px solid var(--outline-variant, #B5D4FF);
 }
 .students {
     position: relative;
@@ -79,7 +79,7 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color: #636363;
+    color: var(--text-muted, #636363);
 }
 .duration span {
     position: relative;
@@ -116,14 +116,14 @@
     font-weight: 600;
     font-size: 22px;
     line-height: 28px;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin-bottom: 12px;
 }
 .description {
     font-weight: 300;
     font-size: 14px;
     line-height: 20px;
-    color: #202020;
+    color: var(--text-color, #202020);
     margin-bottom: 24px;
 }
 .card_content button {
@@ -132,7 +132,7 @@
     font-size: 14px;
     line-height: 100%;
     color: white;
-    background-color: #0057B8;
+    background-color: var(--primary-color, #0057B8);
     padding: 11px 0;
     border-radius: 10px;
     transition: 0.2s ease;

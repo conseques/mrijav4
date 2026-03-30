@@ -11,7 +11,7 @@
 }
 
 .modal {
-    background: #F8F9FA;
+    background: var(--container-bg, #F8F9FA);
     width: 100%;
     max-width: 1000px;
     height: 90vh;
@@ -21,14 +21,14 @@
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     padding: 40px;
     font-family: 'Inter', -apple-system, sans-serif;
-    color: #0F172A;
+    color: var(--text-color, #0F172A);
 }
 
 .closeBtn {
     position: absolute;
     top: 24px;
     right: 24px;
-    background: #e2e8f0;
+    background: var(--container-highest-bg, #e2e8f0);
     border: none;
     width: 40px;
     height: 40px;
@@ -38,13 +38,13 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    color: #475569;
+    color: var(--text-muted, #475569);
     z-index: 10;
 }
 
 .closeBtn:hover {
     background: #cbd5e1;
-    color: #1e293b;
+    color: var(--text-color, #1e293b);
     transform: rotate(90deg);
 }
 
@@ -62,8 +62,8 @@
 
 .badge {
   display: inline-block;
-  background-color: #E2E8F0;
-  color: #475569;
+  background-color: var(--container-highest-bg, #E2E8F0);
+  color: var(--text-muted, #475569);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -87,14 +87,14 @@
 .title {
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 800;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
   margin: 0 0 1rem 0;
   letter-spacing: -0.02em;
 }
 
 .subtitle {
   font-size: 1.05rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   line-height: 1.6;
   margin: 0;
   max-width: 600px;
@@ -108,7 +108,7 @@
 }
 
 .metricCard {
-  background-color: #FFFFFF;
+  background-color: var(--container-bg, #ffffff);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
@@ -116,7 +116,7 @@
 
 .metricLabel {
   font-size: 0.85rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   font-weight: 600;
   margin: 0 0 0.5rem 0;
 }
@@ -137,14 +137,14 @@
 .metricValue {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
   line-height: 1;
   letter-spacing: -0.03em;
 }
 
 .trendGreen {
-  background-color: #DCFCE7;
-  color: #16A34A;
+  background-color: var(--container-bg, #DCFCE7);
+  color: var(--text-muted, #16A34A);
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.2rem 0.5rem;
@@ -163,14 +163,14 @@
 
 .metricSubInfoText {
   font-size: 0.85rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   margin: 0;
 }
 
 .progressBarBg {
   width: 100%;
   height: 4px;
-  background-color: #F1F5F9;
+  background-color: var(--container-bg, #F1F5F9);
   border-radius: 9999px;
   overflow: hidden;
   margin-top: 1.5rem;
@@ -189,7 +189,7 @@
 }
 
 .distCardLeft, .distCardRight {
-  background-color: #FFFFFF;
+  background-color: var(--container-bg, #ffffff);
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
@@ -198,7 +198,7 @@
 .cardHeader {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
   margin: 0 0 1.5rem 0;
 }
 
@@ -219,25 +219,25 @@
 .distItemTitle {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
 }
 
 .distItemPercent {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #2563EB;
+  color: var(--primary-color, #2563EB);
 }
 
 .distItemDesc {
   font-size: 0.8rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   margin: 0 0 0.75rem 0;
 }
 
 .barBg {
   width: 100%;
   height: 8px;
-  background-color: #F1F5F9;
+  background-color: var(--container-bg, #F1F5F9);
   border-radius: 9999px;
 }
 
@@ -261,8 +261,8 @@
 }
 
 .regionIcon {
-  background-color: #EFF6FF;
-  color: #2563EB;
+  background-color: var(--container-bg, #EFF6FF);
+  color: var(--primary-color, #2563EB);
   padding: 0.5rem;
   border-radius: 50%;
   display: flex;
@@ -271,13 +271,13 @@
 .regionName {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
   margin: 0 0 0.2rem 0;
 }
 
 .regionAllocated {
   font-size: 0.8rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   margin: 0;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .mapLink {
-  color: #2563EB;
+  color: var(--primary-color, #2563EB);
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
@@ -299,7 +299,7 @@
 
 /* Table Section */
 .tableCard {
-  background-color: #FFFFFF;
+  background-color: var(--container-bg, #ffffff);
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
@@ -314,7 +314,7 @@
 
 .tableDesc {
   font-size: 0.9rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   margin: 0.2rem 0 0 0;
 }
 
@@ -335,12 +335,12 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #E2E8F0;
+  border-bottom: 1px solid var(--outline-variant, #E2E8F0);
 }
 
 .table td {
   padding: 1.25rem 0;
-  border-bottom: 1px solid #F1F5F9;
+  border-bottom: 1px solid var(--outline-variant, #F1F5F9);
 }
 
 .projectCell {
@@ -352,33 +352,33 @@
 .projectIconWrap {
   width: 32px;
   height: 32px;
-  background-color: #F8F9FA;
+  background-color: var(--container-bg, #F8F9FA);
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.iconRed { color: #EF4444; }
-.iconBlue { color: #3B82F6; }
-.iconTeal { color: #14B8A6; }
+.iconRed { color: var(--text-muted, #EF4444); }
+.iconBlue { color: var(--primary-color, #3B82F6); }
+.iconTeal { color: var(--text-muted, #14B8A6); }
 .iconOrange { color: #F59E0B; }
 
 .projectName {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
 }
 
 .tdSoft {
   font-size: 0.9rem;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
 }
 
 .tdBoldRight {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
   text-align: right;
 }
 
@@ -394,7 +394,7 @@
 .loadMoreBtn {
   background: none;
   border: none;
-  color: #64748B;
+  color: var(--text-muted, #64748B);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -402,12 +402,12 @@
 }
 
 .loadMoreBtn:hover {
-  color: #0F172A;
+  color: var(--text-color, #0F172A);
 }
 
 /* Bottom CTA Block */
 .ctaBlock {
-  background-color: #2563EB;
+  background-color: var(--primary-color, #2563EB);
   border-radius: 1rem;
   padding: 3rem;
   text-align: center;
@@ -423,7 +423,7 @@
 
 .ctaDesc {
   font-size: 1rem;
-  color: #DBEAFE;
+  color: var(--primary-color, #DBEAFE);
   max-width: 600px;
   margin: 0 auto 2rem auto;
   line-height: 1.5;
@@ -436,8 +436,8 @@
 }
 
 .btnWhite {
-  background-color: #FFFFFF;
-  color: #2563EB;
+  background-color: var(--container-bg, #ffffff);
+  color: var(--primary-color, #2563EB);
   font-size: 0.95rem;
   font-weight: 600;
   padding: 0.8rem 2rem;
@@ -459,7 +459,7 @@
   font-weight: 600;
   padding: 0.8rem 2rem;
   border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--outline-variant, rgba(255, 255, 255, 0.3));
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -470,7 +470,7 @@
 
 .ctaCancellation {
   font-size: 0.75rem;
-  color: #DBEAFE;
+  color: var(--primary-color, #DBEAFE);
   margin-top: 1.5rem;
   opacity: 0.8;
   max-width: 500px;

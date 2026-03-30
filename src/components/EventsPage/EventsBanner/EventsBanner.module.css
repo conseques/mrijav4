@@ -1,8 +1,8 @@
 .wrapper {
     background: linear-gradient(
             to bottom right,
-            #CBE1FF 0%,
-            #FFFFFF 80%
+            var(--container-highest-bg, #CBE1FF) 0%,
+            var(--container-bg, #FFFFFF) 80%
     );
     padding: 107px 0 187px 0;
 }
@@ -56,9 +56,9 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    color: #443B1E;
-    background-color: #FFFBE8;
-    border: 2px #F7D56B solid;
+    color: var(--text-color, #443B1E);
+    background-color: var(--container-bg, #FFFBE8);
+    border: 2px var(--outline-variant, #F7D56B) solid;
     padding: 6px;
     border-radius: 10px;
 }
@@ -66,7 +66,7 @@
     font-weight: 700;
     font-size: 48px;
     line-height: 100%;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin: 16px 0 20px 0;
 }
 .content {
@@ -76,7 +76,7 @@
     font-weight: 600;
     font-size: 24px;
     line-height: 32px;
-    color: #202020;
+    color: var(--text-color, #202020);
     max-width: 581px;
 }
 @media (max-width: 1290px) {

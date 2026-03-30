@@ -4,7 +4,7 @@
 .newsletter_container {
     max-width: 1024px;
     margin: 80px auto;
-    background-color: #FFE26F;
+    background-color: var(--container-highest-bg, #FFE26F);
     text-align: center;
     border-radius: 20px;
     background-image: url('./background.png'), url('./background2.png');
@@ -20,7 +20,7 @@
     font-weight: 600;
     font-size: 48px;
     line-height: 100%;
-    color: #443B1E;
+    color: var(--text-color, #443B1E);
     padding: 64px 0 24px 0;
 }
 .form {
@@ -31,7 +31,7 @@
 }
 .input_wrapper input {
     padding: 14px 16px 14px 60px;
-    background-color: #fff;
+    background-color: var(--container-bg, #ffffff);
     width: 100%;
     border-radius: 10px;
 }
@@ -57,7 +57,7 @@
     line-height: 1.4;
     padding: 15px 24px;
     color: white;
-    background-color: #0057B8;
+    background-color: var(--primary-color, #0057B8);
     border-radius: 10px;
     transition: 0.2s ease;
 }

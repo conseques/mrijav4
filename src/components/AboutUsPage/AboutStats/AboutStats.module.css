@@ -8,7 +8,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #ffffff;
+    background-color: var(--container-bg, #ffffff);
     padding: 60px 40px;
     gap: 40px;
 }
@@ -24,7 +24,7 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background-color: #FFFBE8;
+    background-color: var(--container-bg, #FFFBE8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,14 +38,14 @@
 .statNumber {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #0F172A;
+    color: var(--text-color, #0F172A);
     margin-bottom: 8px;
 }
 
 .statLabel {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #64748B;
+    color: var(--text-muted, #64748B);
     text-transform: uppercase;
     letter-spacing: 1px;
 }

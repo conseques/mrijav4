@@ -35,8 +35,20 @@ const HeaderMenu = ({closeMenu}) => {
                             {t("about")}
                         </Link>
 
+                        <Link className={styles.menu_link} to='/#courses' onClick={closeMenu}>
+                            {t("courses")}
+                        </Link>
+
+                        <Link className={styles.menu_link} to='/gallery' onClick={closeMenu}>
+                            {t("gallery")}
+                        </Link>
+
                         <Link className={styles.menu_link} to='/events' onClick={closeMenu}>
                             {t("events")}
+                        </Link>
+
+                        <Link className={styles.menu_link} to='/#donations' onClick={closeMenu}>
+                            {t("donations")}
                         </Link>
                     </div>
                 </nav>

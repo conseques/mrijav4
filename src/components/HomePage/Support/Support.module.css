@@ -1,5 +1,5 @@
 .support_wrapper {
-    background-color: #F6FAFF;
+    background-color: var(--bg-color, #F6FaFf);
     padding-bottom: 80px;
 }
 .support_container {
@@ -10,13 +10,13 @@
     font-size: 48px;
     line-height: 100%;
     margin: 16px 0 12px 0;
-    color: #12305A;
+    color: var(--text-color, #12305A);
 }
 .subtitle {
     font-weight: 400;
     font-size: 20px;
     line-height: 28px;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin-bottom: 48px;
     padding: 0 20px;
 }
@@ -32,7 +32,7 @@
 .card {
     max-width: 502px;
     text-align: left;
-    background-color:#FFFFFF ;
+    background-color: var(--container-bg, #ffffff);
     padding: 20px;
     border-radius: 15px;
     box-shadow: 9px 3px 29px -8px rgba(0,0,0,0.25);
@@ -51,19 +51,19 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin-bottom: 16px;
 }
 .card_desc {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
-    color: #636363;
+    color: var(--text-muted, #636363);
     margin-bottom: 20px;
 }
 .card_link  {
     padding: 12.5px 0;
-    color: #0047A7;
+    color: var(--primary-color, #0047A7);
     font-weight: 600;
     font-size: 14px;
     line-height: 100%;

@@ -32,7 +32,7 @@ const ReachOut = () => {
     };
 
     return (
-        <div  className={styles.wrapper}>
+        <div id="contact" className={styles.wrapper}>
             <motion.div 
                 className={styles.container}
                 initial={{ opacity: 0, y: 20 }}

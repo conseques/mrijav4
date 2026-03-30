@@ -15,7 +15,7 @@
 }
 
 .tableContainer {
-  background: white;
+  background: var(--container-bg, white);
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
   overflow-x: auto;
@@ -29,29 +29,29 @@
 .table th {
   text-align: left;
   padding: 16px 24px;
-  background-color: #f8fafc;
-  color: #64748b;
+  background-color: var(--container-bg, #f8fafc);
+  color: var(--text-muted, #64748B);
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--outline-variant, #e2e8f0);
 }
 
 .table td {
   padding: 16px 24px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--outline-variant, #f1f5f9);
   font-size: 14px;
-  color: #475569;
+  color: var(--text-muted, #475569);
 }
 
 .nameCell {
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-color, #0F172A);
 }
 
 .table a {
-  color: #0047AB;
+  color: var(--primary-color, #0047AB);
   text-decoration: none;
 }
 
@@ -60,8 +60,8 @@
 }
 
 .eventBadge {
-  background: #EFF6FF;
-  color: #0047AB;
+  background: var(--container-bg, #EFF6FF);
+  color: var(--primary-color, #0047AB);
   padding: 4px 10px;
   border-radius: 9999px;
   font-size: 13px;

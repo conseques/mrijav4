@@ -33,7 +33,7 @@
 
 /* Form Styles */
 .formCard {
-  background: white;
+  background: var(--container-bg, white);
   padding: 32px;
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
@@ -53,7 +53,7 @@
 }
 
 .langSection {
-  background: #f8fafc;
+  background: var(--container-bg, #f8fafc);
   padding: 20px;
   border-radius: 12px;
   display: flex;
@@ -64,7 +64,7 @@
 .langSection h4 {
   margin: 0;
   font-size: 16px;
-  color: #0f172a;
+  color: var(--text-color, #0F172A);
 }
 
 .inputGroup {
@@ -76,12 +76,12 @@
 .inputGroup label {
   font-size: 14px;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-muted, #475569);
 }
 
 .inputGroup input, .inputGroup textarea, .inputGroup select {
   padding: 10px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--outline-variant, #cbd5e1);
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
@@ -99,8 +99,8 @@
 }
 
 .fileInput {
-  background: #f1f5f9;
-  border: 1px dashed #cbd5e1 !important;
+  background: var(--container-bg, #F1F5F9);
+  border: 1px dashed var(--outline-variant, #cbd5e1) !important;
   cursor: pointer;
 }
 
@@ -110,13 +110,13 @@
   gap: 12px;
   margin-top: 24px;
   padding-top: 24px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--outline-variant, #e2e8f0);
 }
 
 .cancelBtn {
   background: transparent;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  color: var(--text-muted, #475569);
+  border: 1px solid var(--outline-variant, #cbd5e1);
   padding: 10px 20px;
   border-radius: 8px;
   font-weight: 600;
@@ -124,7 +124,7 @@
 }
 
 .cancelBtn:hover {
-  background: #f1f5f9;
+  background: var(--container-bg, #F1F5F9);
 }
 
 .submitBtn {
@@ -154,7 +154,7 @@
 }
 
 .eventCard {
-  background: white;
+  background: var(--container-bg, white);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
@@ -174,8 +174,8 @@
 }
 
 .eventTag {
-  background: #EFF6FF;
-  color: #0047AB;
+  background: var(--container-bg, #EFF6FF);
+  color: var(--primary-color, #0047AB);
   font-size: 12px;
   font-weight: 700;
   padding: 4px 8px;
@@ -193,21 +193,21 @@
 
 .eventDate {
   font-size: 14px;
-  color: #64748b;
+  color: var(--text-muted, #64748B);
   margin: 0 0 16px 0;
 }
 
 .eventActions {
   padding: 16px 20px;
-  border-top: 1px solid #f1f5f9;
-  background: #f8fafc;
+  border-top: 1px solid var(--outline-variant, #f1f5f9);
+  background: var(--container-bg, #f8fafc);
   display: flex;
   justify-content: flex-end;
 }
 
 .deleteBtn {
-  background: #fee2e2;
-  color: #ef4444;
+  background: var(--container-highest-bg, #fee2e2);
+  color: var(--text-muted, #ef4444);
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -219,5 +219,5 @@
 
 .deleteBtn:hover {
   background: #fecaca;
-  color: #dc2626;
+  color: var(--text-muted, #dc2626);
 }

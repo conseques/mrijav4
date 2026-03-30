@@ -1,5 +1,5 @@
 .wrapper {
-    background-color: #F6FAFF;
+    background-color: var(--bg-color, #F6FaFf);
 }
 .courses_container {
     margin: 0 auto;
@@ -19,20 +19,20 @@
     font-weight: 600;
     font-size: 48px;
     line-height: 100%;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin: 16px 0 12px 0;
 }
 .subtitle {
     font-weight: 400;
     font-size: 20px;
     line-height: 28px;
-    color: #12305A;
+    color: var(--text-color, #12305A);
     margin-bottom: 48px;
 }
 .card {
     width: 328px;
     padding: 16px;
-    background-color: #fff;
+    background-color: var(--container-bg, #ffffff);
     border-radius: 15px;
     box-shadow: 0 1px 3px 0 #0000001A;
     display: flex;
@@ -70,8 +70,8 @@
 }
 .column p {
     padding: 4px 6px;
-    background-color: #FFFBE8;
-    border: 1px solid #F7D56B;
+    background-color: var(--container-bg, #FFFBE8);
+    border: 1px solid var(--outline-variant, #F7D56B);
     border-radius: 8px;
 }
 .row {
@@ -103,7 +103,7 @@
     background-image: url("./UsersThree.png");
 }
 .btn {
-    background-color: #0057B8;
+    background-color: var(--primary-color, #0057B8);
     color: #fff;
     font-weight: 600;
     font-size: 14px;

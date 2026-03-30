@@ -10,6 +10,8 @@ import HeaderMenu from "./HeaderMenu";
 import { Link } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from "../../context/ThemeContext";
 import i18n from "../../i118n";
 
 
@@ -21,6 +23,7 @@ const languageFlags = {
 
 const Header = () => {
     const { t } = useTranslation("header");
+    const { isDarkMode, toggleTheme } = useTheme();
 
 
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language || "en");
@@ -59,14 +62,19 @@ const Header = () => {
                     <ul className={styles.nav_list}>
                         <Link className={styles.link} to='/'>{t("home")}</Link>
                         <Link className={styles.link} to='/about-us'>{t("about")}</Link>
+                        <Link className={styles.link} to='/#courses'>{t("courses")}</Link>
                         <Link className={styles.link} to='/gallery'>{t("gallery")}</Link>
                         <Link className={styles.link} to='/events'>{t("events")}</Link>
+                        <Link className={styles.link} to='/#donations'>{t("donations")}</Link>
                     </ul>
                 </nav>
 
                 <div className={styles.user_options}>
                     <div className={styles.dropdown}>
                         <div className={styles.mobile_menu}>
+                            <button onClick={toggleTheme} className={styles.theme_btn} style={{marginRight: '15px', display: 'flex', alignItems: 'center'}}>
+                                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+                            </button>
                             <button
                                 className={styles.dropdown_btn}
                                 onClick={() => setIsDropdownOpen(prev => !prev)}

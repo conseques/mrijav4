@@ -60,7 +60,7 @@ const Courses = () => {
     };
 
     return (
-        <div className={styles.wrapper}>
+        <div id="courses" className={styles.wrapper}>
             <motion.div 
                 className={styles.courses_container}
                 initial={{ opacity: 0, y: 20 }}
