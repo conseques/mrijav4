@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../../../firebase';
 import { motion } from 'framer-motion';
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -12,6 +14,7 @@ const Register = () => {
     const [phone, setPhone] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -39,6 +42,9 @@ const Register = () => {
 
     return (
         <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <button onClick={toggleTheme} style={{ position: 'absolute', top: '24px', right: '24px', background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Toggle theme">
+                {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+            </button>
             <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}

@@ -3,6 +3,8 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import { motion } from 'framer-motion';
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,6 +13,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const { isDarkMode, toggleTheme } = useTheme();
     // Where to go after login — the page they originally tried to visit
     const from = location.state?.from?.pathname || '/volunteer-portal';
 
@@ -33,6 +36,9 @@ const Login = () => {
 
     return (
         <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <button onClick={toggleTheme} style={{ position: 'absolute', top: '24px', right: '24px', background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Toggle theme">
+                {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+            </button>
             <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
