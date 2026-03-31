@@ -1,9 +1,9 @@
 import React, {useRef, useState} from 'react';
 import styles from './Registration.module.css';
-import close from './Close_MD.png'
 import {useTranslation} from "react-i18next";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { X } from "lucide-react";
 
 const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
     const iframeRef = useRef(null);
@@ -67,7 +67,9 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
     return (
         <div className={styles.container}>
             <h3 className={styles.title}>{t("title")} <span className={styles.name}>{selectedEventName}</span> </h3>
-            <button onClick={onClose} className={styles.close}><img className={styles.close} src={close} alt=""/></button>
+            <button onClick={onClose} className={styles.close} aria-label="Close">
+                <X size={24} />
+            </button>
             <p className={styles.desc}>{t("desc")} <span>{t("active")}</span> </p>
             <form className={styles.form}
                   action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScXLP6ZTgUkpgUjH81ujvFqzWCWx2kXJhbh3X9Bg1Qf4jZeKQ/formResponse"
