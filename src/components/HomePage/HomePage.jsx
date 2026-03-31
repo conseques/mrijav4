@@ -13,10 +13,16 @@ const HomePage = () => {
 
     useEffect(() => {
         if (hash) {
-            const el = document.querySelector(hash);
-            if (el) {
-                el.scrollIntoView({ behavior: "smooth" });
-            }
+            const scroll = () => {
+                const el = document.querySelector(hash);
+                if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                }
+            };
+            scroll();
+            // Fire again to handle async layout shifts from network fetching
+            setTimeout(scroll, 300);
+            setTimeout(scroll, 800);
         }
     }, [hash]);
     return (

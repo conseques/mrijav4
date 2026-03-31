@@ -56,9 +56,9 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    color: var(--text-color, #443B1E);
-    background-color: var(--container-bg, #FFFBE8);
-    border: 2px var(--outline-variant, #F7D56B) solid;
+    color: var(--badge-text, #4a3800);
+    background-color: #FFFBE8;
+    border: 2px #F7D56B solid;
     padding: 6px;
     border-radius: 10px;
 }

@@ -85,7 +85,7 @@
 
 .enrollBtn {
     background: #FFD166;
-    color: var(--text-color, #111);
+    color: var(--badge-text, #4a3800);
     font-weight: 600;
     font-size: 16px;
     border: none;

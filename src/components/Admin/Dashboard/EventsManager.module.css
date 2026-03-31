@@ -86,6 +86,8 @@
   font-size: 14px;
   font-family: inherit;
   outline: none;
+  background-color: var(--container-bg, #ffffff);
+  color: var(--text-color, #0F172A);
   transition: border-color 0.2s;
 }
 

@@ -37,6 +37,10 @@ const Layout = () => {
                 <html lang={i18n.language || 'no'} />
                 <title>Ukrainsk forening MriJa</title>
                 <meta name="description" content="Mriya - community, events, courses, and support." />
+                <meta property="og:title" content="Ukrainsk forening MriJa" />
+                <meta property="og:description" content="Mriya - community, events, courses, and support." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://mrija.no" />
             </Helmet>
             <Header/>
             <Modal ref={modal}>

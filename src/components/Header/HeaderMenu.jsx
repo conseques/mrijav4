@@ -50,6 +50,10 @@ const HeaderMenu = ({closeMenu}) => {
                         <Link className={styles.menu_link} to='/#donations' onClick={closeMenu}>
                             {t("donations")}
                         </Link>
+
+                        <Link className={styles.menu_link} to='/volunteer-portal/login' onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
+                            {t("portal", "Portal")}
+                        </Link>
                     </div>
                 </nav>
                 <a href="/#membership" className={styles.menu_join_btn} onClick={closeMenu}>

@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function getUserRole() {
+      return get(/databases/$(database)/documents/volunteers/$(request.auth.uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+
+    function isManager() {
+      return isAuthenticated() && (getUserRole() == 'manager' || getUserRole() == 'admin');
+    }
+
+    // Volunteers Collection
+    match /volunteers/{userId} {
+      // Anyone authenticated can read their own profile, managers can read all
+      allow read: if isOwner(userId) || isManager();
+      
+      // Users can create their own profile, but cannot assign themselves as 'admin' or 'manager'
+      allow create: if isOwner(userId) 
+                    && request.resource.data.role == 'user'
+                    && request.resource.data.status == 'pending';
+                    
+      // Users can update their own profile (e.g. skills), but cannot change their role or approval status
+      allow update: if (isOwner(userId) 
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                        .hasOnly(['skills', 'phone', 'name'])) // Limit what they can edit
+                    || isManager(); // Managers can update status and roles
+
+      // Only admins can delete profiles
+      allow delete: if isAdmin();
+    }
+
+    // Events Collection (Public Read, Manager Write)
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isManager();
+    }
+
+    // Courses Collection (Public Read, Manager Write)
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if isManager();
+    }
+
+    // Reports Collection (Public Read — transparency report shown to all visitors)
+    match /reports/{reportId} {
+      allow read: if true;
+      allow write: if isManager();
+    }
+  }
+}

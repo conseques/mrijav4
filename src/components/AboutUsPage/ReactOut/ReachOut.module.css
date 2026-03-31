@@ -2,6 +2,7 @@
 .wrapper {
    background-color: var(--bg-color, #E9F3FF);
    padding: 120px 0 80px 0;
+   transition: background-color 0.3s;
 }
 
 
@@ -9,14 +10,23 @@
    max-width: 1024px;
    margin: 0 auto;
    padding: 40px;
+   background-color: var(--container-bg, #ffffff);
+   border-radius: 24px;
    background-image: url("./background.png");
    background-repeat: no-repeat;
    background-size: contain;
    background-position: left center;
-
+   box-shadow: 0 4px 24px rgba(0,0,0,0.07);
    display: flex;
    justify-content: center;
+   transition: background-color 0.3s;
 }
+
+[data-theme='dark'] .container {
+    background-image: none;
+    background-color: var(--container-bg, #1c1b1b);
+}
+
 
 .content {
    display: grid;
@@ -33,13 +43,14 @@
 }
 
 .p {
-   background-color: var(--container-bg, #FFFBE8);
+   background-color: var(--badge-bg, #FFFBE8);
    display: inline-block;
    padding: 6px;
    font-weight: 600;
    font-size: 12px;
    line-height: 16px;
-   border: 2px solid var(--outline-variant, #F7D56B);
+   border: 2px solid var(--badge-border, #F7D56B);
+   color: var(--badge-text, #4a3800);
    border-radius: 8px;
 }
 
@@ -56,7 +67,6 @@
    font-size: 18.38px;
    line-height: 25.74px;
    color: var(--text-color, #12305A);
-
 }
 
 .form {
@@ -76,6 +86,8 @@
 .form textarea {
    padding: 10px 14px;
    border: 1px solid var(--outline-variant, #ccc);
+   background-color: var(--bg-color);
+   color: var(--text-color);
    border-radius: 8px;
    font-size: 14px;
    font-family: inherit;

@@ -18,6 +18,10 @@
   --primary-color: #2167d0;
   --secondary-color: #fed000;
   --outline-variant: #c2c6d5;
+  --badge-bg: #FFFBE8;
+  --badge-border: #F7D56B;
+  /* Yellow badges always need dark text — even in dark mode */
+  --badge-text: #4a3800;
 }
 
 [data-theme='dark'] {
@@ -30,6 +34,10 @@
   --primary-color: #4d8eff;
   --secondary-color: #ffe083;
   --outline-variant: #424754;
+  --badge-bg: #ffe083;
+  --badge-border: #c9a400;
+  /* Keep badge text dark — yellow bg + light text = unreadable */
+  --badge-text: #1b1c1c;
 }
 
 html, body {

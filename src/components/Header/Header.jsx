@@ -8,9 +8,9 @@ import NorwegianFlag from '../../images/header/Norway (NO).png';
 import menu from '../../images/header/menu.png';
 import HeaderMenu from "./HeaderMenu";
 import { Link } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Sun, Moon } from 'lucide-react';
+import { AnimatePresence } from "framer-motion";
+import { Sun, Moon, User } from 'lucide-react';
 import { useTheme } from "../../context/ThemeContext";
 import i18n from "../../i118n";
 
@@ -60,7 +60,6 @@ const Header = () => {
 
                 <nav>
                     <ul className={styles.nav_list}>
-                        <Link className={styles.link} to='/'>{t("home")}</Link>
                         <Link className={styles.link} to='/about-us'>{t("about")}</Link>
                         <Link className={styles.link} to='/#courses'>{t("courses")}</Link>
                         <Link className={styles.link} to='/gallery'>{t("gallery")}</Link>
@@ -70,17 +69,23 @@ const Header = () => {
                 </nav>
 
                 <div className={styles.user_options}>
+                    <Link to='/volunteer-portal/login' className={styles.theme_btn} aria-label="Volunteer Portal" title="Volunteer Portal">
+                        <User size={20} />
+                    </Link>
+
+                    {/* Theme toggle — standalone, balanced between nav and controls */}
+                    <button onClick={toggleTheme} className={styles.theme_btn} aria-label="Toggle theme" title="Toggle theme">
+                        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
+
                     <div className={styles.dropdown}>
                         <div className={styles.mobile_menu}>
-                            <button onClick={toggleTheme} className={styles.theme_btn} style={{marginRight: '15px', display: 'flex', alignItems: 'center'}}>
-                                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-                            </button>
                             <button
                                 className={styles.dropdown_btn}
                                 onClick={() => setIsDropdownOpen(prev => !prev)}
                             >
                                 <img className={styles.flag} src={languageFlags[currentLanguage]} alt="flag" />
-                                <p className={styles.current_lang}>{getLanguageName(currentLanguage)}</p>
+                                <p className={styles.current_lang}>{currentLanguage.toUpperCase()}</p>
                                 <img className={styles.arrow_icon} src={ArrowDown} alt="ArrowDown" />
                             </button>
 

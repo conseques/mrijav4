@@ -78,4 +78,6 @@
     border-radius: 10px;
     border: 1px solid var(--outline-variant, #E6ECF3);
     padding: 14px 8px;
+    background-color: var(--bg-color, #ffffff);
+    color: var(--text-color, #1b1c1c);
 }

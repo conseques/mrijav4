@@ -1,5 +1,6 @@
+import React from 'react';
 import './App.css';
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import HomePage from "./components/HomePage/HomePage";
@@ -10,6 +11,11 @@ import GalleryPage from "./components/GalleryPage/GalleryPage";
 import Login from "./components/Admin/Login/Login";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
+import { VolunteerAuthProvider } from "./context/VolunteerAuthContext";
+import VolunteerLogin from "./components/VolunteerPortal/Auth/Login";
+import VolunteerRegister from "./components/VolunteerPortal/Auth/Register";
+import VolunteerDashboard from "./components/VolunteerPortal/Dashboard/Dashboard";
+import VolunteerProtectedRoute from "./components/VolunteerPortal/VolunteerProtectedRoute";
 
 function App() {
     const router = createBrowserRouter([
@@ -39,6 +45,26 @@ function App() {
                     <Dashboard />
                 </ProtectedRoute>
             )
+        },
+        {
+            path: "/volunteer-portal",
+            element: (
+                <VolunteerAuthProvider>
+                    <Outlet />
+                </VolunteerAuthProvider>
+            ),
+            children: [
+                {
+                    index: true,
+                    element: (
+                        <VolunteerProtectedRoute>
+                            <VolunteerDashboard />
+                        </VolunteerProtectedRoute>
+                    )
+                },
+                { path: "login", element: <VolunteerLogin /> },
+                { path: "register", element: <VolunteerRegister /> },
+            ]
         }
     ]);
 

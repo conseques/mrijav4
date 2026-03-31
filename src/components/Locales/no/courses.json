@@ -9,7 +9,7 @@
     "name": "Digital Verden",
     "description": "Alt fra oversetter til alt du trenger hjelp med.",
     "teacherName": "Sviatoslav",
-    "teacherInfo": "Digital literacy and IT specialist."
+    "teacherInfo": "Spesialist i digital kompetanse og IT."
   },
   "phoneLabel": "Telefon",
   "norskKursA1": {
@@ -18,29 +18,29 @@
     "name": "Norskkurs A1",
     "description": "Språkkurs for nybegynnere",
     "teacherName": "Volodymyr Vasiuta",
-    "teacherInfo": "Experienced Norwegian teacher for beginners."
+    "teacherInfo": "Erfaren norsklærer for nybegynnere."
   },
   "norskKursB1": {
-    "levels": "A2-B1",
+    "levels": "B1",
     "duration": "Hver tirsdag 11:00–13:00",
-    "name": "Kurs: «Vi lærer norsk»",
-    "description": "Gratis, organisert for aktive medlemmer av den ukrainske foreningen i Drammen og omegn «MriJa».\nKursmål: utdype dine kunnskaper i norsk språk.\nHovedtemaer / innhold:\nfamilieliv, barn og barneoppdragelse, livsgang, bolig og privat økonomi, jobbsøking, i arbeid, helse og livstil og andre temaer.\nFormat: arbeid i en liten gruppe. Undervisningsmateriell som presentasjoner, oppgaver, tabeller, spill, kort osv. brukes.\nMålgruppe: Voksne.",
+    "name": "Norskkurs B1",
+    "description": "Språkkurs på mellomnivå",
     "teacherName": "Valentyna Bilobotska",
     "teacherInfo": "Filolog, kursarrangør."
   },
   "yogaCourse": {
-    "name": "Yoga Course",
+    "name": "Yogakurs",
     "levels": "Alle nivåer",
-    "duration": "1.5 timer",
-    "description": "Yoga classes for physical and mental well-being.",
+    "duration": "Hver søndag 18:30–20:00",
+    "description": "Yogaklasser for fysisk og mentalt velvære.",
     "teacherName": "Maria Naplekova",
-    "teacherInfo": "Certified yoga instructor."
+    "teacherInfo": "Sertifisert yogainstruktør."
   },
-  "moreInfo": "More Info",
+  "moreInfo": "Mer info",
   "adults": "Voksne",
   "level": "Nivå",
   "duration": "Varighet",
   "locationLabel": "Sted",
-  "drammenLibrary": "Drammen bibliotek",
+  "drammenLibrary": "2. etasje, Drammen bibliotek",
   "locationDrammenLibB1": "2. etasje, Drammen bibliotek + ulike lokasjoner"
 }

@@ -9,15 +9,19 @@ const ReportModal = ({ isOpen, onClose }) => {
   const { t } = useTranslation('report');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
+      setLoading(true);
+      setError(false);
       const fetchData = async () => {
         try {
           const reportData = await getReportData();
           setData(reportData);
         } catch (err) {
           console.error("Error loading report data:", err);
+          setError(true);
         }
         setLoading(false);
       };
@@ -89,7 +93,12 @@ const ReportModal = ({ isOpen, onClose }) => {
               </motion.div>
 
               {loading ? (
-                <div style={{padding: '40px', textAlign: 'center'}}>Loading data...</div>
+                <div style={{padding: '40px', textAlign: 'center', color: 'var(--text-muted)'}}>Loading data...</div>
+              ) : error || !data ? (
+                <div style={{padding: '40px', textAlign: 'center', color: 'var(--text-muted)'}}>
+                  <p style={{fontSize: '32px', marginBottom: '12px'}}>⚠️</p>
+                  <p>Could not load report data. Please try again later.</p>
+                </div>
               ) : (
                 <>
                   {/* Top Metric Cards */}
