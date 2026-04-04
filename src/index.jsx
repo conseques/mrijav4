@@ -5,6 +5,7 @@ import App from './App';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './components/Admin/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import SmoothScroll from './components/SmoothScroll/SmoothScroll';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +13,9 @@ root.render(
     <HelmetProvider>
       <AuthProvider>
         <ThemeProvider>
-          <App />
+          <SmoothScroll>
+            <App />
+          </SmoothScroll>
         </ThemeProvider>
       </AuthProvider>
     </HelmetProvider>

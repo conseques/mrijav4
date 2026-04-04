@@ -6,9 +6,13 @@ import styles from './DonationImpact.module.css';
 import ReportModal from '../../ReportModal/ReportModal';
 
 import { motion } from 'framer-motion';
+import { useTilt } from '../../../hooks/useTilt';
+import Magnetic from '../../Magnetic/Magnetic';
 
 const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
+  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useTilt();
+  
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [reportData, setReportData] = useState({
     totalAmountRaised: 35000,
@@ -36,27 +40,9 @@ const DonationImpact = () => {
   const remainingAmount = Math.max(goalAmount - raisedAmount, 0);
 
   const donationCards = [
-    {
-      id: 1,
-      amount: t('card1Amount'),
-      label: t('card1Label'),
-      featured: false,
-      link: "https://betal.vipps.no/p63sb7"
-    },
-    {
-      id: 2,
-      amount: t('card2Amount'),
-      label: t('card2Label'),
-      featured: true,
-      link: "https://betal.vipps.no/hh6k7r"
-    },
-    {
-      id: 3,
-      amount: t('card3Amount'),
-      label: t('card3Label'),
-      featured: false,
-      link: "https://betal.vipps.no/4ti4sa"
-    }
+    { id: 1, amount: t('card1Amount'), label: t('card1Label'), featured: false, link: "https://betal.vipps.no/p63sb7" },
+    { id: 2, amount: t('card2Amount'), label: t('card2Label'), featured: true, link: "https://betal.vipps.no/hh6k7r" },
+    { id: 3, amount: t('card3Amount'), label: t('card3Label'), featured: false, link: "https://betal.vipps.no/4ti4sa" }
   ];
 
   return (
@@ -68,37 +54,41 @@ const DonationImpact = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        
-        {/* Header Section */}
         <div className={styles.header}>
           <div className={styles.badge}>
             <span className={styles.dot}></span>
             {t('badge')}
           </div>
           <h2 className={styles.title}>{t('title')}</h2>
-          <p className={styles.subtitle}>
-            {t('subtitle')}
-          </p>
+          <p className={styles.subtitle}>{t('subtitle')}</p>
         </div>
 
-        {/* Donation Grid */}
         <div className={styles.donationGrid}>
           {donationCards.map((card) => (
             <motion.div 
               key={card.id}
               className={`${styles.donationCard} ${card.featured ? styles.featured : ''}`}
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              onMouseMove={onMouseMove}
+              onMouseLeave={onMouseLeave}
+              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+              whileHover={{ scale: 1.02 }}
             >
-              <div className={styles.cardAmount}>{card.amount}</div>
-              <div className={styles.cardLabel}>{card.label}</div>
-              <div className={styles.oneTimeNote}>{t('oneTime')}</div>
-              <button 
-                className={styles.donateBtn}
-                onClick={() => window.open(card.link, "_blank")}
-              >
-                {t('donateNow')}
-              </button>
+              <div style={{ transform: "translateZ(30px)" }}>
+                <div className={styles.cardAmount}>{card.amount}</div>
+                <div className={styles.cardLabel}>{card.label}</div>
+                <div className={styles.oneTimeNote}>{t('oneTime')}</div>
+              </div>
+              <Magnetic strength={0.3}>
+                <motion.button 
+                  style={{ transform: "translateZ(20px)" }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={styles.donateBtn}
+                  onClick={() => window.open(card.link, "_blank")}
+                >
+                  {t('donateNow')}
+                </motion.button>
+              </Magnetic>
             </motion.div>
           ))}
         </div>

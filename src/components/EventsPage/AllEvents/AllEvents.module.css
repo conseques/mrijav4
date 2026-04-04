@@ -1,7 +1,14 @@
 .wrapper {
     background-color: var(--bg-color, #F6FaFf);
+    padding-top: 120px;
     padding-bottom: 60px;
 }
+@media (max-width: 768px) {
+    .wrapper {
+        padding-top: 100px;
+    }
+}
+
 .container {
     max-width: 1024px;
     margin: 0 auto;

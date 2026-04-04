@@ -5,12 +5,14 @@ import {useOutletContext} from "react-router-dom";
 import { motion } from 'framer-motion';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { cacheService } from "../../../services/cacheService";
+
 
 const AllEvents = () => {
     const { t, i18n } = useTranslation("events");
     const { openModal } = useOutletContext();
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [events, setEvents] = useState(() => cacheService.get('events_all') || []);
+    const [loading, setLoading] = useState(!cacheService.get('events_all'));
 
     const currentLang = i18n.language || 'no';
 
@@ -24,7 +26,9 @@ const AllEvents = () => {
                 }));
                 // Sort by creation date
                 eventsList.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                
                 setEvents(eventsList);
+                cacheService.set('events_all', eventsList);
             } catch (error) {
                 console.error("Error fetching all events:", error);
             }
@@ -33,6 +37,7 @@ const AllEvents = () => {
 
         fetchEvents();
     }, []);
+
 
     return (
         <div className={styles.wrapper}>

@@ -47,7 +47,6 @@
 
 .nav_list {
     display: flex;
-    max-width: 395px;
 }
 .link{
     margin: 0 16px;

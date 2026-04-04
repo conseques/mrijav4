@@ -8,8 +8,12 @@ import Newsletter from "./Newsletter/Newsletter";
 import {useLocation} from "react-router-dom";
 import DonationImpact from "./DonationImpact/DonationImpact";
 
+import SEO from "../SEO/SEO";
+import { useTranslation } from "react-i18next";
+
 const HomePage = () => {
     const { hash } = useLocation();
+    const { t } = useTranslation("home");
 
     useEffect(() => {
         if (hash) {
@@ -27,6 +31,12 @@ const HomePage = () => {
     }, [hash]);
     return (
         <>
+            <SEO 
+                title={t("title", "Home")} 
+                description={t("description", "Empowering the Ukrainian community in Norway.")}
+                keywords="Mrija, Mrija Drammen, Ukrainian Association Norway, Мрія Драммен"
+            />
+            <h1 className="visually-hidden">Mrija - Ukrainian Association in Drammen, Norway</h1>
             <Hero />
             <DonationImpact />
             <Events />

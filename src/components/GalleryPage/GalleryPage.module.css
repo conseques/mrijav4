@@ -1,5 +1,12 @@
 .pageContainer {
-    padding-top: 100px;
+    padding-top: 120px;
     padding-bottom: 50px;
     min-height: 100vh;
 }
+
+@media (max-width: 768px) {
+    .pageContainer {
+        padding-top: 100px;
+    }
+}
+
