@@ -22,10 +22,10 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
         const dataForWebhook = {
             name: formData.get("entry.524126650"),
             surname: formData.get("entry.181395569"),
-            phone: formData.get("entry.675187710"),
             event: formData.get("entry.195333573"), // Это selectedEventName
             email: formData.get("entry.email_placeholder") // ЗАМЕНИТЬ НА РЕАЛЬНЫЙ entry.* ОТ GOOGLE ФОРМЫ
         };
+
 
         // 2. Асинхронно стучим в твой скрипт
         if (GOOGLE_SCRIPT_WEBHOOK_URL !== "СЮДА_ВСТАВИТЬ_ССЫЛКУ_НА_APPS_SCRIPT") {
@@ -44,10 +44,10 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
             await addDoc(collection(db, "registrations"), {
                 name: `${dataForWebhook.name} ${dataForWebhook.surname}`.trim(),
                 email: dataForWebhook.email || '',
-                phone: dataForWebhook.phone || '',
                 eventName: dataForWebhook.event,
                 createdAt: serverTimestamp()
             });
+
         } catch (err) {
             console.error("Firebase Registration Error: ", err);
         }
@@ -66,7 +66,8 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
     };
     return (
         <div className={styles.container}>
-            <h3 className={styles.title}>{t("title")} <span className={styles.name}>{selectedEventName}</span> </h3>
+            <h3 className={styles.title}>{t("title")} <span className={styles.name}>{t(selectedEventName)}</span> </h3>
+
             <button onClick={onClose} className={styles.close} aria-label="Close">
                 <X size={24} />
             </button>
@@ -87,10 +88,7 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
                     <p>{t("email", "Email")}</p>
                     <input type="email" name="entry.email_placeholder" placeholder='Enter email' required/>
                 </label>
-                <label>
-                    <p>{t("phone")}</p>
-                    <input type="number" name="entry.675187710" pattern=".{8,}" placeholder='(+47) xxx-xx-xxx' title={t('notCorrectPhone')} required/>
-                </label>
+
                 <input style={{display: "none"}} name="entry.195333573" value={selectedEventName} type="text" readOnly />
                 <div className={styles.btn_container}>
                     <button type="submit">{t("register")}</button>
