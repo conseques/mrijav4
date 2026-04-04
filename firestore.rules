@@ -61,5 +61,11 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isManager();
     }
+
+    // Past Events Collection (Public Read, Manager Write)
+    match /past_events/{eventId} {
+      allow read: if true;
+      allow write: if isManager();
+    }
   }
 }

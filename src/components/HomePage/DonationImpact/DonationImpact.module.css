@@ -162,7 +162,22 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: rgba(27, 28, 28, 0.5);
-  margin-bottom: 30px;
+  margin-bottom: 4px;
+}
+
+.oneTimeNote {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(27, 28, 28, 0.4);
+  margin-bottom: 24px;
+}
+
+:global([data-theme='dark']) .oneTimeNote {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.featured .oneTimeNote {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 :global([data-theme='dark']) .cardLabel {

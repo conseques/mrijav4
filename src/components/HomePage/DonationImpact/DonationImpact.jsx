@@ -40,19 +40,22 @@ const DonationImpact = () => {
       id: 1,
       amount: t('card1Amount'),
       label: t('card1Label'),
-      featured: false
+      featured: false,
+      link: "https://betal.vipps.no/p63sb7"
     },
     {
       id: 2,
       amount: t('card2Amount'),
       label: t('card2Label'),
-      featured: true
+      featured: true,
+      link: "https://betal.vipps.no/hh6k7r"
     },
     {
       id: 3,
       amount: t('card3Amount'),
       label: t('card3Label'),
-      featured: false
+      featured: false,
+      link: "https://betal.vipps.no/4ti4sa"
     }
   ];
 
@@ -89,12 +92,10 @@ const DonationImpact = () => {
             >
               <div className={styles.cardAmount}>{card.amount}</div>
               <div className={styles.cardLabel}>{card.label}</div>
+              <div className={styles.oneTimeNote}>{t('oneTime')}</div>
               <button 
                 className={styles.donateBtn}
-                onClick={() => {
-                  const el = document.getElementById("membership");
-                  el?.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={() => window.open(card.link, "_blank")}
               >
                 {t('donateNow')}
               </button>
