@@ -27,6 +27,10 @@ const AboutUsPage = () => {
 
     return (
         <>
+            <SEO 
+                title={t("hero_title", "About Us")} 
+                description={t("hero_subtitle", "Learn about Mrija's mission, leadership, and our work in Drammen.")}
+            />
             <AboutHero/>
             <AboutStats/>
             <Mission/>
@@ -35,6 +39,7 @@ const AboutUsPage = () => {
             <ReachOut/>
         </>
     );
+
 };
 
 export default AboutUsPage;

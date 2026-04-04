@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { cacheService } from "../../../services/cacheService";
+import SEO from "../../SEO/SEO";
+
 
 
 const AllEvents = () => {
@@ -41,8 +43,13 @@ const AllEvents = () => {
 
     return (
         <div className={styles.wrapper}>
+            <SEO 
+                title={t("allEventsTitle", "All Events")} 
+                description={t("allEventsSubtitle", "Check out all upcoming and past events by Mrija in Drammen.")}
+            />
             <motion.div 
                 className={styles.container}
+
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

@@ -17,7 +17,14 @@ const SEO = ({ title, description, keywords, ogImage, ogType = 'website' }) => {
       <meta name="description" content={description || defaultDesc} />
       {keywords && <meta name="keywords" content={keywords} />}
       
+      {/* Search Flags (hreflang) */}
+      <link rel="alternate" hreflang="en" href={window.location.origin + window.location.pathname} />
+      <link rel="alternate" hreflang="uk" href={window.location.origin + window.location.pathname} />
+      <link rel="alternate" hreflang="no" href={window.location.origin + window.location.pathname} />
+      <link rel="alternate" hreflang="x-default" href={window.location.origin + window.location.pathname} />
+
       {/* Open Graph / Facebook */}
+
       <meta property="og:type" content={ogType} />
       <meta property="og:title" content={title || siteTitle} />
       <meta property="og:description" content={description || defaultDesc} />
