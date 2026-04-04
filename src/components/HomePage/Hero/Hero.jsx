@@ -12,26 +12,32 @@ const Hero = () => {
 
     return (
         <section className={styles.hero_container}>
+            <div className={styles.bg_overlay}>
+                <img src={image} className={styles.bg_image} alt="" />
+                <div className={styles.dark_gradient} />
+            </div>
+
             <motion.div 
                 className={styles.hero_content}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
             >
                 <div className={styles.banner}>
                     <img src={flower} alt="flower"/>
-                    <span className={styles.title}>{t("welcome")}<span style={{color: '#FECE00'}} >{t("brand")}</span></span>
+                    <span className={styles.welcome_text}>{t("welcome")} <span style={{color: '#FECE00'}}>{t("brand")}</span></span>
                 </div>
-                <h2 className={styles.subtitle}>
+                
+                <h1 className={styles.title}>
                     {t("subtitle")}
-                </h2>
+                </h1>
+
                 <div className={styles.buttons}>
                     <button
                         onClick={() => {
-                        const el = document.getElementById("membership");
-                        el?.scrollIntoView({ behavior: "smooth" });
-                         }}
+                            const el = document.getElementById("membership");
+                            el?.scrollIntoView({ behavior: "smooth" });
+                        }}
                         className={styles.member_btn}>
                         {t("become")}
                     </button>
@@ -40,10 +46,6 @@ const Hero = () => {
                             {t("learn")}
                         </button>
                     </Link>
-
-                </div>
-                <div className={styles.image_wrapper}>
-                    <img className={styles.image} src={image} alt=""/>
                 </div>
             </motion.div>
         </section>

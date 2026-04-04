@@ -35,14 +35,35 @@ const DonationImpact = () => {
   const progressPercent = Math.min(Math.round((raisedAmount / goalAmount) * 100), 100);
   const remainingAmount = Math.max(goalAmount - raisedAmount, 0);
 
+  const donationCards = [
+    {
+      id: 1,
+      amount: t('card1Amount'),
+      label: t('card1Label'),
+      featured: false
+    },
+    {
+      id: 2,
+      amount: t('card2Amount'),
+      label: t('card2Label'),
+      featured: true
+    },
+    {
+      id: 3,
+      amount: t('card3Amount'),
+      label: t('card3Label'),
+      featured: false
+    }
+  ];
+
   return (
     <section id="donations" className={styles.section}>
       <motion.div 
         className={styles.container}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         
         {/* Header Section */}
@@ -57,65 +78,71 @@ const DonationImpact = () => {
           </p>
         </div>
 
-        {/* Main Donation Card */}
-        <div className={styles.mainCard}>
-          <h3 className={styles.mainCardSubtitle}>{t('amountRaised')}</h3>
-          <div className={styles.amountContainer}>
-            <span className={styles.currency}>NOK</span>
-            <span className={styles.amount}>{raisedAmount.toLocaleString()}</span>
-          </div>
+        {/* Donation Grid */}
+        <div className={styles.donationGrid}>
+          {donationCards.map((card) => (
+            <motion.div 
+              key={card.id}
+              className={`${styles.donationCard} ${card.featured ? styles.featured : ''}`}
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className={styles.cardAmount}>{card.amount}</div>
+              <div className={styles.cardLabel}>{card.label}</div>
+              <button 
+                className={styles.donateBtn}
+                onClick={() => {
+                  const el = document.getElementById("membership");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                {t('donateNow')}
+              </button>
+            </motion.div>
+          ))}
+        </div>
 
-          <div className={styles.progressSection}>
-            <div className={styles.progressLabels}>
-              <span className={styles.goalText}>{t('goal')} {goalAmount.toLocaleString()}</span>
-              <span className={styles.percentText}>{progressPercent}% {t('complete')}</span>
+        {/* Progress Box */}
+        <div className={styles.progressBox}>
+          <div className={styles.progressLabel}>
+            <div className={styles.raisedText}>
+              {t('amountRaised')}: <span className={styles.amountValue}>NOK {raisedAmount.toLocaleString()}</span>
             </div>
-            <div className={styles.progressBarBg}>
-              <div className={styles.progressBarFill} style={{ width: `${progressPercent}%` }}></div>
-            </div>
-            <div className={styles.trendRow}>
-              <TrendingUp size={16} className={styles.trendIcon} />
-              <p className={styles.trendText}>
-                {remainingAmount.toLocaleString()} {t('remaining')} <span className={styles.trendGreen}>{t('trend')}</span>
-              </p>
+            <div className={styles.goalText}>
+              {t('goal')} NOK {goalAmount.toLocaleString()}
             </div>
           </div>
-
-          <div className={styles.actions}>
-            <a href="#membership" className={styles.primaryButton} style={{textDecoration: 'none'}}>{t('join')}</a>
-            <button className={styles.secondaryLink} onClick={() => setIsReportOpen(true)} style={{border: 'none', background: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit'}}>
-              {t('report')}
-            </button>
+          <div className={styles.progressBarBg}>
+            <div className={styles.progressBarFill} style={{ width: `${progressPercent}%` }}></div>
           </div>
-          <p className={styles.cancellationTerms}>{t('cancellationTerms')}</p>
+          <div className={styles.trendRow}>
+            <TrendingUp size={16} className={styles.featureIcon} />
+            <p className={styles.featureDesc}>
+              {remainingAmount.toLocaleString()} NOK {t('remaining')} — <span style={{color:'#FECE00'}}>{t('trend')}</span>
+            </p>
+          </div>
         </div>
 
         {/* Features Grid */}
         <div className={styles.featuresGrid}>
-          <div className={styles.featureCard}>
-            <div className={styles.iconWrapperBlue}>
-              <ShieldCheck size={20} className={styles.blueIcon} />
-            </div>
+          <div className={styles.featureItem}>
+            <ShieldCheck size={28} className={styles.featureIcon} />
             <div>
               <h4 className={styles.featureTitle}>{t('feature1Title')}</h4>
               <p className={styles.featureDesc}>{t('feature1Desc')}</p>
             </div>
           </div>
 
-          <div className={styles.featureCard}>
-            <div className={styles.iconWrapperBlue}>
-              <Truck size={20} className={styles.blueIcon} />
-            </div>
+          <div className={styles.featureItem}>
+            <Truck size={28} className={styles.featureIcon} />
             <div>
               <h4 className={styles.featureTitle}>{t('feature2Title')}</h4>
               <p className={styles.featureDesc}>{t('feature2Desc')}</p>
             </div>
           </div>
 
-          <div className={styles.featureCard}>
-            <div className={styles.iconWrapperBlue}>
-              <Users size={20} className={styles.blueIcon} />
-            </div>
+          <div className={styles.featureItem}>
+            <Users size={28} className={styles.featureIcon} />
             <div>
               <h4 className={styles.featureTitle}>{t('feature3Title')}</h4>
               <p className={styles.featureDesc}>{t('feature3Desc')}</p>
@@ -123,13 +150,11 @@ const DonationImpact = () => {
           </div>
         </div>
 
-        <div className={styles.footerAccent}>
-          <div className={styles.colors}>
-            <div className={styles.colorBlue}></div>
-            <div className={styles.colorYellow}></div>
-          </div>
-          <p className={styles.footerText}>{t('footer')}</p>
-        </div>
+        <button className={styles.reportBtn} onClick={() => setIsReportOpen(true)}>
+          {t('report')}
+        </button>
+
+        <p className={styles.cancellationTerms}>{t('cancellationTerms')}</p>
 
       </motion.div>
       <ReportModal isOpen={isReportOpen} onClose={() => setIsReportOpen(false)} />

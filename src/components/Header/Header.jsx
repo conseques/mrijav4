@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Header.module.css';
 import Logo from '../../images/header/Logo.png';
 import ArrowDown from '../../images/header/Arrow.png';
@@ -29,6 +29,20 @@ const Header = () => {
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language || "en");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const handleClickDropdown = (langCode) => {
         i18n.changeLanguage(langCode);
@@ -50,7 +64,7 @@ const Header = () => {
     };
 
     return (
-        <header className={styles.header}>
+        <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
             <div className={styles.header_container}>
                 <div className={styles.logo_container}>
                     <Link to='/'>
