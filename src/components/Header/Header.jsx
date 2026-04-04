@@ -5,12 +5,13 @@ import ArrowDown from '../../images/header/Arrow.png';
 import BritishFlag from '../../images/header/English.png';
 import UkrainianFlag from '../../images/header/Ukraine (UA).png';
 import NorwegianFlag from '../../images/header/Norway (NO).png';
-import menu from '../../images/header/menu.png';
 import HeaderMenu from "./HeaderMenu";
+
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { Sun, Moon, User } from 'lucide-react';
+import { Sun, Moon, User, Menu } from 'lucide-react';
+
 import { useTheme } from "../../context/ThemeContext";
 import i18n from "../../i118n";
 import Magnetic from '../Magnetic/Magnetic';
@@ -93,9 +94,10 @@ const Header = () => {
                                 <img className={styles.arrow_icon} src={ArrowDown} alt="ArrowDown" />
                             </button>
 
-                            <button onClick={handleMenu} className={styles.menu_btn}>
-                                <img src={menu} alt="menu" />
+                            <button onClick={handleMenu} className={styles.menu_btn} aria-label="Open menu">
+                                <Menu size={20} />
                             </button>
+
                         </div>
 
                         <div className={`${styles.dropdown_content} ${isDropdownOpen ? styles.show : ""}`}>

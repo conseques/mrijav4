@@ -217,12 +217,33 @@
         font-size: 15px;
     }
     .subtitle {
-        font-size: 20px;
-        line-height: 28px;
-        margin: 20px auto 40px auto;
-        max-width: 363px;
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 16px auto 32px auto;
+        max-width: 90%;
     }
 }
+@media (max-width: 480px) {
+    .hero_content {
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+    .title {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+    .subtitle {
+        font-size: 16px;
+        margin-bottom: 24px;
+    }
+    .welcome_text {
+        font-size: 13px;
+    }
+    .banner {
+        padding: 8px 16px;
+    }
+}
+
 @media (max-width: 652px) {
     .banner {
         display: block;
