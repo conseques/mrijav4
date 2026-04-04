@@ -94,8 +94,9 @@ const Courses = () => {
 
     const handleEnroll = () => {
         infoModalRef.current.close();
-        openModal({ name: selectedCourse.name });
+        openModal({ name: t(selectedCourse.name) });
     };
+
 
     return (
         <div id="courses" className={styles.wrapper}>

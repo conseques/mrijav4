@@ -8,7 +8,8 @@ import { X } from "lucide-react";
 const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
     const iframeRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const {t} = useTranslation('register');
+    const {t} = useTranslation(['register', 'courses']);
+
 
     // ТУТ БУДЕТ ССЫЛКА НА ТВОЙ СКРИПТ (которую ты опубликуешь как Web App)
     const GOOGLE_SCRIPT_WEBHOOK_URL = "СЮДА_ВСТАВИТЬ_ССЫЛКУ_НА_APPS_SCRIPT";
@@ -66,7 +67,7 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
     };
     return (
         <div className={styles.container}>
-            <h3 className={styles.title}>{t("title")} <span className={styles.name}>{t(selectedEventName)}</span> </h3>
+            <h3 className={styles.title}>{t("title")} <span className={styles.name}>{t(selectedEventName, { ns: 'courses' })}</span> </h3>
 
             <button onClick={onClose} className={styles.close} aria-label="Close">
                 <X size={24} />
