@@ -7,6 +7,7 @@ import {
   History,
   BookOpen,
   ClipboardList,
+  BadgeCheck,
   BarChart3,
   LogOut,
   Moon,
@@ -17,6 +18,7 @@ import styles from './Dashboard.module.css';
 
 import EventsManager from './EventsManager';
 import RegistrationsManager from './RegistrationsManager';
+import MembershipsManager from './MembershipsManager';
 import PastEventsManager from './PastEventsManager';
 import CoursesManager from './CoursesManager';
 import ReportManager from './ReportManager';
@@ -31,6 +33,7 @@ const Dashboard = () => {
     { id: 'pastevents', label: 'Past Events', description: 'Keep the archive of community highlights updated.', Icon: History, component: <PastEventsManager /> },
     { id: 'courses', label: 'Courses', description: 'Edit course offerings, teachers, and details.', Icon: BookOpen, component: <CoursesManager /> },
     { id: 'registrations', label: 'Registrations', description: 'Review sign-ups and contact details for events.', Icon: ClipboardList, component: <RegistrationsManager /> },
+    { id: 'memberships', label: 'Memberships', description: 'Track confirmed Vipps memberships and payment references.', Icon: BadgeCheck, component: <MembershipsManager /> },
     { id: 'report', label: 'Detailed Report', description: 'Update fundraising metrics and public report data.', Icon: BarChart3, component: <ReportManager /> }
   ]), []);
 

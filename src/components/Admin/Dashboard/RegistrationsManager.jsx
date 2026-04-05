@@ -3,6 +3,14 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import styles from './RegistrationsManager.module.css';
 
+const getTimestamp = (registration) => {
+  if (registration?.createdAt?.seconds) {
+    return registration.createdAt.seconds;
+  }
+
+  return 0;
+};
+
 const RegistrationsManager = () => {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +23,7 @@ const RegistrationsManager = () => {
           id: doc.id,
           ...doc.data()
         }));
-        regs.sort((a, b) => b.createdAt?.seconds - a.createdAt?.seconds);
+        regs.sort((a, b) => getTimestamp(b) - getTimestamp(a));
         setRegistrations(regs);
       } catch (err) {
         console.error("Error fetching registrations:", err);
@@ -43,7 +51,10 @@ const RegistrationsManager = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Event Registered</th>
+                <th>Type</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Registration</th>
               </tr>
             </thead>
             <tbody>
@@ -52,13 +63,29 @@ const RegistrationsManager = () => {
                   <td>{reg.createdAt ? new Date(reg.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
                   <td className={styles.nameCell}>{reg.name}</td>
                   <td><a href={`mailto:${reg.email}`}>{reg.email}</a></td>
-                  <td>{reg.phone}</td>
-                  <td><span className={styles.eventBadge}>{reg.eventName}</span></td>
+                  <td>{reg.phone || 'N/A'}</td>
+                  <td>
+                    <span className={styles.typeBadge}>
+                      {reg.type || (reg.paymentReference ? 'membership' : 'event')}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={styles.sourceText}>{reg.source || 'website'}</span>
+                  </td>
+                  <td>
+                    <span className={styles.statusBadge}>{reg.paymentState || 'registered'}</span>
+                  </td>
+                  <td>
+                    <span className={styles.eventBadge}>{reg.eventName}</span>
+                    {reg.paymentReference ? (
+                      <p className={styles.referenceText}>{reg.paymentReference}</p>
+                    ) : null}
+                  </td>
                 </tr>
               ))}
               {registrations.length === 0 && (
                 <tr>
-                  <td colSpan="5" className={styles.emptyState}>No registrations yet.</td>
+                  <td colSpan="8" className={styles.emptyState}>No registrations yet.</td>
                 </tr>
               )}
             </tbody>

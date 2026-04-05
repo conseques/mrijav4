@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import styles from './Membership.module.css'
 import individual from '../../../images/membership/individual.png';
-import family from '../../../images/membership/family.png';
 import organization from '../../../images/membership/organization.png';
 import {useTranslation} from "react-i18next";
-import { motion, AnimatePresence } from 'framer-motion';
-import MembershipForm from './MembershipForm';
+import { motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import { startMembershipCheckout } from '../../../services/membershipApi';
 
 const Membership = () => {
     const { t } = useTranslation("membership");
-    const [showForm, setShowForm] = useState(false);
+    const [isStartingCheckout, setIsStartingCheckout] = useState(false);
+    const [checkoutError, setCheckoutError] = useState('');
 
-    const handlePaymentRedirect = () => {
-        window.open("https://betal.vipps.no/j97dnt", "_blank");
-        setShowForm(false);
+    const handleMembershipCheckout = async () => {
+        setIsStartingCheckout(true);
+        setCheckoutError('');
+
+        try {
+            const result = await startMembershipCheckout();
+            window.location.assign(result.redirectUrl);
+        } catch (error) {
+            setCheckoutError(
+                error.message || t("vippsStartError", "We could not start Vipps right now. Please try again.")
+            );
+            setIsStartingCheckout(false);
+        }
     };
 
     return (
@@ -36,49 +47,43 @@ const Membership = () => {
                         </p>
                         <p className={styles.price_container}><span className={styles.price}>100 NOK</span>/{t("year")}</p>
                         <div className={styles.cardBody}>
-                            <AnimatePresence mode='wait'>
-                                {!showForm ? (
-                                    <motion.div
-                                        key="benefits"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                    >
-                                        <p className={styles.description}>
-                                            {t("individualDesc")}
-                                        </p>
-                                        <ul className={styles.list}>
-                                            <li>{t("accessEvents")}</li>
-                                            <li>{t("communitySupport")}</li>
-                                            <li>{t("newsletter")}</li>
-                                        </ul>
-                                        <button 
-                                            className={styles.btn} 
-                                            onClick={() => setShowForm(true)}
-                                        >
-                                            {t("subscribe")}
-                                        </button>
-                                        <p className={styles.cancellation_terms} style={{fontSize: '12px', marginTop: '15px', color: '#64748b', lineHeight: '1.4'}}>
-                                            {t("cancellationTerms")}
-                                        </p>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        key="form"
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -20 }}
-                                    >
-                                        <MembershipForm onComplete={handlePaymentRedirect} />
-                                        <button 
-                                            className={styles.backBtn}
-                                            onClick={() => setShowForm(false)}
-                                        >
-                                            {t("back", "Back")}
-                                        </button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                            >
+                                <p className={styles.description}>
+                                    {t("individualDesc")}
+                                </p>
+                                <ul className={styles.list}>
+                                    <li>{t("accessEvents")}</li>
+                                    <li>{t("communitySupport")}</li>
+                                    <li>{t("newsletter")}</li>
+                                </ul>
+                                <button
+                                    className={styles.btn}
+                                    onClick={handleMembershipCheckout}
+                                    disabled={isStartingCheckout}
+                                >
+                                    {isStartingCheckout ? (
+                                        <span className={styles.loadingIndicator}>
+                                            <Loader2 size={18} className={styles.spinner} />
+                                            {t("openingVipps", "Opening Vipps...")}
+                                        </span>
+                                    ) : (
+                                        t("continueWithVipps", "Continue with Vipps")
+                                    )}
+                                </button>
+                                <p className={styles.helperText}>
+                                    {t(
+                                        "vippsConsent",
+                                        "Vipps will ask for permission to share your name, email, and phone number before payment."
+                                    )}
+                                </p>
+                                {checkoutError ? <p className={styles.inlineError}>{checkoutError}</p> : null}
+                                <p className={styles.cancellation_terms} style={{fontSize: '12px', marginTop: '15px', color: '#64748b', lineHeight: '1.4'}}>
+                                    {t("cancellationTerms")}
+                                </p>
+                            </motion.div>
                         </div>
                     </div>
                     <div className={styles.card}>

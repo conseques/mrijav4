@@ -113,6 +113,10 @@
     background-color: #366CCF;
     color: #fff;
 }
+.btn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
 .btn:active {
     background-color: #184EB1;
 }
@@ -136,18 +140,37 @@
     min-height: 250px;
 }
 
-.backBtn {
-    margin-top: 1rem;
-    font-size: 0.875rem;
-    color: var(--text-muted, #64748B);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
+.helperText {
+    margin: 12px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-muted, #64748b);
 }
 
-.backBtn:hover {
-    color: #1e293b;
+.inlineError {
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #b91c1c;
+}
+
+.loadingIndicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 1038px) {

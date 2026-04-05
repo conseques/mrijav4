@@ -68,6 +68,55 @@
   font-weight: 600;
 }
 
+.typeBadge,
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.typeBadge {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.statusBadge {
+  background: #ecfdf5;
+  color: #166534;
+}
+
+.sourceText {
+  color: var(--text-color, #0F172A);
+  font-weight: 500;
+}
+
+.referenceText {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #64748b;
+  word-break: break-all;
+}
+
+.subtleText {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #94a3b8;
+  word-break: break-all;
+}
+
+.amountText {
+  font-weight: 700;
+  color: var(--text-color, #0F172A);
+}
+
 .emptyState {
   text-align: center;
   padding: 40px !important;

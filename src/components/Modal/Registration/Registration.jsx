@@ -46,6 +46,8 @@ const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
                 name: `${dataForWebhook.name} ${dataForWebhook.surname}`.trim(),
                 email: dataForWebhook.email || '',
                 eventName: dataForWebhook.event,
+                type: 'event',
+                source: 'website_event_form',
                 createdAt: serverTimestamp()
             });
 

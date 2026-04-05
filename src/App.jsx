@@ -17,6 +17,7 @@ import VolunteerLogin from "./components/VolunteerPortal/Auth/Login";
 import VolunteerRegister from "./components/VolunteerPortal/Auth/Register";
 import VolunteerDashboard from "./components/VolunteerPortal/Dashboard/Dashboard";
 import VolunteerProtectedRoute from "./components/VolunteerPortal/VolunteerProtectedRoute";
+import MembershipCompletePage from "./components/MembershipCompletePage/MembershipCompletePage";
 
 function App() {
     const router = createBrowserRouter([
@@ -34,6 +35,7 @@ function App() {
                 { path: '/about-us', element: <AboutUsPage/>},
                 { path: '/gallery', element: <GalleryPage/>},
                 { path: '/events', element: <EventsPage/>},
+                { path: '/membership/complete', element: <MembershipCompletePage />},
             ],
         },
         {

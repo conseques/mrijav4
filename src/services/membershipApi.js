@@ -1,36 +1,31 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+const MEMBERSHIP_API_BASE = '/api/vipps/membership';
 
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxWBndJngKb0a24tw1UI9vXG7oqb74dU1KjEaS69wV5Xn0YPqQsQWDXIuN-XbeHWZJ_/exec';
+async function parseApiResponse(response) {
+  const payload = await response.json().catch(() => ({}));
 
-export const submitMembershipData = async (data) => {
-    try {
-        // 1. Save to Firestore
-        await addDoc(collection(db, "registrations"), {
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            eventName: "Membership (Вступ до спілки)", // Using eventName field for consistency in Admin Panel
-            type: "membership",
-            createdAt: serverTimestamp()
-        });
+  if (!response.ok) {
+    throw new Error(payload.error || 'Membership request failed.');
+  }
 
-        // 2. Original Webhook call
-        await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            mode: 'no-cors', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                ...data,
-                timestamp: new Date().toISOString(),
-                source: 'website_membership_form'
-            }),
-        });
-        return { success: true };
-    } catch (error) {
-        console.error('Error submitting membership data:', error);
-        return { success: false, error };
-    }
-};
+  return payload;
+}
+
+export async function startMembershipCheckout() {
+  const response = await fetch(`${MEMBERSHIP_API_BASE}/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  });
+
+  return parseApiResponse(response);
+}
+
+export async function getMembershipStatus(reference) {
+  const response = await fetch(
+    `${MEMBERSHIP_API_BASE}/status?reference=${encodeURIComponent(reference)}`
+  );
+
+  return parseApiResponse(response);
+}
