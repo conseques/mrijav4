@@ -6,6 +6,7 @@ import { auth, db } from '../../../firebase';
 import { motion } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
+import styles from '../VolunteerPortal.module.css';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -19,91 +20,126 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         setError('');
+
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // Create Volunteer Profile document
             await setDoc(doc(db, 'volunteers', user.uid), {
                 name,
                 email,
                 phone,
-                status: 'pending', // Requires admin approval
-                role: 'user', // Default role until approved
-                skills: [], // E.g. 'Driver', 'Translator'
+                status: 'pending',
+                role: 'user',
+                skills: [],
                 createdAt: serverTimestamp()
             });
 
             navigate('/volunteer-portal');
         } catch (err) {
-            setError(err.message || "Registration failed.");
+            setError(err.message || 'Registration failed.');
         }
     };
 
     return (
-        <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <button onClick={toggleTheme} style={{ position: 'absolute', top: '24px', right: '24px', background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Toggle theme">
-                {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+        <div className={styles.authPage}>
+            <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
+                {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
             </button>
-            <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                style={{
-                    backgroundColor: 'var(--container-bg)', 
-                    padding: '40px', 
-                    borderRadius: '16px', 
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                    maxWidth: '430px',
-                    width: '100%'
-                }}
-            >
-                <h2 style={{ color: 'var(--text-color)', marginBottom: '12px', textAlign: 'center' }}>Become a Volunteer</h2>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '24px', textAlign: 'center', fontSize: '14px' }}>
-                    Join MriJa's volunteer network! After registration, an admin will review your profile to grant access to tasks.
-                </p>
-                {error && <p style={{ color: 'red', marginBottom: '16px', textAlign: 'center' }}>{error}</p>}
-                
-                <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <input 
-                        type="text" 
-                        placeholder="Full Name" 
-                        required 
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
-                    />
-                    <input 
-                        type="email" 
-                        placeholder="Email" 
-                        required 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
-                    />
-                    <input 
-                        type="tel" 
-                        placeholder="Phone Number" 
-                        required 
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
-                    />
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        required 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={{ padding: '12px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
-                    />
-                    <button type="submit" style={{ padding: '12px', borderRadius: '8px', border: 'none', backgroundColor: 'var(--primary-color)', color: 'white', fontWeight: 'bold', cursor: 'pointer', marginTop: '8px' }}>
-                        Register
-                    </button>
-                    <p style={{ textAlign: 'center', color: 'var(--text-color)' }}>
-                        Already have an account? <Link to="/volunteer-portal/login" style={{ color: 'var(--primary-color)' }}>Login</Link>
+
+            <div className={styles.authShell}>
+                <motion.div
+                    className={styles.authAside}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                >
+                    <span className={styles.authBadge}>Apply to Volunteer</span>
+                    <div className={styles.sectionStack}>
+                        <h1 className={styles.authBrand}>MriJa</h1>
+                        <p className={styles.authText}>
+                            Join the volunteer network that helps with events, translations, logistics, and day-to-day support for the Ukrainian community in Drammen.
+                        </p>
+                    </div>
+                    <p className={styles.authFooter}>
+                        Your profile is reviewed by an administrator before access is granted, so the portal stays safe and organised for everyone.
                     </p>
-                </form>
-            </motion.div>
+                </motion.div>
+
+                <motion.div
+                    className={styles.authPanel}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                >
+                    <div className={styles.sectionStack}>
+                        <h2 className={styles.authTitle}>Become a Volunteer</h2>
+                        <p className={styles.authText}>Create your profile and we will review it before opening portal access.</p>
+                    </div>
+
+                    {error && <p className={styles.errorBanner}>{error}</p>}
+
+                    <form onSubmit={handleRegister} className={styles.authForm}>
+                        <div className={styles.fieldGroup}>
+                            <label className={styles.fieldLabel}>Full Name</label>
+                            <input
+                                type="text"
+                                placeholder="Full Name"
+                                required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className={styles.fieldInput}
+                            />
+                        </div>
+
+                        <div className={styles.splitRow}>
+                            <div className={styles.fieldGroup}>
+                                <label className={styles.fieldLabel}>Email</label>
+                                <input
+                                    type="email"
+                                    placeholder="you@example.com"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className={styles.fieldInput}
+                                />
+                            </div>
+
+                            <div className={styles.fieldGroup}>
+                                <label className={styles.fieldLabel}>Phone</label>
+                                <input
+                                    type="tel"
+                                    placeholder="+47 ..."
+                                    required
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    className={styles.fieldInput}
+                                />
+                            </div>
+                        </div>
+
+                        <div className={styles.fieldGroup}>
+                            <label className={styles.fieldLabel}>Password</label>
+                            <input
+                                type="password"
+                                placeholder="Choose a secure password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className={styles.fieldInput}
+                            />
+                        </div>
+
+                        <button type="submit" className={styles.authSubmit}>
+                            Register
+                        </button>
+
+                        <p className={styles.authFooter}>
+                            Already have an account? <Link to="/volunteer-portal/login" className={styles.authLink}>Login</Link>
+                        </p>
+                    </form>
+                </motion.div>
+            </div>
         </div>
     );
 };

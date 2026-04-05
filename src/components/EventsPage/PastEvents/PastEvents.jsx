@@ -85,7 +85,7 @@ const PastEvents = () => {
                                         <div className={styles.cardContent}>
                                             <div className={styles.cardHeader}>
                                                 <span className={styles.tag} style={getTagStyle(ev.tag)}>
-                                                    {ev.tag}
+                                                    {t(`past.tags.${ev.tag?.toLowerCase()}`, ev.tag)}
                                                 </span>
                                                 <span className={styles.date}>{ev.date}</span>
                                             </div>
@@ -108,7 +108,7 @@ const PastEvents = () => {
                                         <div className={styles.cardContent}>
                                             <div className={styles.cardHeader}>
                                                 <span className={styles.tag} style={getTagStyle(ev.tag)}>
-                                                    {ev.tag}
+                                                    {t(`past.tags.${ev.tag?.toLowerCase()}`, ev.tag)}
                                                 </span>
                                                 <span className={styles.date}>{ev.date}</span>
                                             </div>

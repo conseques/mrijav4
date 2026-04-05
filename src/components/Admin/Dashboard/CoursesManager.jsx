@@ -225,7 +225,7 @@ const CoursesManager = () => {
                 <p className={styles.eventDate}>Teacher: {course.locales?.en?.teacherName}</p>
               </div>
               <div className={styles.eventActions}>
-                <button className={styles.editBtn} onClick={() => handleEdit(course)} style={{marginRight: '10px', padding: '6px 14px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>Edit</button>
+                <button className={styles.editBtn} onClick={() => handleEdit(course)}>Edit</button>
                 <button className={styles.deleteBtn} onClick={() => handleDelete(course.id)}>Delete</button>
               </div>
             </div>

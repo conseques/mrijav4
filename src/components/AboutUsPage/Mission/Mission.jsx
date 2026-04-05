@@ -3,6 +3,7 @@ import styles from './Mission.module.css';
 import {useTranslation} from "react-i18next";
 import { motion } from 'framer-motion';
 import HistoryModal from './HistoryModal/HistoryModal';
+import narrativeImage from '../../../images/hero/mriya_community.jpg';
 
 const Mission = () => {
     const { t } = useTranslation("missions");
@@ -54,14 +55,14 @@ const Mission = () => {
                                 >
                                     {t("btnHistory")}
                                 </button>
-                                <button className={styles.secondaryBtn}>{t("btnBylaws")}</button>
+                                <a href="/terms.html" target="_blank" rel="noreferrer" className={styles.secondaryBtn}>{t("btnBylaws")}</a>
                             </div>
                         </div>
                         <div className={styles.narrativeImageWrapper}>
                             <img 
                                 alt="Mission imagery"
                                 className={styles.narrativeImage}
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9iM_-rJU3NUZdTq4ylC0sH7PaRqig2cBudeGVYnziE0KFNr9dVac0bzwLVkS1qRxEqquJIRCCn--qYsBzgYAVpfHrdeenwqScFrTKN4mT7rv_KMsbx1mByam3Y_8IVlHt-6Wjl0eC8EW-uf55_MgNRxHrNydVdHzVQAC1TqqPEl3NDnCVeOw3zEw48klAZ_aGoaPFCWvT8KICJW5G-2XNNIyJFwVgdHPqSuyxO3pmcVx8lJnIeoFndbR1gOgiP7KDpUxLh3XoVms" 
+                                src={narrativeImage}
                             />
                             <div className={styles.imageOverlay}></div>
                         </div>

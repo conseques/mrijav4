@@ -13,6 +13,8 @@ const ReportModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
       setLoading(true);
       setError(false);
       const fetchData = async () => {
@@ -26,6 +28,10 @@ const ReportModal = ({ isOpen, onClose }) => {
         setLoading(false);
       };
       fetchData();
+
+      return () => {
+        document.body.style.overflow = previousOverflow;
+      };
     }
   }, [isOpen]);
 
@@ -69,6 +75,9 @@ const ReportModal = ({ isOpen, onClose }) => {
         <div className={styles.overlay} onClick={onClose}>
           <motion.div 
             className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('title')}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}

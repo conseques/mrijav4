@@ -47,11 +47,11 @@ const ReachOut = () => {
                         <p className={styles.subtitle}>{t("subtitle")}</p>
                     </div>
                     <form action="https://docs.google.com/forms/d/e/1FAIpQLSemeEztVXc_H3DrevYpYeb-mngNK0a4eTTWf88ItQetzZxaow/formResponse"
-                         method="POST" target="hidden_iframe" onSubmit={handleSubmit} id='contact' className={styles.form}>
+                         method="POST" target="hidden_iframe" onSubmit={handleSubmit} id='contact-form' className={styles.form}>
                         <input name='entry.1444777553' type="text" placeholder={t("name")} required />
                         <input name='entry.965548831' type="text" placeholder={t("email")} value={email} onChange={handleChange}/>
                         {!isEmailCorrect && (
-                            <p style={{ color: "red", marginTop: "5px" }}>
+                            <p className={styles.error}>
                                 {t("emailError")}
                             </p>
                         )}

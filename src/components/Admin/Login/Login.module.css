@@ -1,42 +1,97 @@
 .pageContainer {
+  position: relative;
   min-height: 100vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
+  align-items: center;
+  gap: 28px;
+  padding: 32px;
+  background:
+    radial-gradient(circle at top left, rgba(254, 208, 0, 0.12), transparent 26%),
+    radial-gradient(circle at top right, rgba(18, 53, 122, 0.12), transparent 32%),
+    var(--page-glow);
+  font-family: var(--font-sans);
+}
+
+.themeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--container-bg, #f8fafc);
-  font-family: 'Inter', sans-serif;
-  padding: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: var(--surface-strong);
+  border: 1px solid rgba(18, 53, 122, 0.12);
+  color: var(--text-color);
+  box-shadow: var(--shadow-soft);
+}
+
+.heroCopy {
+  max-width: 640px;
+  padding-left: 40px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(18, 53, 122, 0.06);
+  border: 1px solid rgba(18, 53, 122, 0.12);
+  color: var(--primary-color);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  margin: 18px 0 14px;
+  font-family: var(--font-display);
+  font-size: clamp(58px, 8vw, 96px);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: var(--primary-color);
+}
+
+.heroText {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-muted);
 }
 
 .loginCard {
-  background: var(--container-bg, white);
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
+  background: var(--surface-strong);
+  padding: 34px;
+  border-radius: 30px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(18, 53, 122, 0.08);
 }
 
 .logo {
-  text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .logo h1 {
-  font-size: 24px;
-  color: var(--text-color, #0F172A);
+  font-size: 28px;
+  color: var(--text-color);
   margin: 0;
   font-weight: 800;
 }
 
 .logo span {
-  color: var(--primary-color, #0047AB);
+  color: var(--primary-color);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .inputGroup {
@@ -46,52 +101,83 @@
 }
 
 .inputGroup label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-muted, #475569);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .inputGroup input {
-  padding: 12px 16px;
-  border: 1px solid var(--outline-variant, #cbd5e1);
-  border-radius: 8px;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid var(--outline-variant);
+  border-radius: 16px;
   font-size: 16px;
   transition: border-color 0.2s;
   outline: none;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 .inputGroup input:focus {
-  border-color: #0047AB;
+  border-color: var(--primary-color);
 }
 
 .error {
-  color: var(--text-muted, #ef4444);
+  color: #b53a3a;
   font-size: 14px;
-  background: var(--container-bg, #fef2f2);
-  padding: 12px;
-  border-radius: 8px;
+  background: rgba(209, 67, 67, 0.1);
+  border: 1px solid rgba(209, 67, 67, 0.16);
+  padding: 12px 14px;
+  border-radius: 16px;
   margin-bottom: 20px;
-  text-align: center;
 }
 
 .loginBtn {
-  background: #0047AB;
+  min-height: 52px;
+  background: linear-gradient(135deg, #0f3d8f 0%, #1f63d9 100%);
   color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 10px;
+  transition: transform 0.2s ease;
+  margin-top: 8px;
 }
 
 .loginBtn:hover {
-  background: #003380;
+  transform: translateY(-1px);
 }
 
 .loginBtn:disabled {
-  background: #94a3b8;
+  opacity: 0.7;
   cursor: not-allowed;
+}
+
+@media (max-width: 980px) {
+  .pageContainer {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .heroCopy {
+    max-width: 540px;
+    padding-left: 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 20px 16px;
+  }
+
+  .loginCard {
+    width: 100%;
+    padding: 24px;
+    border-radius: 24px;
+  }
 }

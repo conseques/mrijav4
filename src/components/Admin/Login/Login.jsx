@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -11,6 +13,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,6 +33,18 @@ const Login = () => {
 
   return (
     <div className={styles.pageContainer}>
+      <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
+        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
+
+      <div className={styles.heroCopy}>
+        <span className={styles.badge}>Admin Workspace</span>
+        <h1 className={styles.heroTitle}>MriJa Admin</h1>
+        <p className={styles.heroText}>
+          Manage public content, event registrations, courses, and reporting from one focused control panel.
+        </p>
+      </div>
+
       <div className={styles.loginCard}>
         <div className={styles.logo}>
           <h1>MriJa <span>Admin</span></h1>

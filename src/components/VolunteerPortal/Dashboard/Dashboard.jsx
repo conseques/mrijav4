@@ -1,17 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { collection, doc, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../firebase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, CheckCircle } from 'lucide-react';
+import {
+    Sun,
+    Moon,
+    CheckCircle,
+    ClipboardList,
+    UserRound,
+    BriefcaseBusiness,
+    ShieldCheck,
+    Settings2,
+    UsersRound
+} from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
 
 import PendingApprovals from '../Admin/PendingApprovals';
 import RoleManager from '../Admin/RoleManager';
 import TaskManager from '../Admin/TaskManager';
 import ProfileSettings from './ProfileSettings';
+import styles from '../VolunteerPortal.module.css';
+
+const getUrgencyClass = (urgency) => {
+    if (urgency === 'High') return styles.badgeHigh;
+    if (urgency === 'Low') return styles.badgeLow;
+    return styles.badgeMedium;
+};
+
+const TaskCard = ({ task, hasApplied, applyingId, onApply }) => (
+    <article className={styles.taskCard}>
+        <div className={styles.taskTop}>
+            <div>
+                <h3 className={styles.taskTitle}>{task.title}</h3>
+            </div>
+            <span className={getUrgencyClass(task.urgency)}>{task.urgency} priority</span>
+        </div>
+
+        <p className={styles.taskDescription}>{task.description}</p>
+
+        <div className={styles.metaList}>
+            <span className={styles.metaItem}>When: {task.date}</span>
+            <span className={styles.metaItem}>Where: {task.location}</span>
+        </div>
+
+        <div className={styles.chipRow}>
+            {task.skillsRequired?.length ? (
+                task.skillsRequired.map((skill) => (
+                    <span key={skill} className={styles.chip}>{skill}</span>
+                ))
+            ) : (
+                <span className={styles.chip}>General support</span>
+            )}
+        </div>
+
+        <div className={styles.actionRow}>
+            <button
+                onClick={() => onApply(task.id)}
+                disabled={hasApplied || applyingId === task.id}
+                className={hasApplied ? styles.statusButtonApplied : styles.statusButton}
+            >
+                {hasApplied && <CheckCircle size={16} />}
+                {hasApplied ? 'Applied' : (applyingId === task.id ? 'Applying...' : 'Apply for Task')}
+            </button>
+        </div>
+    </article>
+);
 
 const Dashboard = () => {
     const { currentUser, profile, loading } = useVolunteerAuth();
@@ -21,26 +77,40 @@ const Dashboard = () => {
     const [tasks, setTasks] = useState([]);
     const [applyingId, setApplyingId] = useState(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
+        if (!loading && !currentUser) {
+            navigate('/volunteer-portal/login');
+        }
+    }, [loading, currentUser, navigate]);
+
+    useEffect(() => {
+        if (!currentUser) {
+            setTasks([]);
+            return undefined;
+        }
+
         const unsubscribe = onSnapshot(collection(db, 'volunteerTasks'), (snapshot) => {
             const tasksData = [];
-            snapshot.forEach(docSnap => {
+            snapshot.forEach((docSnap) => {
                 tasksData.push({ id: docSnap.id, ...docSnap.data() });
             });
             setTasks(tasksData.reverse());
         });
+
         return () => unsubscribe();
-    }, []);
+    }, [currentUser]);
 
     const handleApply = async (taskId) => {
+        if (!currentUser) return;
+
         setApplyingId(taskId);
         try {
             await updateDoc(doc(db, 'volunteerTasks', taskId), {
                 appliedUsers: arrayUnion(currentUser.uid)
             });
         } catch (error) {
-            console.error("Error applying to task:", error);
-            alert("Failed to apply for this task.");
+            console.error('Error applying to task:', error);
+            alert('Failed to apply for this task.');
         }
         setApplyingId(null);
     };
@@ -51,198 +121,252 @@ const Dashboard = () => {
     };
 
     if (loading) {
-        return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>Loading...</div>;
+        return (
+            <div className={styles.portalPage}>
+                <div className={styles.pendingCard}>
+                    <span className={styles.portalEyebrow}>Volunteer Portal</span>
+                    <h2 className={styles.panelTitle}>Loading dashboard...</h2>
+                </div>
+            </div>
+        );
     }
 
     if (!currentUser) {
-        // Redirection should ideally be handled by a ProtectedRoute wrapper, 
-        // but adding an extra check here just in case.
-        navigate('/volunteer-portal/login');
         return null;
     }
 
     if (profile?.status === 'pending') {
         return (
-            <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    style={{
-                        backgroundColor: 'var(--container-bg)', 
-                        padding: '40px', 
-                        borderRadius: '16px', 
-                        maxWidth: '500px',
-                        width: '100%',
-                        textAlign: 'center',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                    }}
-                >
-                    <h2 style={{ color: 'var(--text-color)', marginBottom: '16px' }}>Registration Pending</h2>
-                    <p style={{ color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }}>
-                        Thank you for registering, {profile.name}! Your account is currently under review by our administrators. 
-                        Once approved, you will have full access to the Volunteer Portal to view tasks and manage your schedule.
+            <div className={styles.portalPage}>
+                <div className={styles.pendingCard}>
+                    <span className={styles.statusPill}>Pending Review</span>
+                    <h2 className={styles.authTitle}>Registration Pending</h2>
+                    <p className={styles.authText}>
+                        Thank you for registering, {profile.name}. Your profile is currently under review by the administrators.
+                        Once approved, you will get full access to tasks, profile settings, and internal coordination tools.
                     </p>
-                    <div style={{ padding: '20px', backgroundColor: 'rgba(254, 208, 0, 0.1)', border: '1px solid var(--secondary-color)', borderRadius: '8px', marginBottom: '24px' }}>
-                        <p style={{ fontWeight: '600', color: 'var(--text-color)' }}>Current Status: <span style={{ color: 'var(--secondary-color)' }}>Pending Review</span></p>
+                    <p className={styles.helper}>We use this step to keep the volunteer space safe and organised for everyone.</p>
+                    <div className={styles.actionRow}>
+                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
                     </div>
-                    <button onClick={handleLogout} style={{ padding: '10px 24px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: 'transparent', color: 'var(--text-color)', cursor: 'pointer', transition: '0.2s' }}>
-                        Log Out
-                    </button>
-                </motion.div>
+                </div>
             </div>
         );
     }
 
+    const assignedTasks = tasks.filter((task) => task.appliedUsers?.includes(currentUser.uid));
+    const isManager = profile?.role === 'manager' || profile?.role === 'admin';
+
+    const volunteerMenu = [
+        { id: 'tasks', label: 'Available Tasks', Icon: ClipboardList },
+        { id: 'my_tasks', label: 'My Tasks', Icon: BriefcaseBusiness },
+        { id: 'profile', label: 'Profile & Skills', Icon: UserRound }
+    ];
+
+    const adminMenu = [
+        { id: 'manage_tasks', label: 'Manage Tasks', Icon: Settings2 },
+        { id: 'pending', label: 'Pending Approvals', Icon: UsersRound },
+        { id: 'roles', label: 'Assign Roles', Icon: ShieldCheck }
+    ];
+
+    const renderMainPanel = () => {
+        if (activeTab === 'tasks') {
+            return (
+                <section className={styles.panel}>
+                    <div className={styles.panelTitleRow}>
+                        <div>
+                            <h2 className={styles.panelTitle}>Available Tasks</h2>
+                            <p className={styles.panelDescription}>Choose where you can help right now and apply directly from the task card.</p>
+                        </div>
+                    </div>
+
+                    <div className={styles.taskList}>
+                        {tasks.length === 0 ? (
+                            <p className={styles.emptyState}>No tasks are available right now.</p>
+                        ) : (
+                            tasks.map((task) => {
+                                const hasApplied = task.appliedUsers?.includes(currentUser.uid);
+                                return (
+                                    <TaskCard
+                                        key={task.id}
+                                        task={task}
+                                        hasApplied={hasApplied}
+                                        applyingId={applyingId}
+                                        onApply={handleApply}
+                                    />
+                                );
+                            })
+                        )}
+                    </div>
+                </section>
+            );
+        }
+
+        if (activeTab === 'my_tasks') {
+            return (
+                <section className={styles.panel}>
+                    <div className={styles.panelTitleRow}>
+                        <div>
+                            <h2 className={styles.panelTitle}>My Assigned Tasks</h2>
+                            <p className={styles.panelDescription}>Everything you have applied for or are currently helping with.</p>
+                        </div>
+                    </div>
+
+                    <div className={styles.taskList}>
+                        {assignedTasks.length === 0 ? (
+                            <p className={styles.emptyState}>You haven't applied for any tasks yet.</p>
+                        ) : (
+                            assignedTasks.map((task) => (
+                                <article key={task.id} className={styles.taskCard}>
+                                    <div className={styles.taskTop}>
+                                        <h3 className={styles.taskTitle}>{task.title}</h3>
+                                        <span className={styles.statusButtonApplied}>Applied</span>
+                                    </div>
+                                    <div className={styles.metaList}>
+                                        <span className={styles.metaItem}>When: {task.date}</span>
+                                        <span className={styles.metaItem}>Where: {task.location}</span>
+                                    </div>
+                                    <p className={styles.taskDescription}>{task.description}</p>
+                                </article>
+                            ))
+                        )}
+                    </div>
+                </section>
+            );
+        }
+
+        if (activeTab === 'profile') {
+            return <ProfileSettings />;
+        }
+
+        if (activeTab === 'pending') {
+            return <PendingApprovals />;
+        }
+
+        if (activeTab === 'roles') {
+            return <RoleManager />;
+        }
+
+        return <TaskManager />;
+    };
+
     return (
-        <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', padding: '40px 20px' }}>
-            <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
-                <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-                    <h1 style={{ color: 'var(--text-color)', fontSize: '32px', fontWeight: 'bold' }}>Volunteer Dashboard</h1>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: 'var(--text-color)', cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Toggle theme">
-                            {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
-                        </button>
-                        <button onClick={handleLogout} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', backgroundColor: 'var(--primary-color)', color: 'white', cursor: 'pointer' }}>
-                            Log Out
-                        </button>
+        <div className={styles.portalPage}>
+            <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
+                {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
+            </button>
+
+            <div className={styles.portalShell}>
+                <header className={styles.portalHeader}>
+                    <div className={styles.portalHeaderCopy}>
+                        <span className={styles.portalEyebrow}>Volunteer Dashboard</span>
+                        <h1 className={styles.portalTitle}>Hei, {profile?.name?.split(' ')[0] || 'Volunteer'}</h1>
+                        <p className={styles.portalSubtitle}>
+                            Track tasks, update your availability, and coordinate with the MriJa team from one place.
+                        </p>
+                    </div>
+
+                    <div className={styles.portalActionGroup}>
+                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
                     </div>
                 </header>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '24px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                        {activeTab === 'tasks' && (
-                            <section style={{ backgroundColor: 'var(--container-bg)', padding: '24px', borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                                <h2 style={{ color: 'var(--text-color)', marginBottom: '16px' }}>Available Tasks</h2>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                    {tasks.length === 0 ? (
-                                        <p style={{ color: 'var(--text-muted)' }}>No tasks available right now.</p>
-                                    ) : (
-                                        tasks.map(task => {
-                                            const hasApplied = task.appliedUsers && task.appliedUsers.includes(currentUser.uid);
-                                            return (
-                                            <div key={task.id} style={{ padding: '16px', border: '1px solid var(--outline-variant)', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                                    <h3 style={{ color: 'var(--primary-color)', fontSize: '18px', margin: 0 }}>{task.title}</h3>
-                                                    <span style={{ padding: '4px 8px', fontSize: '12px', borderRadius: '8px', backgroundColor: task.urgency === 'High' ? 'var(--badge-bg)' : 'transparent', color: task.urgency === 'High' ? '#c62828' : 'var(--text-color)', border: task.urgency === 'High' ? '1px solid #ffcdd2' : '1px solid var(--outline-variant)', fontWeight: 'bold' }}>
-                                                        {task.urgency} Priority
-                                                    </span>
-                                                </div>
-                                                <p style={{ color: 'var(--text-color)', fontSize: '14px', margin: 0 }}>{task.description}</p>
-                                                <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
-                                                    <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: 0 }}><strong>When:</strong> {task.date}</p>
-                                                    <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: 0 }}><strong>Where:</strong> {task.location}</p>
-                                                </div>
-                                                <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
-                                                    {task.skillsRequired && task.skillsRequired.map(skill => (
-                                                        <span key={skill} style={{ padding: '2px 8px', backgroundColor: 'var(--badge-bg)', border: '1px solid var(--badge-border)', borderRadius: '6px', fontSize: '12px', color: 'var(--badge-text)' }}>
-                                                            {skill}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                                <button 
-                                                    onClick={() => handleApply(task.id)}
-                                                    disabled={hasApplied || applyingId === task.id}
-                                                    style={{ 
-                                                        marginTop: '12px', 
-                                                        alignSelf: 'flex-start', 
-                                                        padding: '8px 16px', 
-                                                        backgroundColor: hasApplied ? '#e8f5e9' : 'var(--primary-color)', 
-                                                        color: hasApplied ? '#2e7d32' : 'white', 
-                                                        border: hasApplied ? '1px solid #c8e6c9' : 'none', 
-                                                        borderRadius: '8px', 
-                                                        cursor: hasApplied ? 'default' : (applyingId === task.id ? 'not-allowed' : 'pointer'), 
-                                                        fontSize: '14px',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: '6px',
-                                                        fontWeight: 'bold'
-                                                    }}>
-                                                    {hasApplied && <CheckCircle size={16} />}
-                                                    {hasApplied ? "Applied" : (applyingId === task.id ? "Applying..." : "Apply for Task")}
-                                                </button>
-                                            </div>
-                                            );
-                                        })
-                                    )}
-                                </div>
-                            </section>
-                        )}
-                        {activeTab === 'my_tasks' && (
-                            <section style={{ backgroundColor: 'var(--container-bg)', padding: '24px', borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                                <h2 style={{ color: 'var(--text-color)', marginBottom: '16px' }}>My Assigned Tasks</h2>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                    {tasks.filter(t => t.appliedUsers?.includes(currentUser.uid)).length === 0 ? (
-                                        <p style={{ color: 'var(--text-muted)' }}>You haven't applied for any tasks yet.</p>
-                                    ) : (
-                                        tasks.filter(t => t.appliedUsers?.includes(currentUser.uid)).map(task => (
-                                            <div key={task.id} style={{ padding: '16px', border: '1px solid var(--primary-color)', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '8px', backgroundColor: 'var(--bg-color)' }}>
-                                                <h3 style={{ color: 'var(--text-color)', fontSize: '18px', margin: 0 }}>{task.title}</h3>
-                                                <div style={{ display: 'flex', gap: '16px', marginTop: '4px' }}>
-                                                    <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: 0 }}><strong>When:</strong> {task.date}</p>
-                                                    <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: 0 }}><strong>Where:</strong> {task.location}</p>
-                                                </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </div>
-                            </section>
-                        )}
-                        {activeTab === 'profile' && <ProfileSettings />}
-                        {activeTab === 'pending' && <PendingApprovals />}
-                        {activeTab === 'roles' && <RoleManager />}
-                        {activeTab === 'manage_tasks' && <TaskManager />}
+                <div className={styles.metricGrid}>
+                    <div className={styles.metricCard}>
+                        <span className={styles.metricValue}>{tasks.length}</span>
+                        <span className={styles.metricLabel}>Open Tasks</span>
+                    </div>
+                    <div className={styles.metricCard}>
+                        <span className={styles.metricValue}>{assignedTasks.length}</span>
+                        <span className={styles.metricLabel}>My Tasks</span>
+                    </div>
+                    <div className={styles.metricCard}>
+                        <span className={styles.metricValue}>{profile?.skills?.length || 0}</span>
+                        <span className={styles.metricLabel}>Listed Skills</span>
+                    </div>
+                </div>
+
+                <div className={styles.portalGrid}>
+                    <div className={styles.portalMain}>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -12 }}
+                                transition={{ duration: 0.24, ease: 'easeOut' }}
+                            >
+                                {renderMainPanel()}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                        <section style={{ backgroundColor: 'var(--container-bg)', padding: '24px', borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                            <h3 style={{ color: 'var(--text-color)', marginBottom: '12px', fontSize: '18px' }}>Tasks Menu</h3>
-                            <button onClick={() => setActiveTab('tasks')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: activeTab === 'tasks' ? 'var(--primary-color)' : 'transparent', color: activeTab === 'tasks' ? 'white' : 'var(--text-color)', cursor: 'pointer', textAlign: 'left', marginBottom: '8px', transition: '0.2s' }}>
-                                Available Tasks
-                            </button>
-                            <button onClick={() => setActiveTab('my_tasks')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: activeTab === 'my_tasks' ? 'var(--primary-color)' : 'transparent', color: activeTab === 'my_tasks' ? 'white' : 'var(--text-color)', cursor: 'pointer', textAlign: 'left', transition: '0.2s' }}>
-                                My Tasks
-                            </button>
-                        </section>
-                        <section style={{ backgroundColor: 'var(--container-bg)', padding: '24px', borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                            <h3 style={{ color: 'var(--text-color)', marginBottom: '12px', fontSize: '18px' }}>Your Profile</h3>
-                            <p style={{ color: 'var(--text-color)', fontWeight: '600', marginBottom: '4px' }}>{profile?.name}</p>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '16px' }}>Role: <span style={{ textTransform: 'capitalize' }}>{profile?.role || 'volunteer'}</span></p>
+                    <aside className={styles.portalAside}>
+                        <section className={styles.panel}>
+                            <div className={styles.panelTitleRow}>
+                                <div>
+                                    <h2 className={styles.panelTitle}>Navigation</h2>
+                                    <p className={styles.panelDescription}>Switch between your tasks, skills, and admin tools.</p>
+                                </div>
+                            </div>
 
-                            <button onClick={() => setActiveTab('profile')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: activeTab === 'profile' ? 'var(--primary-color)' : 'transparent', color: activeTab === 'profile' ? 'white' : 'var(--text-color)', cursor: 'pointer', textAlign: 'left', marginBottom: '16px', transition: '0.2s' }}>
-                                Edit Skills
-                            </button>
-
-                            <h4 style={{ color: 'var(--text-color)', fontSize: '14px', marginBottom: '8px' }}>Active Skills</h4>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                {profile?.skills && profile.skills.length > 0 ? (
-                                    profile.skills.map((skill, index) => (
-                                        <span key={index} style={{ padding: '4px 8px', backgroundColor: 'var(--badge-bg)', border: '1px solid var(--badge-border)', borderRadius: '6px', fontSize: '12px', color: 'var(--badge-text)' }}>
-                                            {skill}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>No skills added yet.</p>
-                                )}
+                            <div className={styles.menuList}>
+                                {volunteerMenu.map(({ id, label, Icon }) => (
+                                    <button
+                                        key={id}
+                                        onClick={() => setActiveTab(id)}
+                                        className={activeTab === id ? styles.menuButtonActive : styles.menuButton}
+                                    >
+                                        <span>{label}</span>
+                                        <Icon size={16} />
+                                    </button>
+                                ))}
                             </div>
                         </section>
 
-                        {(profile?.role === 'manager' || profile?.role === 'admin') && (
-                            <section style={{ backgroundColor: 'var(--container-bg)', padding: '24px', borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', border: '1px solid var(--primary-color)' }}>
-                                <h3 style={{ color: 'var(--primary-color)', marginBottom: '12px', fontSize: '18px' }}>Admin Tools</h3>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    <button onClick={() => setActiveTab('manage_tasks')} style={{ padding: '10px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: activeTab === 'manage_tasks' ? 'var(--primary-color)' : 'transparent', color: activeTab === 'manage_tasks' ? 'white' : 'var(--text-color)', cursor: 'pointer', textAlign: 'left', transition: '0.2s' }}>
-                                        Manage Tasks
-                                    </button>
-                                    <button onClick={() => setActiveTab('pending')} style={{ padding: '10px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: activeTab === 'pending' ? 'var(--primary-color)' : 'transparent', color: activeTab === 'pending' ? 'white' : 'var(--text-color)', cursor: 'pointer', textAlign: 'left', transition: '0.2s' }}>
-                                        Manage Pending Approvals
-                                    </button>
-                                    <button onClick={() => setActiveTab('roles')} style={{ padding: '10px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: activeTab === 'roles' ? 'var(--primary-color)' : 'transparent', color: activeTab === 'roles' ? 'white' : 'var(--text-color)', cursor: 'pointer', textAlign: 'left', transition: '0.2s' }}>
-                                        Assign Roles
-                                    </button>
+                        <section className={`${styles.panel} ${styles.panelAccent}`}>
+                            <div className={styles.sectionStack}>
+                                <span className={styles.adminBadge}>Profile</span>
+                                <h3 className={styles.profileName}>{profile?.name}</h3>
+                                <p className={styles.profileMeta}>
+                                    Role: <span style={{ textTransform: 'capitalize' }}>{profile?.role || 'volunteer'}</span>
+                                </p>
+                                <div className={styles.chipRow}>
+                                    {profile?.skills?.length ? (
+                                        profile.skills.map((skill) => (
+                                            <span key={skill} className={styles.chip}>{skill}</span>
+                                        ))
+                                    ) : (
+                                        <p className={styles.emptyState}>No skills added yet.</p>
+                                    )}
+                                </div>
+                            </div>
+                        </section>
+
+                        {isManager && (
+                            <section className={styles.panel}>
+                                <div className={styles.panelTitleRow}>
+                                    <div>
+                                        <h2 className={styles.panelTitle}>Admin Tools</h2>
+                                        <p className={styles.panelDescription}>Manager actions for tasks, approvals, and roles.</p>
+                                    </div>
+                                </div>
+
+                                <div className={styles.menuList}>
+                                    {adminMenu.map(({ id, label, Icon }) => (
+                                        <button
+                                            key={id}
+                                            onClick={() => setActiveTab(id)}
+                                            className={activeTab === id ? styles.menuButtonActive : styles.menuButton}
+                                        >
+                                            <span>{label}</span>
+                                            <Icon size={16} />
+                                        </button>
+                                    ))}
                                 </div>
                             </section>
                         )}
-                    </div>
+                    </aside>
                 </div>
             </div>
         </div>

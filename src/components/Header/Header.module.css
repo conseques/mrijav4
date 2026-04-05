@@ -231,9 +231,17 @@
 }
 
 .arrow_icon {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     margin-left: 6px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.arrow_open {
+    transform: rotate(180deg);
+    color: var(--primary-color);
 }
 
 .join_link {

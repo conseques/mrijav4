@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
 const VolunteerAuthContext = createContext();
@@ -13,32 +13,44 @@ export const VolunteerAuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      if (user) {
-        // Fetch or listen to profile changes
-        const docRef = doc(db, 'volunteers', user.uid);
-        const unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                setProfile(docSnap.data());
-            } else {
-                setProfile(null);
-            }
-            setLoading(false);
-        }, (error) => {
-            console.error("Error fetching volunteer profile", error);
-            setLoading(false);
-        });
+    let unsubscribeProfile = null;
 
-        // Cleanup snapshot listener on unmount or auth change
-        return () => unsubscribeSnapshot();
+    const cleanupProfileListener = () => {
+      if (unsubscribeProfile) {
+        unsubscribeProfile();
+        unsubscribeProfile = null;
+      }
+    };
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      cleanupProfileListener();
+      setCurrentUser(user);
+      setLoading(true);
+
+      if (user) {
+        const docRef = doc(db, 'volunteers', user.uid);
+        unsubscribeProfile = onSnapshot(docRef, (docSnap) => {
+          if (docSnap.exists()) {
+            setProfile(docSnap.data());
+          } else {
+            setProfile(null);
+          }
+          setLoading(false);
+        }, (error) => {
+          console.error('Error fetching volunteer profile', error);
+          setProfile(null);
+          setLoading(false);
+        });
       } else {
         setProfile(null);
         setLoading(false);
       }
     });
 
-    return () => unsubscribeAuth();
+    return () => {
+      cleanupProfileListener();
+      unsubscribeAuth();
+    };
   }, []);
 
   const value = {

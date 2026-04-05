@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
+import styles from '../VolunteerPortal.module.css';
 
 const RoleManager = () => {
-    const { profile } = useVolunteerAuth();
+    const { profile, currentUser } = useVolunteerAuth();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            // Only fetch approved users
             const q = query(collection(db, 'volunteers'), where('status', '==', 'approved'));
             const querySnapshot = await getDocs(q);
-            const fetchedUsers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const fetchedUsers = querySnapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
             setUsers(fetchedUsers);
         } catch (error) {
-            console.error("Error fetching users", error);
+            console.error('Error fetching users', error);
         }
         setLoading(false);
     };
@@ -27,9 +27,8 @@ const RoleManager = () => {
     }, []);
 
     const handleChangeRole = async (userId, newRole) => {
-        // Prevent accidental self-demotion from admin role
-        if (userId === useVolunteerAuth.currentUser?.uid && newRole !== 'admin') {
-            if (!window.confirm("You are about to change your own role. Proceed?")) return;
+        if (userId === currentUser?.uid && newRole !== 'admin') {
+            if (!window.confirm('You are about to change your own role. Proceed?')) return;
         }
 
         try {
@@ -37,43 +36,69 @@ const RoleManager = () => {
             await updateDoc(userRef, {
                 role: newRole
             });
-            // Update local state
-            setUsers(prev => prev.map(user => user.id === userId ? { ...user, role: newRole } : user));
+            setUsers((prev) => prev.map((user) => (
+                user.id === userId ? { ...user, role: newRole } : user
+            )));
         } catch (error) {
-            console.error("Error changing role", error);
-            alert("Failed to change role.");
+            console.error('Error changing role', error);
+            alert('Failed to change role.');
         }
     };
 
     if (profile?.role !== 'admin') {
-        return <p style={{ color: 'red' }}>You do not have permission to access Role Manager. (Admin only)</p>;
+        return (
+            <section className={styles.panel}>
+                <h2 className={styles.panelTitle}>Role Manager</h2>
+                <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+            </section>
+        );
     }
 
-    if (loading) return <div>Loading users...</div>;
+    if (loading) {
+        return (
+            <section className={styles.panel}>
+                <h2 className={styles.panelTitle}>Role Manager</h2>
+                <p className={styles.panelDescription}>Loading users...</p>
+            </section>
+        );
+    }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {users.map(user => (
-                <div key={user.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', border: '1px solid var(--outline-variant)', borderRadius: '12px', backgroundColor: 'var(--bg-color)' }}>
-                    <div>
-                        <h4 style={{ color: 'var(--text-color)', marginBottom: '4px' }}>{user.name} <span style={{ color: 'var(--text-muted)', fontSize: '12px', fontWeight: 'normal' }}>({user.email})</span></h4>
-                        <p style={{ color: 'var(--primary-color)', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold' }}>Current: {user.role}</p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <select 
-                            value={user.role} 
-                            onChange={(e) => handleChangeRole(user.id, e.target.value)}
-                            style={{ padding: '8px', borderRadius: '8px', border: '1px solid var(--outline-variant)', backgroundColor: 'var(--container-bg)', color: 'var(--text-color)' }}
-                        >
-                            <option value="user">User (Needs Approval)</option>
-                            <option value="volunteer">Volunteer</option>
-                            <option value="manager">Manager</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
+        <section className={styles.panel}>
+            <div className={styles.panelTitleRow}>
+                <div>
+                    <h2 className={styles.panelTitle}>Role Manager</h2>
+                    <p className={styles.panelDescription}>Adjust permissions for approved volunteers, managers, and admins.</p>
                 </div>
-            ))}
-        </div>
+            </div>
+
+            <div className={styles.taskList}>
+                {users.map((user) => (
+                    <article key={user.id} className={styles.taskCard}>
+                        <div className={styles.taskTop}>
+                            <div>
+                                <h3 className={styles.taskTitle}>{user.name}</h3>
+                                <p className={styles.profileMeta}>{user.email}</p>
+                            </div>
+                            <span className={styles.chip}>Current: {user.role}</span>
+                        </div>
+
+                        <div className={styles.fieldGroup}>
+                            <label className={styles.fieldLabel}>Role</label>
+                            <select
+                                value={user.role}
+                                onChange={(e) => handleChangeRole(user.id, e.target.value)}
+                                className={styles.selectInput}
+                            >
+                                <option value="volunteer">Volunteer</option>
+                                <option value="manager">Manager</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
     );
 };
 

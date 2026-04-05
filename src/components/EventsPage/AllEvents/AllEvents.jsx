@@ -55,11 +55,17 @@ const AllEvents = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                <h2 className={styles.title}>{t("allEventsTitle")}</h2>
-                <p className={styles.subtitle}>{t("allEventsSubtitle")}</p>
+                <div className={styles.header}>
+                    <div className={styles.headerTop}>
+                        <span className={styles.badge}>{t("community")}</span>
+                        <span className={styles.count}>{loading ? "--" : String(events.length).padStart(2, "0")}</span>
+                    </div>
+                    <h1 className={styles.title}>{t("allEventsTitle")}</h1>
+                    <p className={styles.subtitle}>{t("allEventsSubtitle")}</p>
+                </div>
                 <div className={styles.content}>
                     {loading ? (
-                        <p>Loading events...</p>
+                        <p className={styles.loadingState}>Loading events...</p>
                     ) : (
                         events.map((event) => {
                             const localeData = event.locales?.[currentLang] || event.locales?.['no'] || {};
@@ -73,6 +79,9 @@ const AllEvents = () => {
                                             <span className={styles.date}>{event.day}</span>
                                             <span className={styles.time}>{event.time}</span>
                                         </div>
+                                        <span className={`${styles.tagBadge} ${event.tagType === 'annual' ? styles.tagAnnual : styles.tagRegular}`}>
+                                            {t(`tags.${event.tagType}`)}
+                                        </span>
                                         <h3 className={styles.name}>{localeData.name}</h3>
                                         <p className={styles.description}>
                                             {localeData.description}
@@ -84,7 +93,7 @@ const AllEvents = () => {
                         })
                     )}
                     {events.length === 0 && !loading && (
-                        <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#64748b' }}>
+                        <p className={styles.emptyState}>
                             {t("comingSoon", "There are no upcoming events at the moment.")}
                         </p>
                     )}

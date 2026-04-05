@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Header.module.css';
 import Logo from '../../images/header/Logo.png';
-import ArrowDown from '../../images/header/Arrow.png';
 import BritishFlag from '../../images/header/English.png';
 import UkrainianFlag from '../../images/header/Ukraine (UA).png';
 import NorwegianFlag from '../../images/header/Norway (NO).png';
@@ -10,7 +9,7 @@ import HeaderMenu from "./HeaderMenu";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { Sun, Moon, User, Menu } from 'lucide-react';
+import { Sun, Moon, User, Menu, ChevronDown } from 'lucide-react';
 
 import { useTheme } from "../../context/ThemeContext";
 import i18n from "../../i118n";
@@ -101,7 +100,7 @@ const Header = () => {
                             >
                                 <img className={styles.flag} src={languageFlags[currentLanguage]} alt="flag" />
                                 <p className={styles.current_lang}>{currentLanguage.toUpperCase()}</p>
-                                <img className={styles.arrow_icon} src={ArrowDown} alt="ArrowDown" />
+                                <ChevronDown className={`${styles.arrow_icon} ${isDropdownOpen ? styles.arrow_open : ''}`} size={16} strokeWidth={2.4} />
                             </button>
 
                             <button onClick={handleMenu} className={styles.menu_btn} aria-label="Open menu">

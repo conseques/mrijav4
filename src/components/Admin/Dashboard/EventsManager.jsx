@@ -251,7 +251,7 @@ const EventsManager = () => {
                 <p className={styles.eventDate}>{event.day} | {event.time}</p>
               </div>
               <div className={styles.eventActions}>
-                <button className={styles.editBtn} onClick={() => handleEdit(event)} style={{marginRight: '10px', padding: '6px 14px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>Edit</button>
+                <button className={styles.editBtn} onClick={() => handleEdit(event)}>Edit</button>
                 <button className={styles.deleteBtn} onClick={() => handleDelete(event.id)}>Delete</button>
               </div>
             </div>

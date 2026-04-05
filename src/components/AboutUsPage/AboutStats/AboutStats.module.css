@@ -1,59 +1,72 @@
 .statsContainer {
-    max-width: 1200px;
-    margin: 0 auto 50px auto;
+    max-width: 1240px;
+    margin: -42px auto 18px;
     padding: 0 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .statsGrid {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: var(--container-bg, #ffffff);
-    padding: 60px 40px;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    padding: 22px;
+    border-radius: 28px;
+    background: var(--surface-strong);
+    border: 1px solid rgba(18, 53, 122, 0.08);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
 }
 
 .statItem {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(18, 53, 122, 0.03);
+    text-align: left;
 }
 
 .iconCircle {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: var(--container-bg, #FFFBE8);
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: rgba(254, 208, 0, 0.16);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 16px;
 }
 
 .icon {
-    color: #F7D56B;
+    color: var(--primary-color);
 }
 
 .statNumber {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--text-color, #0F172A);
-    margin-bottom: 8px;
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5vw, 52px);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    color: var(--text-color);
 }
 
 .statLabel {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-muted, #64748B);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.16em;
 }
 
 @media (max-width: 768px) {
+    .statsContainer {
+        margin-top: 0;
+        padding: 0 16px;
+    }
+
     .statsGrid {
-        flex-direction: column;
-        padding: 40px 20px;
-        gap: 40px;
+        grid-template-columns: 1fr;
+        border-radius: 24px;
     }
 }

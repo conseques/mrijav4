@@ -12,6 +12,7 @@ import Login from "./components/Admin/Login/Login";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
 import { VolunteerAuthProvider } from "./context/VolunteerAuthContext";
+import AppRouteError from "./components/AppRouteError";
 import VolunteerLogin from "./components/VolunteerPortal/Auth/Login";
 import VolunteerRegister from "./components/VolunteerPortal/Auth/Register";
 import VolunteerDashboard from "./components/VolunteerPortal/Dashboard/Dashboard";
@@ -21,6 +22,7 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
+            errorElement: <AppRouteError />,
             element: (
                 <>
                     <ScrollRestoration />
@@ -36,10 +38,12 @@ function App() {
         },
         {
             path: "/admin/login",
+            errorElement: <AppRouteError />,
             element: <Login />
         },
         {
             path: "/admin/dashboard",
+            errorElement: <AppRouteError />,
             element: (
                 <ProtectedRoute>
                     <Dashboard />
@@ -48,6 +52,7 @@ function App() {
         },
         {
             path: "/volunteer-portal",
+            errorElement: <AppRouteError />,
             element: (
                 <VolunteerAuthProvider>
                     <Outlet />

@@ -5,23 +5,28 @@
     backdrop-filter: blur(8px);
     z-index: 9999;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .modal {
     background: var(--container-bg, #F8F9FA);
     width: 100%;
     max-width: 1000px;
-    height: 90vh;
+    max-height: calc(100vh - 40px);
     border-radius: 32px;
     position: relative;
-    overflow-y: auto;
+    overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    padding: 40px;
+    padding: 32px 32px 28px;
     font-family: 'Inter', -apple-system, sans-serif;
     color: var(--text-color, #0F172A);
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .closeBtn {
@@ -53,6 +58,10 @@
   flex-direction: column;
   gap: 2rem;
   padding-top: 1rem;
+  padding-right: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Hero Section */
@@ -480,6 +489,16 @@
 
 /* Responsive */
 @media (max-width: 900px) {
+  .overlay {
+    padding: 12px;
+  }
+
+  .modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 24px;
+    padding: 22px 18px 18px;
+  }
+
   .metricsGrid {
     grid-template-columns: 1fr;
   }

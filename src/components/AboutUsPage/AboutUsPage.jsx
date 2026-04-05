@@ -9,11 +9,10 @@ import SEO from "../SEO/SEO";
 import { useTranslation } from "react-i18next";
 
 import CourseLeads from "./CourseLeads/CourseLeads";
-import Gallery from "./Gallery/Gallery";
 
 const AboutUsPage = () => {
     const { state } = useLocation();
-    const { t } = useTranslation("about");
+    const { t } = useTranslation("missions");
 
     useEffect(() => {
         if (state?.scrollTo === "contact") {
@@ -28,8 +27,8 @@ const AboutUsPage = () => {
     return (
         <>
             <SEO 
-                title={t("hero_title", "About Us")} 
-                description={t("hero_subtitle", "Learn about Mrija's mission, leadership, and our work in Drammen.")}
+                title={t("title", "About Us")} 
+                description={t("subtitle", "Learn about Mrija's mission, leadership, and our work in Drammen.")}
             />
             <AboutHero/>
             <AboutStats/>
