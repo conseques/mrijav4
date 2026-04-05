@@ -1,296 +1,178 @@
 .section {
-  background-color: #F8FBFF; /* Light, clean blue tint for light mode */
-  padding: 100px 20px;
-  font-family: 'Inter', sans-serif;
-  color: #1b1c1c;
-  display: flex;
-  justify-content: center;
+  position: relative;
+  padding: 110px 20px;
   overflow: hidden;
-  transition: background-color 0.3s ease;
 }
 
-:global([data-theme='dark']) .section {
-  background-color: #0A192F; /* Keep premium navy for dark mode */
-  color: #FFFFFF;
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(18, 53, 122, 0.1), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(234, 241, 249, 0.8) 100%);
+  pointer-events: none;
+}
+
+:global([data-theme='dark']) .section::before {
+  background:
+    radial-gradient(circle at top right, rgba(254, 208, 0, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(10, 18, 32, 0.16) 0%, rgba(9, 15, 27, 0.72) 100%);
 }
 
 .container {
-  max-width: 1200px;
-  width: 100%;
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 36px;
+  width: min(1200px, 100%);
+  margin: 0 auto;
 }
 
-/* Header */
+.topGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 28px;
+  align-items: start;
+}
+
 .header {
-  text-align: center;
-  margin-bottom: 60px;
-  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background-color: rgba(0, 71, 171, 0.05);
-  color: #0047AB;
+  gap: 10px;
+  width: fit-content;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(18, 53, 122, 0.06);
+  border: 1px solid rgba(18, 53, 122, 0.12);
+  color: var(--primary-color);
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 6px 16px;
-  border-radius: 100px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 24px;
-  border: 1px solid rgba(0, 71, 171, 0.1);
 }
 
 :global([data-theme='dark']) .badge {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #FECE00;
-  border: 1px solid rgba(254, 206, 0, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(120, 166, 255, 0.16);
+  color: #dbe7ff;
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
-  background-color: #0047AB;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-:global([data-theme='dark']) .dot {
-  background-color: #FECE00;
-  box-shadow: 0 0 10px #FECE00;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--secondary-color);
+  box-shadow: 0 0 16px rgba(254, 208, 0, 0.6);
 }
 
 .title {
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 800;
-  color: #1b1c1c;
-  margin-bottom: 20px;
-  line-height: 1.1;
+  max-width: 10ch;
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 74px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: var(--primary-color);
 }
 
 :global([data-theme='dark']) .title {
-  color: #FFFFFF;
+  color: #f3f6ff;
 }
 
 .subtitle {
+  max-width: 56ch;
   font-size: 18px;
-  color: rgba(27, 28, 28, 0.7);
-  line-height: 1.6;
-  margin: 0;
+  line-height: 1.75;
+  color: var(--text-muted);
 }
 
-:global([data-theme='dark']) .subtitle {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Donation Grid */
-.donationGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  width: 100%;
-  margin-bottom: 60px;
-}
-
-.donationCard {
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 24px;
-  padding: 40px 30px;
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.progressBox {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-}
-
-:global([data-theme='dark']) .donationCard {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: none;
-}
-
-.donationCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-}
-
-:global([data-theme='dark']) .donationCard:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.featured {
-  background: #0047AB;
-  border: none;
-  transform: scale(1.05);
-  box-shadow: 0 20px 40px rgba(0, 71, 171, 0.2);
-  z-index: 2;
-}
-
-:global([data-theme='dark']) .featured {
-  background: #0047AB; /* Keeps blue in dark mode for identity */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.featured:hover {
-  transform: scale(1.05) translateY(-10px);
-  background: #0056D2;
-}
-
-.cardAmount {
-  font-size: 48px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: #1b1c1c;
-}
-
-:global([data-theme='dark']) .cardAmount,
-.featured .cardAmount {
-  color: #FFFFFF;
-}
-
-.cardLabel {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: rgba(27, 28, 28, 0.5);
-  margin-bottom: 4px;
-}
-
-.oneTimeNote {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(27, 28, 28, 0.4);
-  margin-bottom: 24px;
-}
-
-:global([data-theme='dark']) .oneTimeNote {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.featured .oneTimeNote {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-:global([data-theme='dark']) .cardLabel {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.featured .cardLabel {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.donateBtn {
-  background: #0047AB;
-  color: #FFF;
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 16px;
-  transition: all 0.2s ease;
-}
-
-:global([data-theme='dark']) .donateBtn {
-  background: #FECE00;
-  color: #000;
-}
-
-.donateBtn:hover {
-  background: #0056D2;
-  transform: scale(1.02);
-}
-
-:global([data-theme='dark']) .donateBtn:hover {
-  background: #FFD733;
-}
-
-.featured .donateBtn {
-  background: #FFFFFF;
-  color: #0047AB;
-}
-
-.featured .donateBtn:hover {
-  background: #F0F0F0;
-}
-
-/* Progress Box */
-.progressBox {
-  width: 100%;
-  max-width: 1100px;
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
-  padding: 30px;
-  margin-bottom: 60px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  gap: 22px;
+  padding: 28px;
+  border-radius: 28px;
+  background: var(--surface-strong);
+  border: 1px solid rgba(18, 53, 122, 0.1);
+  box-shadow: var(--shadow-soft);
 }
 
 :global([data-theme='dark']) .progressBox {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: none;
+  border-color: rgba(120, 166, 255, 0.12);
 }
 
-.progressLabel {
+.progressTop {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 18px;
+  align-items: flex-start;
 }
 
-.raisedText {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(27, 28, 28, 0.6);
-}
-
-:global([data-theme='dark']) .raisedText {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.amountValue {
-  color: #1b1c1c;
+.progressEyebrow {
+  margin-bottom: 8px;
+  font-size: 11px;
   font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-:global([data-theme='dark']) .amountValue {
-  color: #FFFFFF;
+.progressAmount {
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-color);
 }
 
-.goalText {
-  font-size: 14px;
-  color: rgba(27, 28, 28, 0.4);
-}
-
-:global([data-theme='dark']) .goalText {
-  color: rgba(255, 255, 255, 0.4);
+.goalPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(18, 53, 122, 0.05);
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .progressBarBg {
   width: 100%;
-  height: 8px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 100px;
+  height: 12px;
+  border-radius: 999px;
   overflow: hidden;
-  margin-bottom: 15px;
-}
-
-:global([data-theme='dark']) .progressBarBg {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(18, 53, 122, 0.08);
 }
 
 .progressBarFill {
   height: 100%;
-  background: linear-gradient(90deg, #0057B8, #FECE00);
-  border-radius: 100px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1d54ba 0%, #fed000 100%);
+}
+
+.progressMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.progressPercent {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary-color);
 }
 
 .trendRow {
@@ -299,99 +181,241 @@
   gap: 8px;
 }
 
-/* Features */
+.trendAccent {
+  display: inline-flex;
+  margin-left: 8px;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.donationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.donationCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 260px;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(18, 53, 122, 0.08);
+  box-shadow: 0 16px 40px rgba(18, 53, 122, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+:global([data-theme='dark']) .donationCard {
+  background: rgba(17, 25, 42, 0.8);
+  border-color: rgba(120, 166, 255, 0.12);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25);
+}
+
+.featured {
+  background: linear-gradient(180deg, rgba(18, 53, 122, 0.96) 0%, rgba(24, 71, 156, 0.94) 100%);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardLabelWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardTag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(254, 208, 0, 0.14);
+  color: #fff4cb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cardAmount {
+  font-size: clamp(38px, 5vw, 54px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-color);
+}
+
+.cardLabel {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(27, 28, 28, 0.58);
+}
+
+.oneTimeNote {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.featured .cardAmount,
+.featured .cardLabel,
+.featured .oneTimeNote {
+  color: #fff;
+}
+
+.featured .oneTimeNote {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+:global([data-theme='dark']) .cardAmount {
+  color: #f6f8ff;
+}
+
+:global([data-theme='dark']) .cardLabel {
+  color: rgba(236, 239, 248, 0.62);
+}
+
+.donateBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 50px;
+  border-radius: 16px;
+  background: rgba(18, 53, 122, 0.08);
+  color: var(--primary-color);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(18, 53, 122, 0.1);
+}
+
+.featured .donateBtn {
+  background: linear-gradient(135deg, #fed000 0%, #ffe57f 100%);
+  color: #14284d;
+  border-color: transparent;
+}
+
+:global([data-theme='dark']) .donateBtn {
+  border-color: rgba(120, 166, 255, 0.12);
+}
+
 .featuresGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  width: 100%;
-  margin-top: 40px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .featureItem {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 0 0;
+  border-top: 1px solid rgba(18, 53, 122, 0.1);
+}
+
+:global([data-theme='dark']) .featureItem {
+  border-top-color: rgba(120, 166, 255, 0.12);
 }
 
 .featureIcon {
-  color: #0047AB;
+  color: var(--primary-color);
   flex-shrink: 0;
 }
 
-:global([data-theme='dark']) .featureIcon {
-  color: #FECE00;
-}
-
 .featureTitle {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: #1b1c1c;
-}
-
-:global([data-theme='dark']) .featureTitle {
-  color: #FFFFFF;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-color);
 }
 
 .featureDesc {
   font-size: 14px;
-  color: rgba(27, 28, 28, 0.5);
-  line-height: 1.4;
+  line-height: 1.6;
+  color: var(--text-muted);
 }
 
-:global([data-theme='dark']) .featureDesc {
-  color: rgba(255, 255, 255, 0.5);
+.footerRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: start;
 }
 
 .reportBtn {
-  margin-top: 40px;
-  color: rgba(27, 28, 28, 0.5);
-  font-size: 14px;
-  font-weight: 600;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-:global([data-theme='dark']) .reportBtn {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.reportBtn:hover {
-  color: #0047AB;
-}
-
-:global([data-theme='dark']) .reportBtn:hover {
-  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 16px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .cancellationTerms {
-  font-size: 11px;
-  color: rgba(27, 28, 28, 0.3);
-  margin-top: 30px;
-  text-align: center;
-  max-width: 600px;
+  max-width: 72ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
-:global([data-theme='dark']) .cancellationTerms {
-  color: rgba(255, 255, 255, 0.3);
+@media (max-width: 960px) {
+  .topGrid,
+  .donationGrid,
+  .featuresGrid,
+  .footerRow {
+    grid-template-columns: 1fr;
+  }
+
+  .progressMeta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
-@media (max-width: 1024px) {
-  .donationGrid {
-    grid-template-columns: 1fr;
-    max-width: 450px;
+@media (max-width: 768px) {
+  .section {
+    padding: 88px 16px;
   }
-  .featured {
-    transform: none;
+
+  .container {
+    gap: 28px;
   }
-  .featured:hover {
-    transform: translateY(-10px);
+
+  .title {
+    font-size: 46px;
   }
-  .featuresGrid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+
+  .subtitle {
+    font-size: 17px;
+  }
+
+  .progressBox,
+  .donationCard {
+    padding: 22px;
+  }
+
+  .progressTop {
+    flex-direction: column;
+  }
+
+  .goalPill {
+    white-space: normal;
   }
 }

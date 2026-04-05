@@ -25,6 +25,13 @@ const languageFlags = {
 const Header = () => {
     const { t } = useTranslation("header");
     const { isDarkMode, toggleTheme } = useTheme();
+    const navLinks = [
+        { to: '/about-us', label: t("about") },
+        { to: '/events', label: t("events") },
+        { to: '/gallery', label: t("gallery") },
+        { to: '/#courses', label: t("courses") },
+        { to: '/#donations', label: t("donations") },
+    ];
 
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language || "en");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -57,20 +64,23 @@ const Header = () => {
     return (
         <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
             <div className={styles.header_container}>
-                <div className={styles.logo_container}>
-                    <Link to='/'>
+                <div className={styles.brand_block}>
+                    <Link to='/' className={styles.logo_link}>
                         <img src={Logo} alt="logo" />
+                        <div className={styles.logo_copy}>
+                            <span className={styles.logo_title}>MriJa</span>
+                            <span className={styles.logo_subtitle}>{t("communityLabel")}</span>
+                        </div>
                     </Link>
                 </div>
 
-                <nav>
+                <nav className={styles.desktop_nav} aria-label="Primary">
                     <ul className={styles.nav_list}>
-                        <Link className={styles.link} to='/about-us'>{t("about")}</Link>
-                        <Link className={styles.link} to='/events'>{t("events")}</Link>
-                        <Link className={styles.link} to='/gallery'>{t("gallery")}</Link>
-                        <Link className={styles.link} to='/#courses'>{t("courses")}</Link>
-                        <Link className={styles.link} to='/#donations'>{t("donations")}</Link>
-
+                        {navLinks.map((item) => (
+                            <li key={item.to}>
+                                <Link className={styles.link} to={item.to}>{item.label}</Link>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
 
@@ -128,7 +138,7 @@ const Header = () => {
                     </div>
 
                     <Magnetic strength={0.2}>
-                        <Link to='/#membership'>
+                        <Link to='/#membership' className={styles.join_link}>
                             <motion.button 
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}

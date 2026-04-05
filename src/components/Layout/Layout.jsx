@@ -49,7 +49,9 @@ const Layout = () => {
             <Modal ref={succesModal}>
                 <Successfully  onClose={handleCloseSuccesModal} />
             </Modal>
-            <Outlet  context={{ closeModal: handleCloseModal, openModal: handleOpenModal }} />
+            <main>
+                <Outlet  context={{ closeModal: handleCloseModal, openModal: handleOpenModal }} />
+            </main>
             <Footer/>
             <TelegramWidget />
         </>

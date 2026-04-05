@@ -122,7 +122,10 @@ const Events = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
                 <div className={styles.header}>
-                    <span className={styles.headerBadge}>{t("community")}</span>
+                    <div className={styles.headerTop}>
+                        <span className={styles.headerBadge}>{t("community")}</span>
+                        <span className={styles.eventCount}>{loading ? "--" : String(events.length).padStart(2, "0")}</span>
+                    </div>
                     <h2 className={styles.title}>{t("title")}</h2>
                     <p className={styles.subtitle}>{t("subtitle")}</p>
                 </div>
@@ -171,7 +174,7 @@ const Events = () => {
                                 />
                             ))}
                             {events.length === 0 && !loading && (
-                                <p style={{ textAlign: "center", width: "100%", color: "#64748b" }}>
+                                <p className={styles.emptyState}>
                                     {t("comingSoon", "Nye arrangementer kommer snart. Følg med!")}
                                 </p>
                             )}

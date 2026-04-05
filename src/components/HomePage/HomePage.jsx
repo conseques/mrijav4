@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
     const { hash } = useLocation();
-    const { t } = useTranslation("home");
+    const { t } = useTranslation("hero");
 
     useEffect(() => {
         if (hash) {
@@ -32,8 +32,8 @@ const HomePage = () => {
     return (
         <>
             <SEO 
-                title={t("title", "Home")} 
-                description={t("description", "Empowering the Ukrainian community in Norway.")}
+                title={t("seoTitle", "Home")} 
+                description={t("seoDescription", "Empowering the Ukrainian community in Norway.")}
                 keywords="Mrija, Mrija Drammen, Ukrainian Association Norway, Мрія Драммен"
             />
             <h1 className="visually-hidden">Mrija - Ukrainian Association in Drammen, Norway</h1>

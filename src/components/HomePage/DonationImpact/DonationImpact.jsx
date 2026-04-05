@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Truck, Users, TrendingUp } from 'lucide-react';
+import { ShieldCheck, Truck, Users, TrendingUp, ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getReportData } from '../../../services/reportService';
 import styles from './DonationImpact.module.css';
@@ -9,9 +9,45 @@ import { motion } from 'framer-motion';
 import { useTilt } from '../../../hooks/useTilt';
 import Magnetic from '../../Magnetic/Magnetic';
 
+const DonationOption = ({ card, t }) => {
+  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useTilt();
+
+  return (
+    <motion.article
+      className={`${styles.donationCard} ${card.featured ? styles.featured : ''}`}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      whileHover={{ scale: 1.015, y: -6 }}
+    >
+      <div className={styles.cardBody} style={{ transform: "translateZ(28px)" }}>
+        <div className={styles.cardLabelWrap}>
+          {card.featured && <span className={styles.cardTag}>Vipps</span>}
+          <div className={styles.cardLabel}>{card.label}</div>
+        </div>
+        <div className={styles.cardAmount}>{card.amount}</div>
+        <div className={styles.oneTimeNote}>{t('oneTime')}</div>
+      </div>
+
+      <Magnetic strength={0.22}>
+        <motion.a
+          href={card.link}
+          target="_blank"
+          rel="noreferrer"
+          style={{ transform: "translateZ(20px)" }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className={styles.donateBtn}
+        >
+          {t('donateNow')}
+        </motion.a>
+      </Magnetic>
+    </motion.article>
+  );
+};
+
 const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
-  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useTilt();
   
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [reportData, setReportData] = useState({
@@ -36,7 +72,7 @@ const DonationImpact = () => {
 
   const raisedAmount = reportData.totalAmountRaised;
   const goalAmount = reportData.goalAmount;
-  const progressPercent = Math.min(Math.round((raisedAmount / goalAmount) * 100), 100);
+  const progressPercent = goalAmount > 0 ? Math.min(Math.round((raisedAmount / goalAmount) * 100), 100) : 0;
   const remainingAmount = Math.max(goalAmount - raisedAmount, 0);
 
   const donationCards = [
@@ -54,99 +90,83 @@ const DonationImpact = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <div className={styles.header}>
-          <div className={styles.badge}>
-            <span className={styles.dot}></span>
-            {t('badge')}
+        <div className={styles.topGrid}>
+          <div className={styles.header}>
+            <div className={styles.badge}>
+              <span className={styles.dot}></span>
+              {t('badge')}
+            </div>
+            <h2 className={styles.title}>{t('title')}</h2>
+            <p className={styles.subtitle}>{t('subtitle')}</p>
+
+            <div className={styles.featuresGrid}>
+              <div className={styles.featureItem}>
+                <ShieldCheck size={24} className={styles.featureIcon} />
+                <div>
+                  <h4 className={styles.featureTitle}>{t('feature1Title')}</h4>
+                  <p className={styles.featureDesc}>{t('feature1Desc')}</p>
+                </div>
+              </div>
+
+              <div className={styles.featureItem}>
+                <Truck size={24} className={styles.featureIcon} />
+                <div>
+                  <h4 className={styles.featureTitle}>{t('feature2Title')}</h4>
+                  <p className={styles.featureDesc}>{t('feature2Desc')}</p>
+                </div>
+              </div>
+
+              <div className={styles.featureItem}>
+                <Users size={24} className={styles.featureIcon} />
+                <div>
+                  <h4 className={styles.featureTitle}>{t('feature3Title')}</h4>
+                  <p className={styles.featureDesc}>{t('feature3Desc')}</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <h2 className={styles.title}>{t('title')}</h2>
-          <p className={styles.subtitle}>{t('subtitle')}</p>
+
+          <div className={styles.progressBox}>
+            <div className={styles.progressTop}>
+              <div>
+                <div className={styles.progressEyebrow}>{t('amountRaised')}</div>
+                <div className={styles.progressAmount}>NOK {raisedAmount.toLocaleString()}</div>
+              </div>
+              <div className={styles.goalPill}>
+                {t('goal')} NOK {goalAmount.toLocaleString()}
+              </div>
+            </div>
+
+            <div className={styles.progressBarBg}>
+              <div className={styles.progressBarFill} style={{ width: `${progressPercent}%` }}></div>
+            </div>
+
+            <div className={styles.progressMeta}>
+              <div className={styles.progressPercent}>{progressPercent}%</div>
+              <div className={styles.trendRow}>
+                <TrendingUp size={16} className={styles.featureIcon} />
+                <p className={styles.featureDesc}>
+                  {remainingAmount.toLocaleString()} NOK {t('remaining')} <span className={styles.trendAccent}>{t('trend')}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className={styles.donationGrid}>
           {donationCards.map((card) => (
-            <motion.div 
-              key={card.id}
-              className={`${styles.donationCard} ${card.featured ? styles.featured : ''}`}
-              onMouseMove={onMouseMove}
-              onMouseLeave={onMouseLeave}
-              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div style={{ transform: "translateZ(30px)" }}>
-                <div className={styles.cardAmount}>{card.amount}</div>
-                <div className={styles.cardLabel}>{card.label}</div>
-                <div className={styles.oneTimeNote}>{t('oneTime')}</div>
-              </div>
-              <Magnetic strength={0.3}>
-                <motion.button 
-                  style={{ transform: "translateZ(20px)" }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={styles.donateBtn}
-                  onClick={() => window.open(card.link, "_blank")}
-                >
-                  {t('donateNow')}
-                </motion.button>
-              </Magnetic>
-            </motion.div>
+            <DonationOption key={card.id} card={card} t={t} />
           ))}
         </div>
 
-        {/* Progress Box */}
-        <div className={styles.progressBox}>
-          <div className={styles.progressLabel}>
-            <div className={styles.raisedText}>
-              {t('amountRaised')}: <span className={styles.amountValue}>NOK {raisedAmount.toLocaleString()}</span>
-            </div>
-            <div className={styles.goalText}>
-              {t('goal')} NOK {goalAmount.toLocaleString()}
-            </div>
-          </div>
-          <div className={styles.progressBarBg}>
-            <div className={styles.progressBarFill} style={{ width: `${progressPercent}%` }}></div>
-          </div>
-          <div className={styles.trendRow}>
-            <TrendingUp size={16} className={styles.featureIcon} />
-            <p className={styles.featureDesc}>
-              {remainingAmount.toLocaleString()} NOK {t('remaining')} — <span style={{color:'#FECE00'}}>{t('trend')}</span>
-            </p>
-          </div>
+        <div className={styles.footerRow}>
+          <button className={styles.reportBtn} onClick={() => setIsReportOpen(true)}>
+            {t('report')}
+            <ArrowUpRight size={16} />
+          </button>
+
+          <p className={styles.cancellationTerms}>{t('cancellationTerms')}</p>
         </div>
-
-        {/* Features Grid */}
-        <div className={styles.featuresGrid}>
-          <div className={styles.featureItem}>
-            <ShieldCheck size={28} className={styles.featureIcon} />
-            <div>
-              <h4 className={styles.featureTitle}>{t('feature1Title')}</h4>
-              <p className={styles.featureDesc}>{t('feature1Desc')}</p>
-            </div>
-          </div>
-
-          <div className={styles.featureItem}>
-            <Truck size={28} className={styles.featureIcon} />
-            <div>
-              <h4 className={styles.featureTitle}>{t('feature2Title')}</h4>
-              <p className={styles.featureDesc}>{t('feature2Desc')}</p>
-            </div>
-          </div>
-
-          <div className={styles.featureItem}>
-            <Users size={28} className={styles.featureIcon} />
-            <div>
-              <h4 className={styles.featureTitle}>{t('feature3Title')}</h4>
-              <p className={styles.featureDesc}>{t('feature3Desc')}</p>
-            </div>
-          </div>
-        </div>
-
-        <button className={styles.reportBtn} onClick={() => setIsReportOpen(true)}>
-          {t('report')}
-        </button>
-
-        <p className={styles.cancellationTerms}>{t('cancellationTerms')}</p>
-
       </motion.div>
       <ReportModal isOpen={isReportOpen} onClose={() => setIsReportOpen(false)} />
     </section>
