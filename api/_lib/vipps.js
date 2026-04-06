@@ -1,5 +1,6 @@
 const crypto = require('node:crypto');
 const { getFirebaseAdminDb, hasFirebaseAdminConfig } = require('./firebaseAdmin');
+const { sendMembershipDigestEmail } = require('./membershipEmail');
 
 const MEMBERSHIP_AMOUNT_ORE = 10000;
 const MEMBERSHIP_EVENT_NAME = 'Membership (Vipps)';
@@ -433,6 +434,7 @@ async function processMembershipPayment(reference, options = {}) {
   let payment = await getPayment(reference);
   let captureTriggered = false;
   let captureError = null;
+  let welcomeEmailResult = null;
 
   if (payment.state === 'AUTHORIZED') {
     try {
@@ -449,6 +451,15 @@ async function processMembershipPayment(reference, options = {}) {
 
   if (payment.state === 'CAPTURED') {
     persistenceResult = await saveMembershipData(payment, options);
+
+    if (persistenceResult?.stored) {
+      const member = normalizeUserDetails(payment);
+      welcomeEmailResult = await sendMembershipDigestEmail({
+        reference,
+        memberName: member.fullName || member.firstName || 'friend',
+        memberEmail: member.email,
+      });
+    }
   }
 
   return {
@@ -456,6 +467,7 @@ async function processMembershipPayment(reference, options = {}) {
     captureTriggered,
     captureError,
     persistenceResult,
+    welcomeEmailResult,
   };
 }
 

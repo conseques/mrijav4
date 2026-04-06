@@ -70,6 +70,7 @@ module.exports = async function handler(req, res) {
       captureError: result.captureError,
       persistenceStored: result.persistenceResult?.stored || false,
       persistenceError: result.persistenceResult?.error || null,
+      welcomeEmail: result.welcomeEmailResult || null,
     });
   } catch (error) {
     console.error('Vipps webhook handling failed:', error);

@@ -120,6 +120,56 @@
 .btn:active {
     background-color: #184EB1;
 }
+
+.vippsButtonShell {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+}
+
+.vippsButtonShell :global(vipps-mobilepay-button) {
+    display: block;
+    width: 100%;
+}
+
+.vippsNativeButton {
+    width: 100%;
+}
+
+.vippsFallbackButton,
+.vippsLoadingButton {
+    width: 100%;
+    min-height: 52px;
+    border: 1px solid #d94918;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ff6b35 0%, #ff5b24 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    box-shadow: 0 16px 32px rgba(255, 91, 36, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.vippsFallbackButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 36px rgba(255, 91, 36, 0.24);
+    filter: saturate(1.03);
+}
+
+.vippsFallbackButton:active {
+    transform: translateY(0);
+    box-shadow: 0 10px 22px rgba(255, 91, 36, 0.2);
+}
+
+.vippsLoadingButton {
+    cursor: wait;
+}
+
+.vippsLoadingButton:disabled {
+    opacity: 1;
+}
+
 .popular{
     position: absolute;
     top: 20px;

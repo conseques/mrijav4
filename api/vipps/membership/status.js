@@ -32,6 +32,7 @@ module.exports = async function handler(req, res) {
       registrationStored: storageResult?.stored || false,
       storageError: storageResult?.stored ? null : storageResult?.error || null,
       storageBackend: storageResult?.backend || null,
+      welcomeEmail: result.welcomeEmailResult || null,
       member: normalizeUserDetails(payment),
     });
   } catch (error) {
