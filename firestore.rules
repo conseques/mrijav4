@@ -16,12 +16,20 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/volunteers/$(request.auth.uid)).data.role;
     }
 
+    function getUserStatus() {
+      return get(/databases/$(database)/documents/volunteers/$(request.auth.uid)).data.status;
+    }
+
     function isAdmin() {
       return isAuthenticated() && getUserRole() == 'admin';
     }
 
     function isManager() {
       return isAuthenticated() && (getUserRole() == 'manager' || getUserRole() == 'admin');
+    }
+
+    function isApprovedVolunteer() {
+      return isAuthenticated() && getUserStatus() == 'approved';
     }
 
     // Volunteers Collection
@@ -42,6 +50,36 @@ service cloud.firestore {
 
       // Only admins can delete profiles
       allow delete: if isAdmin();
+    }
+
+    // Volunteer Tasks Collection
+    match /volunteerTasks/{taskId} {
+      // Approved volunteers can view tasks
+      allow read: if isApprovedVolunteer() || isManager();
+
+      // Managers/admins can create or remove tasks
+      allow create, delete: if isManager();
+
+      // Managers/admins can fully edit tasks
+      // Approved volunteers can only add themselves to appliedUsers
+      allow update: if isManager()
+                    || (
+                      isApprovedVolunteer()
+                      && request.resource.data.appliedUsers is list
+                      && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['appliedUsers'])
+                      && (
+                        (
+                          resource.data.appliedUsers is list
+                          && request.resource.data.appliedUsers.size() == resource.data.appliedUsers.size() + 1
+                          && request.resource.data.appliedUsers.hasAll(resource.data.appliedUsers)
+                        )
+                        || (
+                          !(resource.data.appliedUsers is list)
+                          && request.resource.data.appliedUsers.size() == 1
+                        )
+                      )
+                      && request.resource.data.appliedUsers.hasAll([request.auth.uid])
+                    );
     }
 
     // Events Collection (Public Read, Manager Write)

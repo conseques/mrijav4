@@ -44,6 +44,7 @@ const TaskCard = ({ task, hasApplied, applyingId, onApply }) => (
         <div className={styles.metaList}>
             <span className={styles.metaItem}>When: {task.date}</span>
             <span className={styles.metaItem}>Where: {task.location}</span>
+            {task.marker ? <span className={styles.metaItem}>Marker: {task.marker}</span> : null}
         </div>
 
         <div className={styles.chipRow}>
@@ -76,6 +77,7 @@ const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('tasks');
     const [tasks, setTasks] = useState([]);
     const [applyingId, setApplyingId] = useState(null);
+    const [tasksError, setTasksError] = useState('');
 
     useEffect(() => {
         if (!loading && !currentUser) {
@@ -84,33 +86,52 @@ const Dashboard = () => {
     }, [loading, currentUser, navigate]);
 
     useEffect(() => {
-        if (!currentUser) {
+        if (!currentUser || profile?.status !== 'approved') {
             setTasks([]);
+            setTasksError('');
             return undefined;
         }
 
-        const unsubscribe = onSnapshot(collection(db, 'volunteerTasks'), (snapshot) => {
-            const tasksData = [];
-            snapshot.forEach((docSnap) => {
-                tasksData.push({ id: docSnap.id, ...docSnap.data() });
-            });
-            setTasks(tasksData.reverse());
-        });
+        setTasksError('');
+
+        const unsubscribe = onSnapshot(
+            collection(db, 'volunteerTasks'),
+            (snapshot) => {
+                const tasksData = [];
+                snapshot.forEach((docSnap) => {
+                    tasksData.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                tasksData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                setTasks(tasksData);
+            },
+            (error) => {
+                console.error('Error loading volunteer tasks:', error);
+                setTasks([]);
+                setTasksError('Unable to load tasks right now. Please try again shortly.');
+            }
+        );
 
         return () => unsubscribe();
-    }, [currentUser]);
+    }, [currentUser, profile?.status]);
 
     const handleApply = async (taskId) => {
-        if (!currentUser) return;
+        if (!currentUser || profile?.status !== 'approved') return;
+
+        const targetTask = tasks.find((task) => task.id === taskId);
+        if (targetTask?.appliedUsers?.includes(currentUser.uid)) {
+            return;
+        }
 
         setApplyingId(taskId);
+        setTasksError('');
         try {
             await updateDoc(doc(db, 'volunteerTasks', taskId), {
                 appliedUsers: arrayUnion(currentUser.uid)
             });
         } catch (error) {
             console.error('Error applying to task:', error);
-            alert('Failed to apply for this task.');
+            setTasksError('Failed to apply for this task. Please try again.');
         }
         setApplyingId(null);
     };
@@ -135,14 +156,48 @@ const Dashboard = () => {
         return null;
     }
 
-    if (profile?.status === 'pending') {
+    if (!profile) {
+        return (
+            <div className={styles.portalPage}>
+                <div className={styles.pendingCard}>
+                    <span className={styles.statusPill}>Profile Required</span>
+                    <h2 className={styles.authTitle}>Volunteer Profile Missing</h2>
+                    <p className={styles.authText}>
+                        This account is logged in, but no volunteer profile was found. Please contact an administrator so we can link your account.
+                    </p>
+                    <div className={styles.actionRow}>
+                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (profile.status === 'rejected') {
+        return (
+            <div className={styles.portalPage}>
+                <div className={styles.pendingCard}>
+                    <span className={styles.statusPill}>Rejected</span>
+                    <h2 className={styles.authTitle}>Registration Rejected</h2>
+                    <p className={styles.authText}>
+                        Your volunteer application is currently rejected. If you think this is a mistake, please contact the MriJa admin team.
+                    </p>
+                    <div className={styles.actionRow}>
+                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (profile.status !== 'approved') {
         return (
             <div className={styles.portalPage}>
                 <div className={styles.pendingCard}>
                     <span className={styles.statusPill}>Pending Review</span>
                     <h2 className={styles.authTitle}>Registration Pending</h2>
                     <p className={styles.authText}>
-                        Thank you for registering, {profile.name}. Your profile is currently under review by the administrators.
+                        Thank you for registering, {profile.name || 'volunteer'}. Your profile is currently under review by the administrators.
                         Once approved, you will get full access to tasks, profile settings, and internal coordination tools.
                     </p>
                     <p className={styles.helper}>We use this step to keep the volunteer space safe and organised for everyone.</p>
@@ -180,6 +235,8 @@ const Dashboard = () => {
                         </div>
                     </div>
 
+                    {tasksError && <p className={styles.errorBanner}>{tasksError}</p>}
+
                     <div className={styles.taskList}>
                         {tasks.length === 0 ? (
                             <p className={styles.emptyState}>No tasks are available right now.</p>
@@ -212,6 +269,8 @@ const Dashboard = () => {
                         </div>
                     </div>
 
+                    {tasksError && <p className={styles.errorBanner}>{tasksError}</p>}
+
                     <div className={styles.taskList}>
                         {assignedTasks.length === 0 ? (
                             <p className={styles.emptyState}>You haven't applied for any tasks yet.</p>
@@ -225,6 +284,7 @@ const Dashboard = () => {
                                     <div className={styles.metaList}>
                                         <span className={styles.metaItem}>When: {task.date}</span>
                                         <span className={styles.metaItem}>Where: {task.location}</span>
+                                        {task.marker ? <span className={styles.metaItem}>Marker: {task.marker}</span> : null}
                                     </div>
                                     <p className={styles.taskDescription}>{task.description}</p>
                                 </article>
@@ -240,14 +300,44 @@ const Dashboard = () => {
         }
 
         if (activeTab === 'pending') {
-            return <PendingApprovals />;
+            return isManager ? (
+                <PendingApprovals />
+            ) : (
+                <section className={styles.panel}>
+                    <h2 className={styles.panelTitle}>Pending Approvals</h2>
+                    <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                </section>
+            );
         }
 
         if (activeTab === 'roles') {
-            return <RoleManager />;
+            return isManager ? (
+                <RoleManager />
+            ) : (
+                <section className={styles.panel}>
+                    <h2 className={styles.panelTitle}>Role Manager</h2>
+                    <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                </section>
+            );
         }
 
-        return <TaskManager />;
+        if (activeTab === 'manage_tasks') {
+            return isManager ? (
+                <TaskManager />
+            ) : (
+                <section className={styles.panel}>
+                    <h2 className={styles.panelTitle}>Manage Tasks</h2>
+                    <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                </section>
+            );
+        }
+
+        return (
+            <section className={styles.panel}>
+                <h2 className={styles.panelTitle}>Unavailable Section</h2>
+                <p className={styles.panelDescription}>Please choose one of the available workspace tabs.</p>
+            </section>
+        );
     };
 
     return (

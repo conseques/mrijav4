@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
@@ -21,14 +22,35 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const credentials = await signInWithEmailAndPassword(auth, email, password);
+      const profileSnapshot = await getDoc(doc(db, 'volunteers', credentials.user.uid));
+      const role = profileSnapshot.data()?.role;
+
+      if (role !== 'manager' && role !== 'admin') {
+        await signOut(auth);
+        setError('This account does not have access to the admin panel.');
+        return;
+      }
+
       navigate('/admin/dashboard');
     } catch (err) {
-      setError('Failed to log in. Please check your credentials.');
-      console.error(err);
-    }
+      if (auth.currentUser) {
+        try {
+          await signOut(auth);
+        } catch (signOutError) {
+          console.error('Error clearing session after failed admin login:', signOutError);
+        }
+      }
 
-    setLoading(false);
+      const message = err.code === 'auth/invalid-credential'
+        ? 'Invalid email or password.'
+        : 'Failed to log in. Please check your credentials.';
+
+      setError(message);
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

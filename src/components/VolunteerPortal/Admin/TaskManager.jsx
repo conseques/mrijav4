@@ -1,29 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, deleteDoc, doc, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../../firebase';
+import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import styles from '../VolunteerPortal.module.css';
 
 const TaskManager = () => {
+    const { profile } = useVolunteerAuth();
     const [tasks, setTasks] = useState([]);
     const [isAdding, setIsAdding] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');
+    const [marker, setMarker] = useState('');
     const [skillsString, setSkillsString] = useState('');
     const [urgency, setUrgency] = useState('Medium');
     const [saving, setSaving] = useState(false);
+    const canManageTasks = profile?.role === 'manager' || profile?.role === 'admin';
 
     useEffect(() => {
+        if (!canManageTasks) {
+            setTasks([]);
+            return undefined;
+        }
+
         const unsubscribe = onSnapshot(collection(db, 'volunteerTasks'), (snapshot) => {
             const tasksData = [];
             snapshot.forEach((docSnap) => {
                 tasksData.push({ id: docSnap.id, ...docSnap.data() });
             });
-            setTasks(tasksData.reverse());
+            tasksData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+            setTasks(tasksData);
         });
         return () => unsubscribe();
-    }, []);
+    }, [canManageTasks]);
+
+    if (!canManageTasks) {
+        return (
+            <section className={styles.panel}>
+                <h2 className={styles.panelTitle}>Manage Tasks</h2>
+                <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+            </section>
+        );
+    }
 
     const handleAddTask = async (e) => {
         e.preventDefault();
@@ -35,6 +54,7 @@ const TaskManager = () => {
                 description,
                 date,
                 location,
+                marker: marker.trim(),
                 skillsRequired: skillsArray,
                 urgency,
                 appliedUsers: [],
@@ -45,6 +65,7 @@ const TaskManager = () => {
             setDescription('');
             setDate('');
             setLocation('');
+            setMarker('');
             setSkillsString('');
             setUrgency('Medium');
             setIsAdding(false);
@@ -115,6 +136,16 @@ const TaskManager = () => {
                     </div>
 
                     <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>Marker Label (optional)</label>
+                        <input
+                            value={marker}
+                            onChange={(e) => setMarker(e.target.value)}
+                            placeholder="Zone A / Driver Team / Booth 03"
+                            className={styles.fieldInput}
+                        />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
                         <label className={styles.fieldLabel}>Required Skills</label>
                         <input
                             value={skillsString}
@@ -142,6 +173,7 @@ const TaskManager = () => {
                                 <div>
                                     <h3 className={styles.taskTitle}>{task.title}</h3>
                                     <p className={styles.profileMeta}>Applicants: {task.appliedUsers?.length || 0}</p>
+                                    {task.marker ? <p className={styles.profileMeta}>Marker: {task.marker}</p> : null}
                                 </div>
                                 <span className={task.urgency === 'High' ? styles.badgeHigh : task.urgency === 'Low' ? styles.badgeLow : styles.badgeMedium}>
                                     {task.urgency}

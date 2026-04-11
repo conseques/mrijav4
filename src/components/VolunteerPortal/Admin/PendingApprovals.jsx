@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
+import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import styles from '../VolunteerPortal.module.css';
 
 const PendingApprovals = () => {
+    const { profile } = useVolunteerAuth();
     const [pendingUsers, setPendingUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const canReviewUsers = profile?.role === 'manager' || profile?.role === 'admin';
 
     const fetchPendingUsers = async () => {
         setLoading(true);
@@ -21,8 +24,22 @@ const PendingApprovals = () => {
     };
 
     useEffect(() => {
-        fetchPendingUsers();
-    }, []);
+        if (canReviewUsers) {
+            fetchPendingUsers();
+        } else {
+            setPendingUsers([]);
+            setLoading(false);
+        }
+    }, [canReviewUsers]);
+
+    if (!canReviewUsers) {
+        return (
+            <section className={styles.panel}>
+                <h2 className={styles.panelTitle}>Pending Approvals</h2>
+                <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+            </section>
+        );
+    }
 
     const handleApprove = async (userId) => {
         try {

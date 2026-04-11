@@ -1,0 +1,237 @@
+.managerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.description {
+  margin: 8px 0 0;
+  max-width: 760px;
+  color: var(--text-muted, #64748b);
+  line-height: 1.6;
+}
+
+.addBtn,
+.submitBtn,
+.cancelBtn,
+.deleteBtn {
+  border: none;
+  border-radius: 12px;
+  min-height: 42px;
+  padding: 0 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.addBtn,
+.submitBtn {
+  background: linear-gradient(135deg, #12357a 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.cancelBtn {
+  background: rgba(100, 116, 139, 0.12);
+  color: var(--text-color, #0f172a);
+}
+
+.deleteBtn {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+}
+
+.formCard,
+.listCard {
+  border-radius: 20px;
+  border: 1px solid rgba(18, 53, 122, 0.08);
+  background: var(--container-bg, rgba(255, 255, 255, 0.95));
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.04);
+}
+
+.formCard {
+  padding: 20px;
+}
+
+.formTitle {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.formGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.inputGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.inputGroup label {
+  font-size: 13px;
+  color: var(--text-muted, #64748b);
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--text-color, #0f172a);
+  min-height: 42px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.inputGroup textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.errorMessage {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(220, 38, 38, 0.18);
+  background: rgba(254, 242, 242, 0.96);
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.listCard {
+  padding: 18px;
+}
+
+.taskList {
+  display: grid;
+  gap: 14px;
+}
+
+.taskCard {
+  border-radius: 16px;
+  border: 1px solid rgba(18, 53, 122, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(246, 249, 255, 0.92));
+  padding: 16px;
+}
+
+.taskTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.taskTitle {
+  margin: 0;
+  font-size: 18px;
+}
+
+.taskMeta {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--text-muted, #64748b);
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.priorityBadge,
+.markerBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border-radius: 999px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.priorityBadge {
+  background: rgba(18, 53, 122, 0.1);
+  color: #12357a;
+}
+
+.markerBadge {
+  background: rgba(16, 185, 129, 0.16);
+  color: #065f46;
+}
+
+.taskDescription {
+  margin: 12px 0 0;
+  color: var(--text-color, #0f172a);
+  line-height: 1.6;
+}
+
+.taskFooter {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.applicants {
+  color: var(--text-muted, #64748b);
+  font-size: 13px;
+}
+
+.emptyState {
+  margin: 0;
+  color: var(--text-muted, #94a3b8);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .header,
+  .taskTop,
+  .taskFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .addBtn,
+  .submitBtn,
+  .cancelBtn,
+  .deleteBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .badgeRow {
+    justify-content: flex-start;
+  }
+}
