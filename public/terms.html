@@ -2,211 +2,1054 @@
 <html lang="no">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vedtekter – Ukrainsk forening i Drammen og omegn «MRIJA»</title>
-    <meta name="description" content="Vedtekter og retningslinjer for Ukrainsk forening i Drammen og omegn Mrija." />
-    <meta property="og:title" content="Vedtekter - Mrija" />
-    <meta property="og:description" content="Vedtekter og retningslinjer for Ukrainsk forening i Drammen og omegn Mrija." />
+    <meta name="description" content="Vedtekter for Ukrainsk forening i Drammen og omegn «MRIJA», vedtatt av stiftelsesmøtet 16.12.2022." />
+    <meta property="og:title" content="Vedtekter – MriJa" />
+    <meta property="og:description" content="Les vedtektene for Ukrainsk forening i Drammen og omegn «MRIJA» på norsk og ukrainsk." />
+    <meta name="theme-color" content="#f5f7fb" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --font-sans: "Manrope", sans-serif;
+            --font-display: "Cormorant Garamond", serif;
+            --bg-color: #f5f7fb;
+            --text-color: #1b1c1c;
+            --text-muted: #4b5362;
+            --container-bg: #ffffff;
+            --container-highest-bg: #ebeff5;
+            --primary-color: #12357a;
+            --secondary-color: #fed000;
+            --outline-variant: #c9d0e0;
+            --surface-soft: rgba(255, 255, 255, 0.78);
+            --surface-strong: rgba(255, 255, 255, 0.94);
+            --shadow-soft: 0 20px 60px rgba(18, 53, 122, 0.12);
+            --page-glow:
+                radial-gradient(circle at top left, rgba(254, 208, 0, 0.14), transparent 28%),
+                radial-gradient(circle at top right, rgba(18, 53, 122, 0.12), transparent 38%),
+                linear-gradient(180deg, #fbfcff 0%, #f5f7fb 45%, #eef4fa 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 40px 100px;
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background: var(--page-glow);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+            background-size: 120px 120px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.36), transparent 80%);
+            opacity: 0.34;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        ::selection {
+            color: #15213b;
+            background: rgba(254, 208, 0, 0.5);
+        }
+
+        .page {
+            width: min(1320px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 28px 0 56px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(18, 53, 122, 0.08);
+            border-radius: 36px;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(254, 208, 0, 0.18), transparent 22%),
+                radial-gradient(circle at 88% 18%, rgba(18, 53, 122, 0.14), transparent 30%),
+                linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 255, 0.92));
+            box-shadow: var(--shadow-soft);
+            padding: 28px;
+            backdrop-filter: blur(18px);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -6% -24% auto;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(18, 53, 122, 0.08), transparent 65%);
+            pointer-events: none;
+        }
+
+        .heroTop {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .backLink {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 42px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(18, 53, 122, 0.1);
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .backLink:hover {
+            background: rgba(255, 255, 255, 0.94);
+        }
+
+        .languageSwitch {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(18, 53, 122, 0.08);
+        }
+
+        .languageButton {
+            min-height: 42px;
+            padding: 0 18px;
+            border: 0;
+            border-radius: 999px;
+            color: var(--text-muted);
+            background: transparent;
             font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .languageButton.is-active {
+            color: #ffffff;
+            background: linear-gradient(135deg, #0f3d8f 0%, #1f63d9 100%);
+            box-shadow: 0 14px 30px rgba(18, 53, 122, 0.2);
+        }
+
+        .heroContent {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 28px;
+            align-items: end;
+        }
+
+        .heroCopy {
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background: rgba(18, 53, 122, 0.06);
+            border: 1px solid rgba(18, 53, 122, 0.1);
+            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .heroTitle {
+            margin: 22px 0 14px;
+            font-family: var(--font-display);
+            font-size: clamp(54px, 9vw, 92px);
+            font-weight: 600;
+            line-height: 0.92;
+            letter-spacing: -0.06em;
+            color: var(--primary-color);
+            max-width: 10ch;
+        }
+
+        .heroLead {
+            max-width: 58ch;
+            margin: 0;
+            font-size: 19px;
+            color: var(--text-muted);
+        }
+
+        .heroMeta {
+            display: grid;
+            gap: 14px;
+        }
+
+        .metaCard {
+            padding: 20px 22px;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(18, 53, 122, 0.08);
+        }
+
+        .metaLabel {
+            display: inline-block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .metaValue {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(250px, 280px) minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
+            margin-top: 24px;
+        }
+
+        .tocPanel {
+            position: sticky;
+            top: 24px;
+            display: none;
+            padding: 24px;
+            border-radius: 30px;
+            background: var(--surface-strong);
+            border: 1px solid rgba(18, 53, 122, 0.08);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(18px);
+        }
+
+        .tocPanel.is-active {
+            display: block;
+        }
+
+        .tocTitle {
+            margin: 0 0 6px;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--primary-color);
+        }
+
+        .tocDescription {
+            margin: 0 0 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .tocList {
+            display: grid;
+            gap: 10px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .tocLink {
+            display: block;
+            padding: 11px 14px;
+            border-radius: 16px;
+            background: rgba(18, 53, 122, 0.04);
+            color: var(--text-color);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .tocLink:hover {
+            transform: translateX(3px);
+            background: rgba(18, 53, 122, 0.08);
+        }
+
+        .tocLink strong {
+            display: block;
+            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .tocLink span {
+            display: block;
+            margin-top: 4px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .documentPanel {
+            display: none;
+            border-radius: 34px;
+            background: var(--surface-strong);
+            border: 1px solid rgba(18, 53, 122, 0.08);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(18px);
+            padding: 26px;
+        }
+
+        .documentPanel.is-active {
+            display: block;
+        }
+
+        .documentIntro {
+            padding: 26px 28px;
+            border-radius: 30px;
+            background:
+                linear-gradient(135deg, rgba(18, 53, 122, 0.06) 0%, rgba(255, 255, 255, 0.54) 100%);
+            border: 1px solid rgba(18, 53, 122, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .introLabel {
+            margin: 0 0 10px;
+            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .introTitle {
+            margin: 0 0 10px;
+            font-family: var(--font-display);
+            font-size: clamp(34px, 5vw, 52px);
+            font-weight: 600;
+            line-height: 0.96;
+            letter-spacing: -0.05em;
+            color: var(--primary-color);
+        }
+
+        .introText,
+        .documentIntro p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .sectionList {
+            display: grid;
+            gap: 18px;
+        }
+
+        .bylawSection {
+            scroll-margin-top: 28px;
+            padding: 24px 26px;
+            border-radius: 28px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(245, 248, 253, 0.9));
+            border: 1px solid rgba(18, 53, 122, 0.08);
+        }
+
+        .sectionKey {
+            display: inline-flex;
+            align-items: center;
+            min-height: 32px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: rgba(254, 208, 0, 0.18);
+            color: #6b5200;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .sectionTitle {
+            margin: 14px 0 10px;
+            font-size: clamp(24px, 3vw, 30px);
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--text-color);
+        }
+
+        .sectionTitle strong {
+            color: var(--primary-color);
+        }
+
+        .bylawSection p,
+        .bylawSection ul {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 16px;
             line-height: 1.8;
-            color: #000;
         }
-        h1, h2, h3 {
-            margin-top: 1.8em;
+
+        .bylawSection p + p,
+        .bylawSection p + ul,
+        .bylawSection ul + p,
+        .bylawSection ul + ul {
+            margin-top: 14px;
         }
-        hr {
-            margin: 30px 0;
+
+        .bylawSection ul {
+            padding-left: 20px;
         }
-        ul {
-            margin-left: 20px;
+
+        .bylawSection li + li {
+            margin-top: 8px;
+        }
+
+        .subsectionTitle {
+            margin: 18px 0 10px;
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .footerNote {
+            margin-top: 24px;
+            padding: 20px 22px;
+            border-radius: 24px;
+            background: rgba(18, 53, 122, 0.05);
+            border: 1px solid rgba(18, 53, 122, 0.08);
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        @media (max-width: 1080px) {
+            .heroContent,
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .tocPanel {
+                position: static;
+            }
+
+            .tocList {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                width: min(100%, calc(100% - 20px));
+                padding-top: 12px;
+                padding-bottom: 36px;
+            }
+
+            .hero,
+            .documentPanel {
+                padding: 20px;
+                border-radius: 28px;
+            }
+
+            .heroTop {
+                margin-bottom: 24px;
+            }
+
+            .heroTitle {
+                margin-top: 18px;
+                font-size: 56px;
+            }
+
+            .heroLead,
+            .documentIntro p {
+                font-size: 17px;
+            }
+
+            .documentIntro,
+            .bylawSection {
+                padding: 20px;
+                border-radius: 24px;
+            }
+
+            .tocList {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .languageSwitch,
+            .heroTop {
+                width: 100%;
+            }
+
+            .languageSwitch {
+                justify-content: space-between;
+            }
+
+            .languageButton {
+                flex: 1;
+                padding-inline: 12px;
+            }
         }
     </style>
 </head>
 <body>
+<main class="page">
+    <header class="hero">
+        <div class="heroTop">
+            <a class="backLink" href="/">Tilbake til MriJa</a>
+            <div class="languageSwitch" role="tablist" aria-label="Velg språk">
+                <button class="languageButton is-active" type="button" role="tab" aria-selected="true" data-lang-target="no">Norsk</button>
+                <button class="languageButton" type="button" role="tab" aria-selected="false" data-lang-target="ua">Українська</button>
+            </div>
+        </div>
 
-<h1>Vedtekter for Ukrainsk forening i Drammen og omegn «MRIJA»</h1>
+        <div class="heroContent">
+            <div class="heroCopy">
+                <span class="eyebrow">Vedtekter og statut</span>
+                <h1 class="heroTitle">MRIJA vedtekter</h1>
+                <p class="heroLead">
+                    Dette dokumentet samler de vedtatte vedtektene for Ukrainsk forening i Drammen og omegn «MRIJA» på norsk og ukrainsk, slik de ble vedtatt av stiftelsesmøtet 16.12.2022.
+                </p>
+            </div>
 
-<p>
-    Vedtatt av stiftelsesmøtet 16.12.2022
-</p>
+            <div class="heroMeta">
+                <article class="metaCard">
+                    <span class="metaLabel">Organisasjon</span>
+                    <p class="metaValue">Ukrainsk forening i Drammen og omegn «MRIJA»</p>
+                </article>
+                <article class="metaCard">
+                    <span class="metaLabel">Vedtatt</span>
+                    <p class="metaValue">16.12.2022 på stiftelsesmøtet</p>
+                </article>
+                <article class="metaCard">
+                    <span class="metaLabel">Innhold</span>
+                    <p class="metaValue">Formål, medlemskap, årsmøte, styre, økonomi, informasjonskanaler og oppløsning.</p>
+                </article>
+            </div>
+        </div>
+    </header>
 
-<hr>
+    <div class="layout">
+        <aside>
+            <nav class="tocPanel is-active" data-lang-nav="no" aria-label="Innholdsfortegnelse norsk">
+                <h2 class="tocTitle">Innhold</h2>
+                <p class="tocDescription">Hopp direkte til paragrafene i den norske versjonen.</p>
+                <ul class="tocList">
+                    <li><a class="tocLink" href="#no-1"><strong>§ 1</strong><span>Formål</span></a></li>
+                    <li><a class="tocLink" href="#no-2"><strong>§ 2</strong><span>Organisasjonsform</span></a></li>
+                    <li><a class="tocLink" href="#no-3"><strong>§ 3</strong><span>Medlemskap</span></a></li>
+                    <li><a class="tocLink" href="#no-4"><strong>§ 4</strong><span>Rettigheter og plikter</span></a></li>
+                    <li><a class="tocLink" href="#no-5"><strong>§ 5</strong><span>Kontingent</span></a></li>
+                    <li><a class="tocLink" href="#no-6"><strong>§ 6</strong><span>Eksklusjon</span></a></li>
+                    <li><a class="tocLink" href="#no-7"><strong>§ 7</strong><span>Årsmøte</span></a></li>
+                    <li><a class="tocLink" href="#no-8"><strong>§ 8</strong><span>Årsmøtets oppgaver</span></a></li>
+                    <li><a class="tocLink" href="#no-9"><strong>§ 9</strong><span>Ekstraordinære årsmøter</span></a></li>
+                    <li><a class="tocLink" href="#no-10"><strong>§ 10</strong><span>Styret</span></a></li>
+                    <li><a class="tocLink" href="#no-11"><strong>§ 11</strong><span>Grupper og avdelinger</span></a></li>
+                    <li><a class="tocLink" href="#no-12"><strong>§ 12</strong><span>Informasjonskanaler</span></a></li>
+                    <li><a class="tocLink" href="#no-13"><strong>§ 13</strong><span>Økonomiske forhold</span></a></li>
+                    <li><a class="tocLink" href="#no-14"><strong>§ 14</strong><span>Vedtektsendringer</span></a></li>
+                    <li><a class="tocLink" href="#no-15"><strong>§ 15</strong><span>Oppløsning</span></a></li>
+                </ul>
+            </nav>
 
-<h2>FORENINGENS FORMÅL OG VEDTEKTER</h2>
+            <nav class="tocPanel" data-lang-nav="ua" aria-label="Зміст українською">
+                <h2 class="tocTitle">Зміст</h2>
+                <p class="tocDescription">Швидкий перехід до розділів української версії статуту.</p>
+                <ul class="tocList">
+                    <li><a class="tocLink" href="#ua-1"><strong>§ 1</strong><span>Мета</span></a></li>
+                    <li><a class="tocLink" href="#ua-2"><strong>§ 2</strong><span>Організаційна форма</span></a></li>
+                    <li><a class="tocLink" href="#ua-3"><strong>§ 3</strong><span>Членство</span></a></li>
+                    <li><a class="tocLink" href="#ua-4"><strong>§ 4</strong><span>Права та обов'язки</span></a></li>
+                    <li><a class="tocLink" href="#ua-5"><strong>§ 5</strong><span>Членські внески</span></a></li>
+                    <li><a class="tocLink" href="#ua-6"><strong>§ 6</strong><span>Положення про виключення</span></a></li>
+                    <li><a class="tocLink" href="#ua-7"><strong>§ 7</strong><span>Річні збори</span></a></li>
+                    <li><a class="tocLink" href="#ua-8"><strong>§ 8</strong><span>Завдання річних зборів</span></a></li>
+                    <li><a class="tocLink" href="#ua-9"><strong>§ 9</strong><span>Позачергові річні збори</span></a></li>
+                    <li><a class="tocLink" href="#ua-10"><strong>§ 10</strong><span>Правління</span></a></li>
+                    <li><a class="tocLink" href="#ua-11"><strong>§ 11</strong><span>Групи та відділення</span></a></li>
+                    <li><a class="tocLink" href="#ua-12"><strong>§ 12</strong><span>Канали інформації</span></a></li>
+                    <li><a class="tocLink" href="#ua-13"><strong>§ 13</strong><span>Фінансові умови</span></a></li>
+                    <li><a class="tocLink" href="#ua-14"><strong>§ 14</strong><span>Зміни до статуту</span></a></li>
+                    <li><a class="tocLink" href="#ua-15"><strong>§ 15</strong><span>Розпуск</span></a></li>
+                </ul>
+            </nav>
+        </aside>
 
-<p>
-    <strong>Organisasjonens navn:</strong> Ukrainsk forening i Drammen og omegn «MRIJA»
-</p>
+        <section class="documentPanel is-active" data-lang-panel="no">
+            <div class="documentIntro">
+                <p class="introLabel">Norsk versjon</p>
+                <h2 class="introTitle">Vedtekter for Ukrainsk forening i Drammen og omegn «MRIJA»</h2>
+                <p class="introText">Vedtatt av stiftelsesmøtet 16.12.2022.</p>
+                <p class="introText" style="margin-top: 12px;"><strong>FORENINGENS FORMÅL OG VEDTEKTER</strong><br>VEDTEKTER<br><strong>Organisasjonens navn:</strong> Ukrainsk forening i Drammen og omegn «MRIJA»</p>
+            </div>
 
-<h3>§ 1 FORMÅL</h3>
+            <div class="sectionList">
+                <article class="bylawSection" id="no-1">
+                    <span class="sectionKey">§ 1</span>
+                    <h3 class="sectionTitle"><strong>Formål</strong></h3>
+                    <p>Ukrainsk forening i Drammen og omegn «MRIJA» er en frivillig interesseorganisasjon for ukrainere og alle som er glad i Ukraina.</p>
+                    <p>Ukrainsk foreningen skal:</p>
+                    <ul>
+                        <li>jobbe for å fremme ukraineres interesser i samfunnet og mot bevaring av ukrainsk kultur og tradisjoner</li>
+                        <li>fungere som et kontaktnettverk og samarbeidsforum for ukrainere og andre som søker kontakt med ukrainere</li>
+                        <li>jobbe mot integrering av ukrainere i det norske samfunnet gjennom frivillighetsarbeid, kulturelle/idretts tiltakene.</li>
+                    </ul>
+                    <p class="subsectionTitle">Hovedaktiviteter og tiltak som forening vil utføre for å oppnå formålet</p>
+                    <p><strong>Informasjonsdelen:</strong></p>
+                    <ul>
+                        <li>representasjon av foreningen og Ukrainsk kultur/samfunn, kulturelle konsultasjoner til det offentlige og til de private organisasjoner i Norge</li>
+                        <li>utarbeidelse og utbredelse av informasjon om ukrainsk samfunn og ukrainsk kultur i Norge</li>
+                        <li>utarbeidelse og utbredelse av informasjon om norsk samfunn og promotering av norsk kultur på ukrainsk</li>
+                        <li>informasjonsmøter med viktige offentlige aktører: POLITI, UDI, NAV, Skatteetaten, kommunale tjenester osv.</li>
+                        <li>informasjonsstøtte til medlemmer om de viktigste og mest interessante sosiale, økonomiske og kulturelle begivenhetene både i Ukraina og i Norge</li>
+                    </ul>
+                    <p><strong>Integreringsdelen:</strong></p>
+                    <ul>
+                        <li>integreringstiltak i form av kulturelle/idrettsaktiviteter som fører til tettere kontakt og samhandling mellom ukrainere og nordmenn</li>
+                        <li>samarbeid med andre internasjonale kulturelle foreninger/organisasjoner i Norge om felles arrangementer</li>
+                        <li>informasjonsmøter om arbeidsintegrering, frivillighet og inkluderingsarbeid i frivillighetsarbeid</li>
+                        <li>yte bistand med å knytte seg til arbeidslivet gjennom sosiale nettverk</li>
+                    </ul>
+                    <p><strong>Arbeid mot kulturell tilhørighet:</strong></p>
+                    <ul>
+                        <li>kontakt med hjemlandet – Ukraina gjennom kulturelle/idretts tiltak</li>
+                        <li>dannelse av ukrainsk kulturskole ved den ukrainske forening</li>
+                        <li>samarbeid med vokalensemblet «FolkeMelodi» og andre kulturelle organisasjoner</li>
+                    </ul>
+                    <p><strong>Veldedighetsdelen:</strong></p>
+                    <ul>
+                        <li>bistand med juridiske spørsmål og spørsmål om psykososial tilpasning- integrering av ukrainere i Norge</li>
+                        <li>innsamling av penger til veldedighet</li>
+                        <li>humanitære hjelpesendingene til Ukraina. Foreningen velger mottakere og type bistand i samsvar med sine vedtekter og formål</li>
+                    </ul>
+                    <p class="subsectionTitle">Aktivitetsformer som vil brukes for å oppnå formålet</p>
+                    <ul>
+                        <li>diskusjonsplattformen på facebooksider</li>
+                        <li>møter både innenfor foreningen og med andre offentlige/private/frivillige organisasjoner</li>
+                        <li>aktiv kommunikasjon gjennom internett på forskjellige utvalgte sosiale plattformer</li>
+                        <li>feiring av ukrainske høytidsdager ifølge folketradisjoner (for eks. nyttårsaften, jul, vårdag, påske osv.)</li>
+                        <li>temakvelder</li>
+                        <li>barnas og voksne aktiviteter ved kulturskolen</li>
+                        <li>felles reiser og turer, konserter, utstillinger – kulturelle og idretts arrangementer</li>
+                    </ul>
+                </article>
 
-<p>
-    Ukrainsk forening i Drammen og omegn «MRIJA» er en frivillig interesseorganisasjon
-    for ukrainere og alle som er glad i Ukraina.
-</p>
+                <article class="bylawSection" id="no-2">
+                    <span class="sectionKey">§ 2</span>
+                    <h3 class="sectionTitle"><strong>Organisasjonsform og organisatorisk tilknytning</strong></h3>
+                    <p>Ukrainsk forening i Drammen og omegn «MRIJA» er en frittstående frivillig interesseorganisasjon, uten binding til andre organisasjoner.</p>
+                    <p>Foreningen er en frittstående juridisk person med medlemmer, og er selveiende. At den er selveiende innebærer at ingen, verken medlemmer eller andre, har krav på foreningens formue eller eiendeler, eller er ansvarlig for gjeld eller andre forpliktelser.</p>
+                    <p>Ukrainsk forening i Drammen og omegn «MRIJA» er en ideell, ikke-kommersiell organisasjon. Foreningens formål er av ikke-økonomisk art, og overskudd kan ikke deles ut til medlemmer eller andre. Eventuelle overskudd skal i sin helhet benyttes til å fremme foreningens formål.</p>
+                </article>
 
-<p>Ukrainsk foreningen skal:</p>
-<ul>
-    <li>jobbe for å fremme ukraineres interesser i samfunnet og mot bevaring av ukrainsk kultur og tradisjoner</li>
-    <li>fungere som et kontaktnettverk og samarbeidsforum for ukrainere og andre som søker kontakt med ukrainere</li>
-    <li>jobbe mot integrering av ukrainere i det norske samfunnet gjennom frivillighetsarbeid, kulturelle/idretts tiltakene</li>
-</ul>
+                <article class="bylawSection" id="no-3">
+                    <span class="sectionKey">§ 3</span>
+                    <h3 class="sectionTitle"><strong>Medlemskap</strong></h3>
+                    <p>Medlemskap i Ukrainsk forening i Drammen og omegn «MRIJA» er åpent for alle som har interesse for ukrainsk samfunn og kultur.</p>
+                    <p>Krav til medlemmer er:</p>
+                    <ul>
+                        <li>innbetaling av medlemskontingent</li>
+                        <li>medlemmer må bo i Norge.</li>
+                    </ul>
+                </article>
 
-<p><strong>Hovedaktiviteter og tiltak:</strong></p>
+                <article class="bylawSection" id="no-4">
+                    <span class="sectionKey">§ 4</span>
+                    <h3 class="sectionTitle"><strong>Rettigheter og plikter</strong></h3>
+                    <p>Alle medlemmer har rett til å delta på årsmøte, har stemmerett og er valgbare til tillitsverv i foreningen.</p>
+                    <p>Medlemmer som skylder kontingent for mer enn ett år, har ikke stemmerett eller andre rettigheter, og styret kan stryke dem som medlem av foreningen.</p>
+                    <p>Medlemmene plikter å forholde seg til vedtak som er fattet av årsmøte.</p>
+                </article>
 
-<p><strong>Informasjonsdelen:</strong></p>
-<ul>
-    <li>representasjon av foreningen og ukrainsk kultur/samfunn, kulturelle konsultasjoner til offentlige og private organisasjoner i Norge</li>
-    <li>utarbeidelse og utbredelse av informasjon om ukrainsk samfunn og ukrainsk kultur i Norge</li>
-    <li>utarbeidelse og utbredelse av informasjon om norsk samfunn og promotering av norsk kultur på ukrainsk</li>
-    <li>informasjonsmøter med viktige offentlige aktører: POLITI, UDI, NAV, Skatteetaten, kommunale tjenester osv.</li>
-    <li>informasjonsstøtte til medlemmer om viktige sosiale, økonomiske og kulturelle begivenheter i Ukraina og Norge</li>
-</ul>
+                <article class="bylawSection" id="no-5">
+                    <span class="sectionKey">§ 5</span>
+                    <h3 class="sectionTitle"><strong>Kontingent</strong></h3>
+                    <p>Kontingenten fastsettes av årsmøtet og betales forskuddsvis.</p>
+                    <p>Medlemmer som skylder kontingent for mer enn ett år, har ikke stemmerett eller andre rettigheter, og kan av styret strykes som medlem av foreningen. Strykes et medlem, kan det ikke tas opp igjen før skyldig kontingent er betalt.</p>
+                    <p>Inn- og utmelding i organisasjonen kan skje på et hvilket som helst tidspunkt. Innbetalt medlemskontingent returneres ikke ved utmelding. Årlig medlemskontingent er ikke innbetalt før 1. februar.</p>
+                </article>
 
-<p><strong>Integreringsdelen:</strong></p>
-<ul>
-    <li>kulturelle og idrettsaktiviteter som styrker samhandling mellom ukrainere og nordmenn</li>
-    <li>samarbeid med andre internasjonale kulturelle foreninger i Norge</li>
-    <li>informasjonsmøter om arbeidsintegrering, frivillighet og inkludering</li>
-    <li>bistand til tilknytning til arbeidslivet gjennom sosiale nettverk</li>
-</ul>
+                <article class="bylawSection" id="no-6">
+                    <span class="sectionKey">§ 6</span>
+                    <h3 class="sectionTitle"><strong>Eksklusjonsbestemmelser</strong></h3>
+                    <p>Hvis et medlem handler i strid med vedtekter eller andre regler (som er vedtatt på årsmøtet) og dersom handling forekommer gjentatte ganger eller er grovt i strid med forenings regler kan årsmøtet (etter skriftlig varsel fra styret) beslutte eksklusjon fra medlemskap.</p>
+                    <p>Denne beslutningen krever tilslutning fra minst to tredeler av de avgitte stemmene.</p>
+                    <p>Styret er ansvarlig for at det til enhver tid føres oversikt over medlemmene, med registrering av korrekt e-postadresse, innbetaling av kontingent og annet.</p>
+                </article>
 
-<p><strong>Arbeid mot kulturell tilhørighet:</strong></p>
-<ul>
-    <li>kontakt med hjemlandet Ukraina gjennom kulturelle og idrettsaktiviteter</li>
-    <li>dannelse av ukrainsk kulturskole</li>
-    <li>samarbeid med vokalensemblet «FolkeMelodi» og andre kulturelle organisasjoner</li>
-</ul>
+                <article class="bylawSection" id="no-7">
+                    <span class="sectionKey">§ 7</span>
+                    <h3 class="sectionTitle"><strong>Årsmøte</strong></h3>
+                    <p>Årsmøtet av Ukrainsk forening i Drammen og omegn «MRIJA» er høyeste myndighet. Årsmøtet holdes hvert år innen slutten av mars og innkalles av styret med 1 måneds varsel med skriftlig melding til medlemmene. Årsmøtet innkalles av styret ved skriftlig henvendelse til alle medlemmer i Facebookgruppe «Дійсні члени « в Драммені та околиці / Ukrainere i Drammen og omegn». Innkallingen skal inneholde tid og sted for møtet.</p>
+                    <p>Forslag som skal behandles på årsmøtet skal være sendt til styret senest 2 uker før årsmøtet. Fullstendig saksliste må være tilgjengelig for medlemmene senest 1 uke før årsmøtet.</p>
+                    <p>Alle medlemmer har adgang til årsmøtet. Årsmøtet kan invitere andre personer og/eller media til å være til stede.</p>
+                    <p>Årsmøtet er vedtaksført med det antall stemmer som møter. Ingen har mer enn en stemme, og stemmegivning kan ikke skje ved fullmakt. Med mindre annet er bestemt skal et vedtak for å være gyldig være truffet med alminnelig flertall av de avgitte stemmene. Blanke stemmer skal anses som ikke avgitt.</p>
+                </article>
 
-<p><strong>Veldedighetsdelen:</strong></p>
-<ul>
-    <li>bistand med juridiske spørsmål og psykososial tilpasning</li>
-    <li>innsamling av penger til veldedighet</li>
-    <li>humanitære hjelpesendinger til Ukraina</li>
-</ul>
+                <article class="bylawSection" id="no-8">
+                    <span class="sectionKey">§ 8</span>
+                    <h3 class="sectionTitle"><strong>Årsmøtets oppgaver</strong></h3>
+                    <p>Årsmøtet skal:</p>
+                    <ul>
+                        <li>Behandle Ukrainsk forening i Drammen og omegn «MRIJA» årsmelding</li>
+                        <li>Behandle Ukrainsk forening i Drammen og omegn «MRIJA» regnskap i revidert stand</li>
+                        <li>Rapportering om disponering av medlemskontingent</li>
+                        <li>Fastsette kontingenten</li>
+                        <li>Vedta Ukrainsk forening i Drammen og omegn «MRIJA» budsjett</li>
+                        <li>Behandle innkomne forslag</li>
+                        <li>Velge:</li>
+                        <li>leder og (nest)leder</li>
+                        <li>styremedlem(mer)</li>
+                        <li>varamedlemmer/valgkomite</li>
+                    </ul>
+                    <p>En beslutning av årsmøte krever flertall av de avgitte stemmene (Det er flere stemmer for enn imot. Avholdende teller ikke). Står stemmetallet likt, gjelder det som møtelederen slutter seg til.</p>
+                    <p>Beslutning om å endre vedtektene og/eller budsjettet treffes av årsmøtedeltakerne. Beslutningen krever tilslutning av minst to tredeler avgitte stemmer. Bare de medlemmene som har innbetalt medlemskontingent for inneværende år før 1. mars har stemmerett i årsmøtet.</p>
+                </article>
 
-<h3>§ 2 ORGANISASJONSFORM</h3>
+                <article class="bylawSection" id="no-9">
+                    <span class="sectionKey">§ 9</span>
+                    <h3 class="sectionTitle"><strong>Ekstraordinære årsmøter</strong></h3>
+                    <p>Ekstraordinære årsmøter holdes når styret bestemmer det, eller minst en tredjedel av de stemmeberettigede medlemmene krever det.</p>
+                    <p>Møteinnkallelse og vedtak skjer etter samme regler som for ordinære årsmøter.</p>
+                </article>
 
-<p>
-    Foreningen er en frittstående frivillig interesseorganisasjon og selveiende juridisk person.
-    Ingen medlemmer har krav på foreningens midler eller eiendeler.
-</p>
+                <article class="bylawSection" id="no-10">
+                    <span class="sectionKey">§ 10</span>
+                    <h3 class="sectionTitle"><strong>Styret</strong></h3>
+                    <p>Ukrainsk forening i Drammen og omegn «MRIJA» ledes av styret som er høyeste myndighet mellom årsmøtene.</p>
+                    <p>Styret skal:</p>
+                    <ul>
+                        <li>Iverksette årsmøtets bestemmelser</li>
+                        <li>Oppnevne etter behov komiteer/utvalg/personer for spesielle oppgaver og utarbeide instruks for disse</li>
+                        <li>Administrere og føre nødvendig kontroll med Ukrainsk forening i Drammen og omegn «MRIJA» økonomi og eiendeler i henhold til de til enhver tid gjeldende instrukser og bestemmelser</li>
+                        <li>Representere Ukrainsk forening i Drammen og omegn «MRIJA» utad</li>
+                    </ul>
+                    <p>Leder innkaller til styremøter ved behov. Styret er vedtaksført når et flertall av styrets medlemmer er til stede. Vedtak fattes med flertall av de avgitte stemmene. Ved stemmelikhet gjelder det som styrelederen, eller stedfortreder utpekt av styreleder, har stemt for.</p>
+                    <p class="subsectionTitle">Styresammensetning</p>
+                    <p>Styret skal ha 3 styremedlemmer og 2 varamedlemmer som velges av medlemmer i foreningen. Styret har plikt og rett til å konstituere og ved behov - rekonstituere seg selv. Styret velges for 1 år og styremedlemmer kan gjenvelges. Tjenestetiden regnes fra valgdagen. Den opphører ved avslutningen av det ordinære årsmøtet i det året tjenestetiden utløper. Selv om tjenestetid er utløpt, skal styremedlemmet bli stående i vervet inntil nytt medlem er valgt. For å sikre en viss kontinuitet i styret og dets arbeid skal minst 2 av styremedlemmene være på valg annet hvert år. Styrets beslutningsform er flertallsavgjørelse.</p>
+                    <p class="subsectionTitle">Valgkomite</p>
+                    <p>Valgkomiteen skal være valgt på siste årsmøte. Valgkomiteen består av minst to medlemmer. I valgsituasjon opptrer disse uavhengig av styret og handler i årsmøtets interesser. Valgkomiteens oppgaver er å legge fram innstilling på kandidater, organisere skriftlig votering og telle resultatene. Årsmøtets valgte møteleder styrer den påfølgende debatten, og leder gjennomføringen av selve valget.</p>
+                    <p class="subsectionTitle">Valg av styre</p>
+                    <p>Medlemmene av styret velges av tilstedeværende årsmøtedeltakere med stemmerett. Alle innkomne kandidater stilles for valg og de som får flest stemmer anses som valgt. Stemmesedler som ikke kan tolkes utfra de reglene som er gitt, forkastes.</p>
+                    <p class="subsectionTitle">Valg av leder</p>
+                    <p>Styret er organisasjonens øverste daglige ledelse og skal ha en leder. Styret velger selv sin leder seg imellom. Lederen skal lede årsmøtet, styremøter og er ansvarlig for at offentlige myndigheter får rapporter, medlemsoversikter og annet som kreves.</p>
+                    <p class="subsectionTitle">Tilbaketreden og avsetting av styremedlemmer</p>
+                    <p>Et styremedlem har rett til å tre tilbake før tjenestetiden er ute. Styret og årsmøtet skal gis to ukers forhåndsvarsel. Et styremedlem kan avsettes av årsmøtet. Ved tilbaketreden eller avsetting av et styremedlem, skal styret sørge for at et av varamedlemmene tar vervet resten av tjenestetiden.</p>
+                </article>
 
-<h3>§ 3 MEDLEMSKAP</h3>
+                <article class="bylawSection" id="no-11">
+                    <span class="sectionKey">§ 11</span>
+                    <h3 class="sectionTitle"><strong>Grupper/avdelinger</strong></h3>
+                    <p>Ukrainsk forening i Drammen og omegn «MRIJA» kan organiseres med avdelinger og/eller grupper. Disse kan ledes av oppnevnte tillitspersoner. Ukrainsk forening i Drammen og omegn «MRIJA» styre bestemmer opprettelsen av avdelinger/grupper, og hvordan disse skal organiseres og ledes. Styret har plikt overfor årsmøtet til å rapportere om aktivitet i de ulike avdelinger/grupper.</p>
+                    <p>For avdelinger/gruppers økonomiske forpliktelser hefter hele Ukrainsk forening i Drammen og omegn «MRIJA», og avdelinger/grupper kan ikke inngå avtaler eller representere Ukrainsk forening «MRIJA» utad uten styrets godkjennelse.</p>
+                </article>
 
-<p>Medlemskap er åpent for alle med interesse for ukrainsk samfunn og kultur.</p>
+                <article class="bylawSection" id="no-12">
+                    <span class="sectionKey">§ 12</span>
+                    <h3 class="sectionTitle"><strong>Informasjonskanaler</strong></h3>
+                    <p>Foreningen står som eieren av Facebookgrupper «Українці в Драммені та навколо / Ukrainere i Drammen og omegn», «Дійсні члени «Українська спілка в Драммені та околицях «МРІЯ»» / «Gyldige medlemmer «Ukrainsk forening i Drammen og omegn «MRIJA»; Facebookside «Українська школа в Драммені» og informasjonsgruppe på Telegram – «Українська спілка в Драммені та околицях «МРІЯ»»/ «Ukrainsk forening i Drammen og omegn «MRIJA»».</p>
+                    <p>Disse administreres av styret som kan delegere moderering til andre stemmeberettigede. Minst en moderator skal være styremedlem. Endringer i moderatorgruppa kan skje fortløpende med godkjenning av styret.</p>
+                </article>
 
-<ul>
-    <li>innbetaling av medlemskontingent</li>
-    <li>medlemmer må bo i Norge</li>
-</ul>
+                <article class="bylawSection" id="no-13">
+                    <span class="sectionKey">§ 13</span>
+                    <h3 class="sectionTitle"><strong>Økonomiske forhold</strong></h3>
+                    <p>Styreleder og vara til styreleder skal ha prokura. Regnskapsfører velges av styret. Regnskapsførsel skal gjøres av et medlem (kasserer) eller av eksternt byrå/person.</p>
+                    <p class="subsectionTitle">Midlene</p>
+                    <p>Ved oppløsning av foreningen midlene som måtte være igjen skal ikke føres til medlemmene. Medlemmene er heller ikke ansvarlige for eventuell gjeld. Midler som er igjen etter oppløsning, går til veldedige organisasjoner i Norge som hjelper Ukraina. Styre i foreningen velger selv veldedighets organisasjon i samsvar med sine vedtekter og formål.</p>
+                    <p>Tillitsvalgte kan motta refusjon for faktiske utgifter. Utgifter refusjon for faktiske utgifter skal fremgå av budsjett og regnskap. Retningslinjer utarbeides av styret.</p>
+                </article>
 
-<h3>§ 4 RETTIGHETER OG PLIKTER</h3>
+                <article class="bylawSection" id="no-14">
+                    <span class="sectionKey">§ 14</span>
+                    <h3 class="sectionTitle"><strong>Vedtektsendringer</strong></h3>
+                    <p>Endringer i disse vedtekter kan bare foretas på ordinært eller ekstraordinært årsmøte etter å ha vært på sakslisten, og det kreves 2/3 flertall av de avgitte stemmene.</p>
+                </article>
 
-<p>
-    Alle medlemmer har stemmerett og er valgbare til tillitsverv.
-    Medlemmer med ubetalt kontingent i over ett år mister rettigheter.
-</p>
+                <article class="bylawSection" id="no-15">
+                    <span class="sectionKey">§ 15</span>
+                    <h3 class="sectionTitle"><strong>Oppløsning (§ 15 kan ikke endres)</strong></h3>
+                    <p>Oppløsning av Ukrainsk forening «MRIJA» kan bare behandles på ordinært årsmøte. Blir oppløsning vedtatt med minst 2/3 flertall, innkalles ekstraordinært årsmøte 3 måneder senere. For at oppløsning skal skje må vedtaket her gjentas med 2/3 flertall.</p>
+                </article>
+            </div>
 
-<h3>§ 5 KONTINGENT</h3>
+            <div class="footerNote">
+                Dokumentet over er satt opp etter teksten i «MRIJA_vedtekter.docx» og presentert som en lesbar nettversjon av de vedtatte vedtektene.
+            </div>
+        </section>
 
-<p>
-    Kontingenten fastsettes av årsmøtet og betales forskuddsvis.
-    Innbetalt kontingent refunderes ikke ved utmelding.
-</p>
+        <section class="documentPanel" data-lang-panel="ua">
+            <div class="documentIntro">
+                <p class="introLabel">Українська версія</p>
+                <h2 class="introTitle">Статут української спілки в Драммені та околицях «МРІЯ»</h2>
+                <p class="introText">Прийнятий установчими зборами 16.12.2022.</p>
+                <p class="introText" style="margin-top: 12px;"><strong>МЕТА ТА СТАТУТ СПІЛКИ</strong><br>СТАТУТНІ АКТИ<br><strong>Назва організації:</strong> Українська спілка в Драммені та околицях «МРІЯ»</p>
+            </div>
 
-<h3>§ 6 EKSKLUSJON</h3>
+            <div class="sectionList">
+                <article class="bylawSection" id="ua-1">
+                    <span class="sectionKey">§ 1</span>
+                    <h3 class="sectionTitle"><strong>Мета</strong></h3>
+                    <p>Українська спілка в Драммені та околицях «МРІЯ» є добровільною громадською організацією українців і всіх, хто любить Україну.</p>
+                    <p>Українська спілка:</p>
+                    <ul>
+                        <li>працює над просуванням інтересів українців у суспільстві та збереженням української культури та традицій</li>
+                        <li>діє як контактна мережа та форум співпраці для українців та інших, хто шукає контакту з українцями</li>
+                        <li>працює над інтеграцією українців у норвезьке суспільство через волонтерську роботу, культурні/спортивні ініціативи.</li>
+                    </ul>
+                    <p class="subsectionTitle">Для досягнення поставлених цілей організація має працювати над</p>
+                    <p><strong>Інформаційним розділом:</strong></p>
+                    <ul>
+                        <li>представництво спілки та української культури/суспільства, культурні консультації з громадськими та приватними організаціями в Норвегії</li>
+                        <li>підготовка та поширення інформації про українське суспільство та українську культуру в Норвегії</li>
+                        <li>підготовка та поширення інформації про норвезьке суспільство та популяризація норвезької культури українською мовою</li>
+                        <li>інформаційні зустрічі з важливими громадськими діячами та представниками з ПОЛІЦІЯ, UDI, NAV, Податкове агентство, муніципальні служби тощо</li>
+                        <li>інформаційна підтримка членів про найважливіші та найцікавіші суспільно-економічні та культурні події як в Україні, так і в Норвегії</li>
+                    </ul>
+                    <p><strong>Культурною спадщиною:</strong></p>
+                    <ul>
+                        <li>контакт із рідною країною – Україною через культурні/спортивні заходи</li>
+                        <li>створення української школи культури при товаристві</li>
+                        <li>співпраця з вокальним ансамблем «ФолькеМелоді» та іншими культурними організаціями</li>
+                    </ul>
+                    <p><strong>Благодійною частиною:</strong></p>
+                    <ul>
+                        <li>допомога з правовими питаннями та питаннями психосоціальної адаптації-інтеграції українців у Норвегії</li>
+                        <li>збір коштів на благодійність</li>
+                        <li>постачання гуманітарної допомоги в Україну. Асоціація обирає отримувачів та вид допомоги відповідно до свого статуту та мети.</li>
+                    </ul>
+                    <p class="subsectionTitle">Форми діяльності, які будуть використані для досягнення мети</p>
+                    <ul>
+                        <li>дискусійний майданчик на сторінці у Facebook/Telegram</li>
+                        <li>зустрічі як всередині спілки, так і з іншими громадськими організаціями</li>
+                        <li>активне спілкування через Інтернет на вибраних соціальних платформах</li>
+                        <li>святкування українських свят за народними традиціями (наприклад, Новий рік, Різдво, Весна, Великдень тощо)</li>
+                        <li>тематичні вечори</li>
+                        <li>дитячі та дорослі заходи в школі культури</li>
+                        <li>спільні подорожі та поїздки, концерти, виставки – культурні та спортивні заходи</li>
+                    </ul>
+                </article>
 
-<p>
-    Årsmøtet kan ved 2/3 flertall beslutte eksklusjon ved grove eller gjentatte brudd på vedtektene.
-</p>
+                <article class="bylawSection" id="ua-2">
+                    <span class="sectionKey">§ 2</span>
+                    <h3 class="sectionTitle"><strong>Організаційна форма та організаційна приналежність</strong></h3>
+                    <p>Українська спілка в Драммені та околицях «МРІЯ» є незалежною добровільною благодійною громадською організацією, не пов'язаною з іншими організаціями.</p>
+                    <p>Спілка є самостійною юридичною особою, у складі якої є учасники, має самостійну форму власності. Той факт, що вона є самостійна, означає, що ніхто, ані члени, ані інші, не мають претензій на активи чи активи спілки, не відповідають за борги чи інші зобов’язання.</p>
+                    <p>Українська спілка в Драммені та околицях «МРІЯ» є неприбутковою (ідеальною) організацією. Мета спілки носить некомерційний характер, і прибуток не може розподілятись між членами або третіми особами. Будь-який профіцит повністю спрямовується на реалізацію цілей спілки.</p>
+                </article>
 
-<h3>§ 7 ÅRSMØTE</h3>
+                <article class="bylawSection" id="ua-3">
+                    <span class="sectionKey">§ 3</span>
+                    <h3 class="sectionTitle"><strong>Членство</strong></h3>
+                    <p>Членство в української спілці в Драммені та околицях «МРІЯ» відкрите для кожного, хто цікавиться українським суспільством і культурою.</p>
+                    <p>Вимоги до учасників:</p>
+                    <ul>
+                        <li>сплата членських внесків</li>
+                        <li>учасники повинні проживати в Норвегії.</li>
+                    </ul>
+                </article>
 
-<p>
-    Årsmøtet er foreningens høyeste myndighet og avholdes årlig innen utgangen av mars.
-</p>
+                <article class="bylawSection" id="ua-4">
+                    <span class="sectionKey">§ 4</span>
+                    <h3 class="sectionTitle"><strong>Права та обов'язки</strong></h3>
+                    <p>Усі члени мають право брати участь у щорічних зборах, мають право голосу та мають право на довірчі посади в української спілці.</p>
+                    <p>Члени, які мають борги - сплату внесків більше одного року, не мають права голосу чи інших прав, і правління може виключити їх як членів спілки.</p>
+                    <p>Члени зобов'язані виконувати рішення, прийняті річними зборами.</p>
+                </article>
 
-<h3>§ 8 ÅRSMØTETS OPPGAVER</h3>
+                <article class="bylawSection" id="ua-5">
+                    <span class="sectionKey">§ 5</span>
+                    <h3 class="sectionTitle"><strong>Квота / членські внески</strong></h3>
+                    <p>Членський внесок визначається щорічними зборами і оплачується наперед.</p>
+                    <p>Члени, які мають борги - сплату внесків більше одного року, не мають права голосу чи інших прав, і правління може виключити їх як членів спілки. Якщо члена спілки виключено, його не можна знову прийняти, доки не буде сплачено належний членський внесок.</p>
+                    <p>Зарахування та зняття з реєстрації в організації може відбутися будь-який час. Сплачені членські внески не повертаються при скасуванні членства. Річний членський внесок сплачується не пізніше 1 лютого поточного року.</p>
+                </article>
 
-<ul>
-    <li>behandle årsmelding og regnskap</li>
-    <li>fastsette kontingent og budsjett</li>
-    <li>behandle innkomne forslag</li>
-    <li>velge styre og valgkomité</li>
-</ul>
+                <article class="bylawSection" id="ua-6">
+                    <span class="sectionKey">§ 6</span>
+                    <h3 class="sectionTitle"><strong>Положення про виключення</strong></h3>
+                    <p>Якщо член діє всупереч статуту чи іншим правилам (що були прийняті на щорічних зборах), і якщо дія відбувається неодноразово або член спілки грубо порушує правила спілки. Річні збори (після письмового повідомлення правління) можуть приймати рішення про виключення зі складу.</p>
+                    <p>Це рішення вимагає схвалення не менше двох третин проголосованих голосів.</p>
+                    <p>Правління відповідає за постійний огляд членів, реєстрацію правильної адреси електронної пошти, сплату внесків та інші речі.</p>
+                </article>
 
-<h3>§ 9 EKSTRAORDINÆRT ÅRSMØTE</h3>
+                <article class="bylawSection" id="ua-7">
+                    <span class="sectionKey">§ 7</span>
+                    <h3 class="sectionTitle"><strong>Річні збори</strong></h3>
+                    <p>Річні збори Української спілки в Драммені та околицях «МРІЯ» є найвищим органом влади. Річні збори проводяться щороку до кінця березня і скликаються правлінням з письмовим повідомленням за 1 місяць усіх членів спілки. Щорічні збори скликає правління, написавши всім членам спілки у Facebook «Дійсні члени «Українська спілка в Драммені та околиціях «МРІЯ»». У повідомленні має бути зазначено час і місце проведення зустрічі.</p>
+                    <p>Пропозиції питань для розгляду на річних зборах повинні бути надіслані до правління не пізніше ніж за 2 тижні до річних зборів. Повний порядок денний повинен бути доступний членам не пізніше ніж за 1 тиждень до щорічних зборів.</p>
+                    <p>Усі члени мають доступ до щорічних зборів. Щорічні збори можуть запрошувати інших людей та ЗМІ.</p>
+                    <p>Зміни та пропозицій - рішення в річних зборах приймаються кількістю присутніх голосів. Ніхто не має більше ніж один голос, і голосування не може відбуватися за довіреністю. Якщо не прийнято інше, рішення вважається дійсним, якщо воно приймається простою більшістю поданих голосів. Пусті голоси вважаються неподаними.</p>
+                </article>
 
-<p>
-    Kan innkalles av styret eller 1/3 av medlemmene.
-</p>
+                <article class="bylawSection" id="ua-8">
+                    <span class="sectionKey">§ 8</span>
+                    <h3 class="sectionTitle"><strong>Завдання річних зборів</strong></h3>
+                    <p>Річні збори:</p>
+                    <ul>
+                        <li>Опрацювати річний звіт української спілки в Драммені та околицях «МРІЯ»</li>
+                        <li>Опрацювати перевірену звітність української спілки в Драммені та околицях «МРІЯ»</li>
+                        <li>Надати звітність про використання членських внесків</li>
+                        <li>Визначити квоту/ членські внески</li>
+                        <li>Прийняти бюджет Української спілки в Драммені та його околицях «МРІЯ»</li>
+                        <li>Обробити отримані пропозиції</li>
+                        <li>Вибрати:</li>
+                        <li>керівникa і (заступникa керівника)</li>
+                        <li>членів правління</li>
+                        <li>членів виборчої комісії</li>
+                    </ul>
+                    <p>Рішення щорічних зборів вимагає більшості поданих голосів (Більше голосів «за», ніж «проти». Утрималися - не враховуються). При однаковій кількості голосів діє та, яку погодив головуючий на зборах.</p>
+                    <p>Рішення про внесення змін до статуту та/або бюджету приймається учасниками річних зборів. Рішення вимагає схвалення двома третинами поданих голосів. Право голосу на річних зборах мають лише ті члени, які сплатили членські внески за поточний рік до 1 березня.</p>
+                </article>
 
-<h3>§ 10 STYRET</h3>
+                <article class="bylawSection" id="ua-9">
+                    <span class="sectionKey">§ 9</span>
+                    <h3 class="sectionTitle"><strong>Позачергові річні збори</strong></h3>
+                    <p>Позачергові щорічні збори проводяться за рішенням правління або за вимогою принаймні однієї третини членів з правом голосу.</p>
+                    <p>Повідомлення про збори та рішення приймаються за тими ж правилами, що й для звичайних річних зборів.</p>
+                </article>
 
-<p>
-    Styret er foreningens høyeste organ mellom årsmøtene og består av 3 styremedlemmer
-    og 2 varamedlemmer valgt for ett år.
-</p>
+                <article class="bylawSection" id="ua-10">
+                    <span class="sectionKey">§ 10</span>
+                    <h3 class="sectionTitle"><strong>Правління / керівництво</strong></h3>
+                    <p>Українська спілка в Драммені та околицях «МРІЯ» очолює керівництво, яке є найвищим органом між річними зборами.</p>
+                    <p>Керівництво повинно:</p>
+                    <ul>
+                        <li>Реалізувати положення річних зборів</li>
+                        <li>Призначати необхідні комітети/осіб для спеціальних завдань і готувати для них інструкції</li>
+                        <li>Адмініструвати та здійснювати необхідний контроль за фінансами та активами Української спілки в Драммені та околицях «МРІЯ» згідно з інструкціями та положеннями, що діють у будь-який час</li>
+                        <li>Представляти Українську спілку в Драммені та околицях «МРІЯ» мають бути члени керівництва - назовні особи</li>
+                    </ul>
+                    <p>Керівництво при необхідності скликає засідання ради. Засідання вважається прийнятим, якщо на ньому присутні більшість членів правління. Рішення приймаються більшістю поданих голосів. У разі рівності голосів застосовується те, за що проголосував голова чи призначений головою заступник.</p>
+                    <p class="subsectionTitle">Склад керівництва</p>
+                    <p>Керівництво повинно мати 3 члена правління та 2 заступників, які обираються членами спілки. Керівництво має обов’язок і право створювати та, у разі необхідності, реконституювати себе. Керівництво обирається на 1 рік і члени правління можуть бути переобрані. Стаж роботи обчислюється з дня виборів. Воно припиняється наприкінці чергових річних зборів у рік, у якому закінчується термін служби. Навіть якщо термін повноважень закінчився, член ради повинен залишатися на посаді до обрання нового члена. Щоб забезпечити певну безперервність у правлінні та його роботі, принаймні 2 члени правління мають бути обрані кожні два роки. Керівництво приймає рішення більшістю голосів.</p>
+                    <p class="subsectionTitle">Виборчий комітет</p>
+                    <p>Виборча комісія має бути обрана на останніх річних зборах. Виборча комісія складається не менше ніж з двох осіб. Під час виборів вони діють незалежно від правління та діють в інтересах річних зборів. Завданнями виборчої комісії є подання кандидатур, організація письмового голосування та підрахунок результатів. Обраний голова щорічних зборів керує подальшими дебатами та керує проведенням самих виборів.</p>
+                    <p class="subsectionTitle">Обрання керівництва</p>
+                    <p>Члени правління обираються присутніми на річних зборах учасниками з правом голосу. До обрання висуваються всі отримані кандидати, обраними вважаються ті, які набрали найбільшу кількість голосів. Бюлетені для голосування, які не можна тлумачити відповідно до наведених правил, будуть відхилені.</p>
+                    <p class="subsectionTitle">Вибори керівництва</p>
+                    <p>Керівництво є найвищим повсякденним керівництвом організації та має мати керівника. Керівництво сама обирає зі свого середовища свого керівника. Керівник повинен вести щорічні збори, засідання правління та несе відповідальність за те, щоб державні органи отримували звіти, огляди членів та інші необхідні речі.</p>
+                    <p class="subsectionTitle">Відставка та звільнення членів правління</p>
+                    <p>Член правління має право подати у відставку до закінчення терміну повноважень. Правління та річні збори мають бути попереджені за два тижні. Член правління може бути звільнений щорічними зборами. У разі відставки або звільнення члена правління, правління повинно забезпечити, щоб один із заступників вступив на посаду на решту строку повноважень.</p>
+                </article>
 
-<h3>§ 11 GRUPPER / AVDELINGER</h3>
+                <article class="bylawSection" id="ua-11">
+                    <span class="sectionKey">§ 11</span>
+                    <h3 class="sectionTitle"><strong>Групи / відділення</strong></h3>
+                    <p>Українська спілка в Драммені та його околицях «МРІЯ» може бути організована з відділами та/або групами. Ними можуть керувати призначені довірені особи. Правління Української асоціації в Драммені та околицях «МРІЯ» вирішує створення відділів/груп, а також те, як вони мають бути організовані та керовані. Правління зобов’язане звітувати на щорічних зборах про діяльність у різних відділах/групах.</p>
+                    <p>За фінансові зобов'язання відділів/груп відповідає вся Українська спілка в Драммені та околицях «МРІЯ», і відділи /групи не можуть укладати угоди чи репрезентувати Українську спілку «МРІЯ» без згоди правління.</p>
+                </article>
 
-<p>
-    Styret kan opprette avdelinger eller grupper og har økonomisk ansvar for disse.
-</p>
+                <article class="bylawSection" id="ua-12">
+                    <span class="sectionKey">§ 12</span>
+                    <h3 class="sectionTitle"><strong>Канали інформації</strong></h3>
+                    <p>Українська спілка є власником груп у Facebook «Українці в Драммені та його околицях», «Дійсні члени «Українська спілка в Драммені та околицях «МРІЯ»» / «Gyldige medlemmer «Ukrainsk forening i Drammen og omegn «MRIJA»», Facebook-сторінка «Українська школа в Драммені» та інформаційна група в Telegram – «Українська спілка в Драммені та околицях «МРІЯ»/«Ukrainsk forening i Drammen og omegn «MRIJA»».</p>
+                    <p>Ними керує рада/ правління, яка може делегувати модерування іншим виборцям. Принаймні один модератор має бути членом ради. Зміни в модераторській групі можуть бути внесені безперервно за погодженням правління.</p>
+                </article>
 
-<h3>§ 12 INFORMASJONSKANALER</h3>
+                <article class="bylawSection" id="ua-13">
+                    <span class="sectionKey">§ 13</span>
+                    <h3 class="sectionTitle"><strong>Фінансові умови</strong></h3>
+                    <p>Голова правління та заступник голови мають прокуру. Правління обирає відповідального за бухгалтерію серед членів правління (в ролі касира) або може звернутися за послугами до бухгалтерської фірми.</p>
+                    <p class="subsectionTitle">Збереження</p>
+                    <p>При розпуску спілки кошти, які можуть залишитися, не передаються членам. Учасники також не несуть відповідальності за борги. Кошти, що залишилися після ліквідації, спрямовуються на благодійні організації в Норвегії, які допомагають Україні. Правління спілки самостійно обирає благодійну організацію відповідно до її статуту та мети.</p>
+                    <p>Учасники можуть отримати відшкодування фактичних витрат. Витрати/відшкодування фактичних витрат має бути відображено в кошторисі/ рахунок-фактура та бухгалтерському обліку. Методичні рекомендації розробляються правлінням.</p>
+                </article>
 
-<p>
-    Foreningen eier og administrerer sine offisielle Facebook- og Telegram-kanaler.
-</p>
+                <article class="bylawSection" id="ua-14">
+                    <span class="sectionKey">§ 14</span>
+                    <h3 class="sectionTitle"><strong>Зміни до статуту</strong></h3>
+                    <p>Зміни до цього статуту можуть бути внесені лише на чергових або позачергових річних зборах після того, як вони включені до порядку денного, і потрібна більшість 2/3 поданих голосів.</p>
+                </article>
 
-<h3>§ 13 ØKONOMI</h3>
+                <article class="bylawSection" id="ua-15">
+                    <span class="sectionKey">§ 15</span>
+                    <h3 class="sectionTitle"><strong>Розпуск (розділ 15 не може бути змінений)</strong></h3>
+                    <p>Ліквідація Української спілки в Драммені та околицях «МРІЯ» може бути проведена лише на звичайних річних зборах. Якщо розпуск схвалено принаймні 2/3 більшості, позачергові щорічні збори скликаються через 3 місяці. Щоб розпуск відбувся, резолюція має бути повторена більшістю 2/3 голосів.</p>
+                </article>
+            </div>
 
-<p>
-    Ved oppløsning tilfaller midler veldedige organisasjoner i Norge som hjelper Ukraina.
-</p>
+            <div class="footerNote">
+                Українська версія також зібрана за текстом із «MRIJA_vedtekter.docx» і подана тут як читабельна вебверсія статуту.
+            </div>
+        </section>
+    </div>
+</main>
 
-<h3>§ 14 VEDTEKTSENDRINGER</h3>
+<script>
+    (function () {
+        const buttons = document.querySelectorAll("[data-lang-target]");
+        const panels = document.querySelectorAll("[data-lang-panel]");
+        const navs = document.querySelectorAll("[data-lang-nav]");
 
-<p>
-    Endringer krever 2/3 flertall på ordinært eller ekstraordinært årsmøte.
-</p>
+        function setLanguage(language) {
+            buttons.forEach((button) => {
+                const active = button.dataset.langTarget === language;
+                button.classList.toggle("is-active", active);
+                button.setAttribute("aria-selected", active ? "true" : "false");
+            });
 
-<h3>§ 15 OPPLØSNING</h3>
+            panels.forEach((panel) => {
+                panel.classList.toggle("is-active", panel.dataset.langPanel === language);
+            });
 
-<p>
-    Oppløsning kan kun vedtas av årsmøtet med 2/3 flertall og bekreftes på ekstraordinært årsmøte.
-</p>
+            navs.forEach((nav) => {
+                nav.classList.toggle("is-active", nav.dataset.langNav === language);
+            });
 
-<hr>
+            document.documentElement.lang = language === "ua" ? "uk" : "no";
+        }
 
-<h2>Статут української спілки в Драммені та околицях «МРІЯ»</h2>
+        buttons.forEach((button) => {
+            button.addEventListener("click", function () {
+                setLanguage(button.dataset.langTarget);
+            });
+        });
 
-<p>
-    Прийнятий установчими зборами 16.12.2022
-</p>
-
-<h3>§ 1 МЕТА</h3>
-
-<p>
-    Українська спілка є добровільною громадською організацією українців та всіх, хто любить Україну.
-</p>
-
-<ul>
-    <li>збереження української культури та традицій</li>
-    <li>інтеграція українців у норвезьке суспільство</li>
-    <li>благодійна та гуманітарна діяльність</li>
-</ul>
-
-<h3>§ 15 РОЗПУСК</h3>
-
-<p>
-    Ліквідація спілки можлива лише за рішенням річних зборів з більшістю 2/3 голосів.
-</p>
-
+        if (window.location.hash && window.location.hash.startsWith("#ua-")) {
+            setLanguage("ua");
+        } else {
+            setLanguage("no");
+        }
+    }());
+</script>
 </body>
 </html>

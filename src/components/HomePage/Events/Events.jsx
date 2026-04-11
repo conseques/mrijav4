@@ -124,7 +124,6 @@ const Events = () => {
                 <div className={styles.header}>
                     <div className={styles.headerTop}>
                         <span className={styles.headerBadge}>{t("community")}</span>
-                        <span className={styles.eventCount}>{loading ? "--" : String(events.length).padStart(2, "0")}</span>
                     </div>
                     <h2 className={styles.title}>{t("title")}</h2>
                     <p className={styles.subtitle}>{t("subtitle")}</p>
