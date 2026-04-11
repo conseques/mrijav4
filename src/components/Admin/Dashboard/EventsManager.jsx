@@ -3,6 +3,7 @@ import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../../firebase';
 import styles from './EventsManager.module.css';
+import { getAdminSaveErrorMessage, MAX_IMAGE_SIZE_MB, removeStoredImage, UPLOAD_TIMEOUT_MESSAGE, validateImageFile } from './uploadFeedback';
 
 const EventsManager = () => {
   const [events, setEvents] = useState([]);
@@ -10,6 +11,7 @@ const EventsManager = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [formError, setFormError] = useState('');
 
   // Form State
   const [file, setFile] = useState(null);
@@ -50,9 +52,18 @@ const EventsManager = () => {
   };
 
   const handleFileChange = (e) => {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    const validationError = validateImageFile(selectedFile);
+
+    if (validationError) {
+      setFile(null);
+      setFormError(validationError);
+      e.target.value = '';
+      return;
     }
+
+    setFormError('');
+    setFile(selectedFile || null);
   };
 
   const resetForm = () => {
@@ -63,6 +74,7 @@ const EventsManager = () => {
     setFile(null);
     setEditingId(null);
     setIsAdding(false);
+    setFormError('');
   };
 
   const handleEdit = (eventObj) => {
@@ -78,24 +90,41 @@ const EventsManager = () => {
     setEditingId(eventObj.id);
     setIsAdding(true);
     setFile(null); // File is only needed if they want to change the image
+    setFormError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError('');
+
     if (!file && !editingId) {
-      alert("Please select an image for the new event.");
+      setFormError("Please select an image for the new event.");
+      return;
+    }
+
+    if (file) {
+      const validationError = validateImageFile(file);
+      if (validationError) {
+        setFormError(validationError);
+        return;
+      }
+    }
+
+    if (editingId && !file && !formData.imageUrl) {
+      setFormError("Please upload an image before updating this event.");
       return;
     }
     
     setSaving(true);
     try {
+      const previousImageUrl = formData.imageUrl;
       let finalImageUrl = formData.imageUrl;
       
       // If user selected a new file, upload it
       if (file) {
         const storageRef = ref(storage, `events/${Date.now()}_${file.name}`);
         const uploadTask = uploadBytes(storageRef, file);
-        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Upload timeout. Check Firebase Storage CORS policy.")), 15000));
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error(UPLOAD_TIMEOUT_MESSAGE)), 15000));
         await Promise.race([uploadTask, timeout]);
         finalImageUrl = await getDownloadURL(storageRef);
       }
@@ -120,21 +149,34 @@ const EventsManager = () => {
         eventDocData.createdAt = serverTimestamp();
         await addDoc(collection(db, "events"), eventDocData);
       }
+
+      if (editingId && file && previousImageUrl && previousImageUrl !== finalImageUrl) {
+        try {
+          await removeStoredImage(storage, previousImageUrl);
+        } catch (cleanupError) {
+          console.warn("Event updated, but old image cleanup failed:", cleanupError);
+        }
+      }
       
       resetForm();
       fetchEvents();
 
     } catch (err) {
       console.error("Error saving event:", err);
-      alert("Error saving event. See console.");
+      setFormError(getAdminSaveErrorMessage(err, 'this event'));
     }
     setSaving(false);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (eventObj) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
-        await deleteDoc(doc(db, "events", id));
+        await deleteDoc(doc(db, "events", eventObj.id));
+        try {
+          await removeStoredImage(storage, eventObj.imageUrl);
+        } catch (cleanupError) {
+          console.warn("Event deleted, but image cleanup failed:", cleanupError);
+        }
         fetchEvents();
       } catch (err) {
         console.error("Error deleting event:", err);
@@ -158,6 +200,7 @@ const EventsManager = () => {
         <div className={styles.formCard}>
           <h3>{editingId ? 'Edit Event' : 'Add Event'}</h3>
           <form onSubmit={handleSubmit}>
+            {formError && <p className={styles.errorMessage}>{formError}</p>}
             <div className={styles.formGrid}>
               
               {/* Common Details */}
@@ -166,9 +209,10 @@ const EventsManager = () => {
                 <div className={styles.inputGroup}>
                   <label>Event Image {editingId ? '(Optional, leave empty to keep current)' : '(Required)'}</label>
                   <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} required={!editingId} />
+                  <p className={styles.helperText}>Use JPG, PNG, or WebP up to {MAX_IMAGE_SIZE_MB} MB.</p>
                 </div>
                 {editingId && formData.imageUrl && !file && (
-                   <p style={{fontSize:'12px', color:'#666'}}>Current Image active.</p>
+                   <p className={styles.helperText}>Current image will stay active until you upload a new one.</p>
                 )}
                 <div className={styles.inputGroup}>
                   <label>Day / Date String (e.g. "20. Juni")</label>
@@ -252,7 +296,7 @@ const EventsManager = () => {
               </div>
               <div className={styles.eventActions}>
                 <button className={styles.editBtn} onClick={() => handleEdit(event)}>Edit</button>
-                <button className={styles.deleteBtn} onClick={() => handleDelete(event.id)}>Delete</button>
+                <button className={styles.deleteBtn} onClick={() => handleDelete(event)}>Delete</button>
               </div>
             </div>
           ))}
