@@ -1,0 +1,1 @@
+import{D as e}from"./@firebase-NMBoc7Py.js";e(`firebase`,`12.11.0`,`app`);

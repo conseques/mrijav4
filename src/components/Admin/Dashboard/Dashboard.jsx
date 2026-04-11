@@ -9,6 +9,7 @@ import {
   ClipboardList,
   BadgeCheck,
   BarChart3,
+  HardDrive,
   LogOut,
   Moon,
   Sun
@@ -22,6 +23,7 @@ import MembershipsManager from './MembershipsManager';
 import PastEventsManager from './PastEventsManager';
 import CoursesManager from './CoursesManager';
 import ReportManager from './ReportManager';
+import StorageMaintenance from './StorageMaintenance';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('events');
@@ -32,6 +34,7 @@ const Dashboard = () => {
     { id: 'events', label: 'Upcoming Events', description: 'Manage new event listings and translations.', Icon: CalendarDays, component: <EventsManager /> },
     { id: 'pastevents', label: 'Past Events', description: 'Keep the archive of community highlights updated.', Icon: History, component: <PastEventsManager /> },
     { id: 'courses', label: 'Courses', description: 'Edit course offerings, teachers, and details.', Icon: BookOpen, component: <CoursesManager /> },
+    { id: 'storage', label: 'Storage', description: 'Scan Firebase Storage and clean orphaned uploads that still consume quota.', Icon: HardDrive, component: <StorageMaintenance /> },
     { id: 'registrations', label: 'Registrations', description: 'Review sign-ups and contact details for events.', Icon: ClipboardList, component: <RegistrationsManager /> },
     { id: 'memberships', label: 'Memberships', description: 'Track confirmed Vipps memberships and payment references.', Icon: BadgeCheck, component: <MembershipsManager /> },
     { id: 'report', label: 'Detailed Report', description: 'Update fundraising metrics and public report data.', Icon: BarChart3, component: <ReportManager /> }

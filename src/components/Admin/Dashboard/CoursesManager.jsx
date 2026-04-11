@@ -3,6 +3,7 @@ import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../../firebase';
 import styles from './CoursesManager.module.css'; // Will reuse EventsManager styling or create new
+import { getAdminSaveErrorMessage, MAX_IMAGE_SIZE_MB, removeStoredImage, UPLOAD_TIMEOUT_MESSAGE, validateImageFile } from './uploadFeedback';
 
 const CoursesManager = () => {
   const [courses, setCourses] = useState([]);
@@ -10,6 +11,7 @@ const CoursesManager = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [formError, setFormError] = useState('');
 
   // Form State
   const [imageFile, setImageFile] = useState(null);
@@ -52,8 +54,35 @@ const CoursesManager = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => { if (e.target.files[0]) setImageFile(e.target.files[0]); };
-  const handleTeacherChange = (e) => { if (e.target.files[0]) setTeacherFile(e.target.files[0]); };
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const validationError = validateImageFile(selectedFile);
+
+    if (validationError) {
+      setImageFile(null);
+      setFormError(`Course image: ${validationError}`);
+      e.target.value = '';
+      return;
+    }
+
+    setFormError('');
+    setImageFile(selectedFile || null);
+  };
+
+  const handleTeacherChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const validationError = validateImageFile(selectedFile);
+
+    if (validationError) {
+      setTeacherFile(null);
+      setFormError(`Teacher photo: ${validationError}`);
+      e.target.value = '';
+      return;
+    }
+
+    setFormError('');
+    setTeacherFile(selectedFile || null);
+  };
 
   const resetForm = () => {
     setFormData({
@@ -66,6 +95,7 @@ const CoursesManager = () => {
     setTeacherFile(null);
     setEditingId(null);
     setIsAdding(false);
+    setFormError('');
   };
 
   const handleEdit = (courseObj) => {
@@ -82,24 +112,51 @@ const CoursesManager = () => {
     setIsAdding(true);
     setImageFile(null);
     setTeacherFile(null);
+    setFormError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError('');
+
     if (!editingId && (!imageFile || !teacherFile)) {
-      alert("Please select both a course image and a teacher photo for new courses.");
+      setFormError("Please select both a course image and a teacher photo for new courses.");
+      return;
+    }
+
+    const imageValidationError = validateImageFile(imageFile);
+    if (imageValidationError) {
+      setFormError(`Course image: ${imageValidationError}`);
+      return;
+    }
+
+    const teacherValidationError = validateImageFile(teacherFile);
+    if (teacherValidationError) {
+      setFormError(`Teacher photo: ${teacherValidationError}`);
+      return;
+    }
+
+    if (editingId && !imageFile && !formData.imageUrl) {
+      setFormError("Please upload a course image before updating this course.");
+      return;
+    }
+
+    if (editingId && !teacherFile && !formData.teacherPhotoUrl) {
+      setFormError("Please upload a teacher photo before updating this course.");
       return;
     }
     
     setSaving(true);
     try {
+      const previousImageUrl = formData.imageUrl;
+      const previousTeacherUrl = formData.teacherPhotoUrl;
       let finalImageUrl = formData.imageUrl;
       let finalTeacherUrl = formData.teacherPhotoUrl;
       
       if (imageFile) {
         const storageRef = ref(storage, `courses/${Date.now()}_${imageFile.name}`);
         const uploadTask = uploadBytes(storageRef, imageFile);
-        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Image upload timeout (CORS). Check Firebase Storage CORS rules.")), 15000));
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error(UPLOAD_TIMEOUT_MESSAGE)), 15000));
         await Promise.race([uploadTask, timeout]);
         finalImageUrl = await getDownloadURL(storageRef);
       }
@@ -107,7 +164,7 @@ const CoursesManager = () => {
       if (teacherFile) {
         const storageRef = ref(storage, `teachers/${Date.now()}_${teacherFile.name}`);
         const uploadTask = uploadBytes(storageRef, teacherFile);
-        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Teacher Image upload timeout (CORS). Check Firebase Storage CORS rules.")), 15000));
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error(UPLOAD_TIMEOUT_MESSAGE)), 15000));
         await Promise.race([uploadTask, timeout]);
         finalTeacherUrl = await getDownloadURL(storageRef);
       }
@@ -129,20 +186,42 @@ const CoursesManager = () => {
         courseDocData.createdAt = serverTimestamp();
         await addDoc(collection(db, "courses"), courseDocData);
       }
+
+      if (editingId && imageFile && previousImageUrl && previousImageUrl !== finalImageUrl) {
+        try {
+          await removeStoredImage(storage, previousImageUrl);
+        } catch (cleanupError) {
+          console.warn("Course updated, but old course image cleanup failed:", cleanupError);
+        }
+      }
+
+      if (editingId && teacherFile && previousTeacherUrl && previousTeacherUrl !== finalTeacherUrl) {
+        try {
+          await removeStoredImage(storage, previousTeacherUrl);
+        } catch (cleanupError) {
+          console.warn("Course updated, but old teacher photo cleanup failed:", cleanupError);
+        }
+      }
       
       resetForm();
       fetchCourses();
     } catch (err) {
       console.error("Error saving course:", err);
-      alert("Error saving course.");
+      setFormError(getAdminSaveErrorMessage(err, 'this course'));
     }
     setSaving(false);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (courseObj) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
       try {
-        await deleteDoc(doc(db, "courses", id));
+        await deleteDoc(doc(db, "courses", courseObj.id));
+        try {
+          await removeStoredImage(storage, courseObj.imageUrl);
+          await removeStoredImage(storage, courseObj.teacherPhotoUrl);
+        } catch (cleanupError) {
+          console.warn("Course deleted, but image cleanup failed:", cleanupError);
+        }
         fetchCourses();
       } catch (err) {
         console.error("Error deleting course:", err);
@@ -179,6 +258,7 @@ const CoursesManager = () => {
         <div className={styles.formCard}>
           <h3>{editingId ? 'Edit Course' : 'Add Course'}</h3>
           <form onSubmit={handleSubmit}>
+            {formError && <p className={styles.errorMessage}>{formError}</p>}
             <div className={styles.formGrid}>
               
               <div className={styles.langSection}>
@@ -186,11 +266,19 @@ const CoursesManager = () => {
                 <div className={styles.inputGroup}>
                   <label>Course Image {editingId ? '(Optional)' : '(Required)'}</label>
                   <input type="file" accept="image/*" onChange={handleImageChange} className={styles.fileInput} required={!editingId} />
+                  <p className={styles.helperText}>Use JPG, PNG, or WebP up to {MAX_IMAGE_SIZE_MB} MB.</p>
                 </div>
+                {editingId && formData.imageUrl && !imageFile && (
+                  <p className={styles.helperText}>Current course image will stay active until you upload a new one.</p>
+                )}
                 <div className={styles.inputGroup}>
                   <label>Teacher Photo {editingId ? '(Optional)' : '(Required)'}</label>
                   <input type="file" accept="image/*" onChange={handleTeacherChange} className={styles.fileInput} required={!editingId} />
+                  <p className={styles.helperText}>Use JPG, PNG, or WebP up to {MAX_IMAGE_SIZE_MB} MB.</p>
                 </div>
+                {editingId && formData.teacherPhotoUrl && !teacherFile && (
+                  <p className={styles.helperText}>Current teacher photo will stay active until you upload a new one.</p>
+                )}
                 <div className={styles.inputGroup}>
                   <label>Contact Phone</label>
                   <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} required />
@@ -226,7 +314,7 @@ const CoursesManager = () => {
               </div>
               <div className={styles.eventActions}>
                 <button className={styles.editBtn} onClick={() => handleEdit(course)}>Edit</button>
-                <button className={styles.deleteBtn} onClick={() => handleDelete(course.id)}>Delete</button>
+                <button className={styles.deleteBtn} onClick={() => handleDelete(course)}>Delete</button>
               </div>
             </div>
           ))}
