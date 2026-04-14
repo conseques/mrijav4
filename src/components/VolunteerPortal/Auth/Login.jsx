@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase';
 import { motion } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
+import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import styles from '../VolunteerPortal.module.css';
 
 const Login = () => {
@@ -15,6 +14,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isDarkMode, toggleTheme } = useTheme();
+    const { login } = useVolunteerAuth();
     const from = location.state?.from?.pathname || '/volunteer-portal';
 
     const handleLogin = async (e) => {
@@ -23,13 +23,22 @@ const Login = () => {
         setLoading(true);
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const loggedInUser = await login(email, password);
+
+            // Handle pending / rejected status — redirect to portal, dashboard shows a message
+            if (loggedInUser.status === 'pending') {
+                navigate('/volunteer-portal', { replace: true });
+                return;
+            }
+
+            if (loggedInUser.status === 'rejected') {
+                navigate('/volunteer-portal', { replace: true });
+                return;
+            }
+
             navigate(from, { replace: true });
         } catch (err) {
-            const msg = err.code === 'auth/invalid-credential'
-                ? 'Invalid email or password.'
-                : (err.message || 'Failed to log in.');
-            setError(msg);
+            setError(err.message || 'Failed to log in. Check your email and password.');
         } finally {
             setLoading(false);
         }

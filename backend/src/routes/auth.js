@@ -8,6 +8,7 @@ const { hashPassword, verifyPassword } = require('../utils/password');
 const { nowIso } = require('../utils/time');
 const { createAccessToken } = require('../utils/tokens');
 const { stringifyJson } = require('../utils/json');
+const { verifyFirebaseIdToken } = require('../services/firebase');
 
 const router = express.Router();
 
@@ -159,6 +160,49 @@ router.patch('/me/skills', requireApprovedVolunteer, (req, res) => {
 
   const updated = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
   return res.json({ user: mapUserRow(updated) });
+});
+
+/**
+ * POST /api/auth/firebase-exchange
+ * Accepts a Firebase ID token, verifies it, finds or creates the matching backend
+ * admin/manager user, and returns a backend JWT.
+ *
+ * This is used by the Admin panel which authenticates via Firebase Login but needs
+ * a backend JWT to call protected /api/admin/* endpoints.
+ */
+router.post('/firebase-exchange', async (req, res) => {
+  const idToken = String((req.body || {}).idToken || '').trim();
+  if (!idToken) {
+    return res.status(400).json({ error: 'idToken is required.' });
+  }
+
+  let decoded;
+  try {
+    decoded = await verifyFirebaseIdToken(idToken);
+  } catch (err) {
+    console.error('Firebase ID token verification failed:', err.message);
+    return res.status(401).json({ error: 'Invalid or expired Firebase token.' });
+  }
+
+  const firebaseEmail = String(decoded.email || '').toLowerCase();
+  if (!firebaseEmail) {
+    return res.status(400).json({ error: 'Firebase token does not contain an email.' });
+  }
+
+  const userRow = db.prepare('SELECT * FROM users WHERE email = ?').get(firebaseEmail);
+  if (!userRow) {
+    return res.status(403).json({
+      error: 'No backend account found for this Firebase email. Ask an admin to create one.'
+    });
+  }
+
+  if (!['manager', 'admin'].includes(userRow.role)) {
+    return res.status(403).json({ error: 'This account does not have admin or manager privileges.' });
+  }
+
+  const user = mapUserRow(userRow);
+  const token = createAccessToken(user);
+  return res.json({ token, user });
 });
 
 module.exports = router;

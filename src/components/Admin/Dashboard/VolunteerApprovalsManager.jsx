@@ -1,25 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore';
-import { BadgeCheck, Clock3, Mail, Phone, ShieldAlert, UserRound, XCircle } from 'lucide-react';
-import { db } from '../../../firebase';
+import { BadgeCheck, Clock3, Mail, Phone, RefreshCw, ShieldAlert, UserRound, XCircle } from 'lucide-react';
+import { useAdminBackendToken } from '../../../hooks/useAdminBackendToken';
+import { fetchAdminVolunteers, reviewVolunteer } from '../../../services/volunteerApi';
 import styles from './VolunteerApprovalsManager.module.css';
 
-const getTimestamp = (value) => {
-  if (value?.seconds) {
-    return value.seconds;
-  }
-
-  return 0;
-};
-
-const formatDate = (value) => {
-  const seconds = getTimestamp(value);
-
-  if (!seconds) {
-    return 'Recently';
-  }
-
-  return new Date(seconds * 1000).toLocaleString('en-GB', {
+const formatDate = (ts) => {
+  if (!ts?.seconds) return 'Recently';
+  return new Date(ts.seconds * 1000).toLocaleString('en-GB', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -29,6 +16,7 @@ const formatDate = (value) => {
 };
 
 const VolunteerApprovalsManager = () => {
+  const { backendToken, loading: tokenLoading, error: tokenError } = useAdminBackendToken();
   const [volunteers, setVolunteers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionId, setActionId] = useState('');
@@ -36,18 +24,14 @@ const VolunteerApprovalsManager = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const fetchVolunteers = async () => {
+    if (!backendToken) return;
+
     setLoading(true);
     setErrorMessage('');
 
     try {
-      const querySnapshot = await getDocs(collection(db, 'volunteers'));
-      const volunteerData = querySnapshot.docs.map((docSnapshot) => ({
-        id: docSnapshot.id,
-        ...docSnapshot.data()
-      }));
-
-      volunteerData.sort((a, b) => getTimestamp(b.createdAt) - getTimestamp(a.createdAt));
-      setVolunteers(volunteerData);
+      const { items } = await fetchAdminVolunteers(backendToken);
+      setVolunteers(items || []);
     } catch (error) {
       console.error('Error fetching volunteer registrations:', error);
       setErrorMessage('Unable to load volunteer registrations right now.');
@@ -57,32 +41,35 @@ const VolunteerApprovalsManager = () => {
   };
 
   useEffect(() => {
-    fetchVolunteers();
-  }, []);
+    if (backendToken) {
+      fetchVolunteers();
+    } else if (!tokenLoading) {
+      setLoading(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backendToken, tokenLoading]);
 
   const pendingVolunteers = useMemo(
-    () => volunteers.filter((volunteer) => (volunteer.status || 'pending') === 'pending'),
+    () => volunteers.filter((v) => v.status === 'pending'),
     [volunteers]
   );
 
   const reviewedVolunteers = useMemo(
-    () => volunteers.filter((volunteer) => (volunteer.status || 'pending') !== 'pending').slice(0, 8),
+    () => volunteers.filter((v) => v.status !== 'pending').slice(0, 8),
     [volunteers]
   );
 
   const stats = useMemo(() => ({
     total: volunteers.length,
-    pending: volunteers.filter((volunteer) => (volunteer.status || 'pending') === 'pending').length,
-    approved: volunteers.filter((volunteer) => volunteer.status === 'approved').length,
-    rejected: volunteers.filter((volunteer) => volunteer.status === 'rejected').length
+    pending: volunteers.filter((v) => v.status === 'pending').length,
+    approved: volunteers.filter((v) => v.status === 'approved').length,
+    rejected: volunteers.filter((v) => v.status === 'rejected').length
   }), [volunteers]);
 
   const handleStatusChange = async (volunteer, nextStatus) => {
     if (nextStatus === 'rejected') {
       const confirmed = window.confirm(`Reject volunteer registration for ${volunteer.name || volunteer.email}?`);
-      if (!confirmed) {
-        return;
-      }
+      if (!confirmed) return;
     }
 
     setActionId(volunteer.id);
@@ -90,26 +77,11 @@ const VolunteerApprovalsManager = () => {
     setStatusMessage('');
 
     try {
-      const updateData = {
-        status: nextStatus,
-        reviewedAt: serverTimestamp()
-      };
+      const { item } = await reviewVolunteer(backendToken, volunteer.id, nextStatus);
 
-      if (nextStatus === 'approved') {
-        updateData.role = volunteer.role && volunteer.role !== 'user' ? volunteer.role : 'volunteer';
-      }
-
-      await updateDoc(doc(db, 'volunteers', volunteer.id), updateData);
-
-      setVolunteers((current) => current.map((item) => (
-        item.id === volunteer.id
-          ? {
-              ...item,
-              ...updateData,
-              reviewedAt: { seconds: Math.floor(Date.now() / 1000) }
-            }
-          : item
-      )));
+      setVolunteers((current) =>
+        current.map((v) => (v.id === volunteer.id ? item : v))
+      );
 
       setStatusMessage(
         nextStatus === 'approved'
@@ -118,11 +90,26 @@ const VolunteerApprovalsManager = () => {
       );
     } catch (error) {
       console.error('Error updating volunteer status:', error);
-      setErrorMessage('Failed to update this volunteer registration. Please try again.');
+      setErrorMessage(error.message || 'Failed to update this volunteer registration. Please try again.');
     } finally {
       setActionId('');
     }
   };
+
+  // Show token acquisition error (e.g. admin email not in backend)
+  if (tokenError) {
+    return (
+      <div className={styles.managerContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Volunteer Forum Verification</h2>
+        </div>
+        <p className={styles.errorMessage}>
+          Backend authentication failed: {tokenError}.<br />
+          Make sure your Firebase admin email has a matching backend account with manager or admin role.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.managerContainer}>
@@ -133,8 +120,9 @@ const VolunteerApprovalsManager = () => {
             Review new volunteer registrations from the portal and decide who gets access to the internal workspace.
           </p>
         </div>
-        <button type="button" className={styles.refreshBtn} onClick={fetchVolunteers} disabled={loading}>
-          Refresh
+        <button type="button" className={styles.refreshBtn} onClick={fetchVolunteers} disabled={loading || tokenLoading}>
+          <RefreshCw size={14} />
+          <span>Refresh</span>
         </button>
       </div>
 
@@ -169,7 +157,7 @@ const VolunteerApprovalsManager = () => {
           <span className={styles.pendingBadge}>{pendingVolunteers.length} waiting</span>
         </div>
 
-        {loading ? (
+        {loading || tokenLoading ? (
           <p className={styles.emptyState}>Loading volunteer registrations...</p>
         ) : pendingVolunteers.length === 0 ? (
           <p className={styles.emptyState}>No volunteer registrations are waiting for review.</p>
@@ -193,10 +181,12 @@ const VolunteerApprovalsManager = () => {
                     <Mail size={16} />
                     <span>{volunteer.email}</span>
                   </a>
-                  <a className={styles.contactItem} href={`tel:${volunteer.phone || ''}`}>
-                    <Phone size={16} />
-                    <span>{volunteer.phone || 'No phone provided'}</span>
-                  </a>
+                  {volunteer.phone && (
+                    <a className={styles.contactItem} href={`tel:${volunteer.phone}`}>
+                      <Phone size={16} />
+                      <span>{volunteer.phone}</span>
+                    </a>
+                  )}
                 </div>
 
                 <div className={styles.detailGrid}>
@@ -206,7 +196,7 @@ const VolunteerApprovalsManager = () => {
                   </div>
                   <div className={styles.detailCard}>
                     <span className={styles.detailLabel}>Portal status</span>
-                    <span className={styles.detailValue}>{volunteer.status || 'pending'}</span>
+                    <span className={styles.detailValue}>{volunteer.status}</span>
                   </div>
                   <div className={styles.detailCard}>
                     <span className={styles.detailLabel}>Skills saved</span>
@@ -214,7 +204,7 @@ const VolunteerApprovalsManager = () => {
                   </div>
                   <div className={styles.detailCard}>
                     <span className={styles.detailLabel}>Profile ID</span>
-                    <span className={styles.detailValue}>{volunteer.id}</span>
+                    <span className={styles.detailValue}>{volunteer.id.slice(0, 8)}…</span>
                   </div>
                 </div>
 
@@ -252,7 +242,7 @@ const VolunteerApprovalsManager = () => {
           </div>
         </div>
 
-        {loading ? (
+        {loading || tokenLoading ? (
           <p className={styles.emptyState}>Loading review history...</p>
         ) : reviewedVolunteers.length === 0 ? (
           <p className={styles.emptyState}>No volunteer applications have been reviewed yet.</p>
@@ -273,7 +263,7 @@ const VolunteerApprovalsManager = () => {
 
                 <div className={styles.reviewMeta}>
                   <span><UserRound size={14} /> Role: {volunteer.role || 'user'}</span>
-                  <span><Clock3 size={14} /> Reviewed: {formatDate(volunteer.reviewedAt || volunteer.createdAt)}</span>
+                  <span><Clock3 size={14} /> Updated: {formatDate(volunteer.updatedAt || volunteer.createdAt)}</span>
                 </div>
               </article>
             ))}

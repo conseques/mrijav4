@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../../firebase';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
+import { updateSkills } from '../../../services/volunteerApi';
 import styles from '../VolunteerPortal.module.css';
 
 const AVAILABLE_SKILLS = [
@@ -16,31 +15,31 @@ const AVAILABLE_SKILLS = [
 ];
 
 const ProfileSettings = () => {
-    const { currentUser, profile } = useVolunteerAuth();
-    const [selectedSkills, setSelectedSkills] = useState(profile?.skills || []);
+    const { user, refreshUser } = useVolunteerAuth();
+    const [selectedSkills, setSelectedSkills] = useState(user?.skills || []);
     const [saving, setSaving] = useState(false);
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     const toggleSkill = (skill) => {
-        if (selectedSkills.includes(skill)) {
-            setSelectedSkills(selectedSkills.filter((currentSkill) => currentSkill !== skill));
-        } else {
-            setSelectedSkills([...selectedSkills, skill]);
-        }
+        setSelectedSkills((prev) =>
+            prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]
+        );
     };
 
     const handleSave = async () => {
         setSaving(true);
+        setMessage('');
+        setError('');
         try {
-            const userRef = doc(db, 'volunteers', currentUser.uid);
-            await updateDoc(userRef, {
-                skills: selectedSkills
-            });
-            alert('Skills updated successfully!');
-        } catch (error) {
-            console.error('Error saving skills', error);
-            alert('Failed to save skills.');
+            await updateSkills(user.token, selectedSkills);
+            await refreshUser();
+            setMessage('Skills updated successfully.');
+        } catch (err) {
+            setError(err.message || 'Failed to save skills.');
+        } finally {
+            setSaving(false);
         }
-        setSaving(false);
     };
 
     return (
@@ -53,6 +52,9 @@ const ProfileSettings = () => {
                     </p>
                 </div>
             </div>
+
+            {message && <p className={styles.statusMessage} style={{ color: 'var(--primary-color)', marginBottom: '12px' }}>{message}</p>}
+            {error && <p className={styles.errorBanner}>{error}</p>}
 
             <div className={styles.sectionStack}>
                 <div className={styles.pillRow}>

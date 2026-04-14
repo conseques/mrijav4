@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { collection, addDoc, deleteDoc, doc, onSnapshot, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
+import { fetchTasks, createTask, deleteTask } from '../../../services/volunteerApi';
 import styles from '../VolunteerPortal.module.css';
 
 const TaskManager = () => {
-    const { profile } = useVolunteerAuth();
+    const { user } = useVolunteerAuth();
     const [tasks, setTasks] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -16,24 +16,25 @@ const TaskManager = () => {
     const [skillsString, setSkillsString] = useState('');
     const [urgency, setUrgency] = useState('Medium');
     const [saving, setSaving] = useState(false);
-    const canManageTasks = profile?.role === 'manager' || profile?.role === 'admin';
+    const [error, setError] = useState('');
+
+    const canManageTasks = user?.role === 'manager' || user?.role === 'admin';
+
+    const loadTasks = useCallback(async () => {
+        if (!user?.token || !canManageTasks) return;
+        try {
+            const { items } = await fetchTasks(user.token);
+            setTasks(items || []);
+        } catch (err) {
+            setError(err.message || 'Unable to load tasks.');
+        } finally {
+            setLoading(false);
+        }
+    }, [user?.token, canManageTasks]);
 
     useEffect(() => {
-        if (!canManageTasks) {
-            setTasks([]);
-            return undefined;
-        }
-
-        const unsubscribe = onSnapshot(collection(db, 'volunteerTasks'), (snapshot) => {
-            const tasksData = [];
-            snapshot.forEach((docSnap) => {
-                tasksData.push({ id: docSnap.id, ...docSnap.data() });
-            });
-            tasksData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-            setTasks(tasksData);
-        });
-        return () => unsubscribe();
-    }, [canManageTasks]);
+        loadTasks();
+    }, [loadTasks]);
 
     if (!canManageTasks) {
         return (
@@ -44,34 +45,36 @@ const TaskManager = () => {
         );
     }
 
+    const resetForm = () => {
+        setTitle('');
+        setDescription('');
+        setDate('');
+        setLocation('');
+        setMarker('');
+        setSkillsString('');
+        setUrgency('Medium');
+        setIsAdding(false);
+    };
+
     const handleAddTask = async (e) => {
         e.preventDefault();
         setSaving(true);
+        setError('');
         try {
-            const skillsArray = skillsString.split(',').map((skill) => skill.trim()).filter(Boolean);
-            await addDoc(collection(db, 'volunteerTasks'), {
+            const skillsArray = skillsString.split(',').map((s) => s.trim()).filter(Boolean);
+            const { item } = await createTask(user.token, {
                 title,
                 description,
                 date,
                 location,
                 marker: marker.trim(),
                 skillsRequired: skillsArray,
-                urgency,
-                appliedUsers: [],
-                createdAt: serverTimestamp()
+                urgency
             });
-
-            setTitle('');
-            setDescription('');
-            setDate('');
-            setLocation('');
-            setMarker('');
-            setSkillsString('');
-            setUrgency('Medium');
-            setIsAdding(false);
-        } catch (error) {
-            console.error('Error adding task:', error);
-            alert('Failed to add task.');
+            setTasks((prev) => [item, ...prev]);
+            resetForm();
+        } catch (err) {
+            setError(err.message || 'Failed to add task.');
         } finally {
             setSaving(false);
         }
@@ -79,11 +82,12 @@ const TaskManager = () => {
 
     const handleDeleteTask = async (taskId) => {
         if (!window.confirm('Are you sure you want to delete this task?')) return;
-
+        setError('');
         try {
-            await deleteDoc(doc(db, 'volunteerTasks', taskId));
-        } catch (error) {
-            console.error('Error deleting task:', error);
+            await deleteTask(user.token, taskId);
+            setTasks((prev) => prev.filter((t) => t.id !== taskId));
+        } catch (err) {
+            setError(err.message || 'Failed to delete task.');
         }
     };
 
@@ -101,6 +105,8 @@ const TaskManager = () => {
                     {isAdding ? 'Close Form' : 'New Task'}
                 </button>
             </div>
+
+            {error && <p className={styles.errorBanner}>{error}</p>}
 
             {isAdding && (
                 <form onSubmit={handleAddTask} className={styles.sectionStack}>
@@ -146,7 +152,7 @@ const TaskManager = () => {
                     </div>
 
                     <div className={styles.fieldGroup}>
-                        <label className={styles.fieldLabel}>Required Skills</label>
+                        <label className={styles.fieldLabel}>Required Skills (comma-separated)</label>
                         <input
                             value={skillsString}
                             onChange={(e) => setSkillsString(e.target.value)}
@@ -164,7 +170,9 @@ const TaskManager = () => {
             )}
 
             <div className={styles.taskList}>
-                {tasks.length === 0 ? (
+                {loading ? (
+                    <p className={styles.emptyState}>Loading tasks...</p>
+                ) : tasks.length === 0 ? (
                     <p className={styles.emptyState}>No tasks currently available.</p>
                 ) : (
                     tasks.map((task) => (

@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
-import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import HomePage from "./components/HomePage/HomePage";
 import AboutUsPage from "./components/AboutUsPage/AboutUsPage";
 import EventsPage from "./components/EventsPage/EventsPage";
-
 import GalleryPage from "./components/GalleryPage/GalleryPage";
 import Login from "./components/Admin/Login/Login";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
+import { AuthProvider } from "./components/Admin/AuthContext";
 import { VolunteerAuthProvider } from "./context/VolunteerAuthContext";
 import AppRouteError from "./components/AppRouteError";
 import VolunteerLogin from "./components/VolunteerPortal/Auth/Login";
@@ -31,26 +31,34 @@ function App() {
                 </>
             ),
             children: [
-                { index: true, element: <HomePage/>},
-                { path: '/about-us', element: <AboutUsPage/>},
-                { path: '/gallery', element: <GalleryPage/>},
-                { path: '/events', element: <EventsPage/>},
-                { path: '/membership/complete', element: <MembershipCompletePage />},
+                { index: true, element: <HomePage /> },
+                { path: '/about-us', element: <AboutUsPage /> },
+                { path: '/gallery', element: <GalleryPage /> },
+                { path: '/events', element: <EventsPage /> },
+                { path: '/membership/complete', element: <MembershipCompletePage /> },
             ],
         },
         {
-            path: "/admin/login",
-            errorElement: <AppRouteError />,
-            element: <Login />
-        },
-        {
-            path: "/admin/dashboard",
+            // Admin routes share AuthProvider so Login, ProtectedRoute and Dashboard
+            // all have access to currentUser, backendToken, and backendUser.
+            path: "/admin",
             errorElement: <AppRouteError />,
             element: (
-                <ProtectedRoute>
-                    <Dashboard />
-                </ProtectedRoute>
-            )
+                <AuthProvider>
+                    <Outlet />
+                </AuthProvider>
+            ),
+            children: [
+                { path: "login", element: <Login /> },
+                {
+                    path: "dashboard",
+                    element: (
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    )
+                }
+            ]
         },
         {
             path: "/volunteer-portal",

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../../firebase';
+import { auth } from '../../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
+import { useAuth } from '../AuthContext';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -15,6 +15,7 @@ const Login = () => {
   
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
+  const { exchangeToken } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,10 +24,18 @@ const Login = () => {
 
     try {
       const credentials = await signInWithEmailAndPassword(auth, email, password);
-      const profileSnapshot = await getDoc(doc(db, 'volunteers', credentials.user.uid));
-      const role = profileSnapshot.data()?.role;
 
-      if (role !== 'manager' && role !== 'admin') {
+      // Exchange Firebase token for backend JWT and verify admin role
+      const result = await exchangeToken(credentials.user);
+
+      if (!result) {
+        await signOut(auth);
+        setError('This account does not have a matching backend profile. Contact the system administrator.');
+        return;
+      }
+
+      const { user: backendUser } = result;
+      if (backendUser.role !== 'manager' && backendUser.role !== 'admin') {
         await signOut(auth);
         setError('This account does not have access to the admin panel.');
         return;
@@ -44,7 +53,7 @@ const Login = () => {
 
       const message = err.code === 'auth/invalid-credential'
         ? 'Invalid email or password.'
-        : 'Failed to log in. Please check your credentials.';
+        : (err.message || 'Failed to log in. Please check your credentials.');
 
       setError(message);
       console.error(err);

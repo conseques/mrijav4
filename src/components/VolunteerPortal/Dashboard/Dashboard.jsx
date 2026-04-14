@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { collection, doc, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore';
-import { auth, db } from '../../../firebase';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Sun,
@@ -17,12 +14,15 @@ import {
     UsersRound
 } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
+import { fetchTasks, fetchMyTasks, applyToTask } from '../../../services/volunteerApi';
 
 import PendingApprovals from '../Admin/PendingApprovals';
 import RoleManager from '../Admin/RoleManager';
 import TaskManager from '../Admin/TaskManager';
 import ProfileSettings from './ProfileSettings';
 import styles from '../VolunteerPortal.module.css';
+
+const TASKS_POLL_INTERVAL = 30_000; // 30 seconds
 
 const getUrgencyClass = (urgency) => {
     if (urgency === 'High') return styles.badgeHigh;
@@ -71,109 +71,68 @@ const TaskCard = ({ task, hasApplied, applyingId, onApply }) => (
 );
 
 const Dashboard = () => {
-    const { currentUser, profile, loading } = useVolunteerAuth();
+    const { user, logout } = useVolunteerAuth();
     const { isDarkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('tasks');
     const [tasks, setTasks] = useState([]);
+    const [myTaskIds, setMyTaskIds] = useState(new Set());
     const [applyingId, setApplyingId] = useState(null);
     const [tasksError, setTasksError] = useState('');
 
-    useEffect(() => {
-        if (!loading && !currentUser) {
-            navigate('/volunteer-portal/login');
-        }
-    }, [loading, currentUser, navigate]);
+    const isApproved = user?.status === 'approved';
+    const isManager = user?.role === 'manager' || user?.role === 'admin';
 
-    useEffect(() => {
-        if (!currentUser || profile?.status !== 'approved') {
-            setTasks([]);
+    const loadTasks = useCallback(async () => {
+        if (!isApproved || !user?.token) return;
+
+        try {
+            const [allTasksRes, myTasksRes] = await Promise.all([
+                fetchTasks(user.token),
+                fetchMyTasks(user.token)
+            ]);
+            setTasks(allTasksRes.items || []);
+            setMyTaskIds(new Set((myTasksRes.items || []).map((t) => t.id)));
             setTasksError('');
-            return undefined;
+        } catch (err) {
+            console.error('Error loading tasks:', err);
+            setTasksError('Unable to load tasks right now. Please try again shortly.');
         }
+    }, [isApproved, user?.token]);
 
-        setTasksError('');
-
-        const unsubscribe = onSnapshot(
-            collection(db, 'volunteerTasks'),
-            (snapshot) => {
-                const tasksData = [];
-                snapshot.forEach((docSnap) => {
-                    tasksData.push({ id: docSnap.id, ...docSnap.data() });
-                });
-
-                tasksData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-                setTasks(tasksData);
-            },
-            (error) => {
-                console.error('Error loading volunteer tasks:', error);
-                setTasks([]);
-                setTasksError('Unable to load tasks right now. Please try again shortly.');
-            }
-        );
-
-        return () => unsubscribe();
-    }, [currentUser, profile?.status]);
+    // Initial load + polling
+    useEffect(() => {
+        loadTasks();
+        const interval = setInterval(loadTasks, TASKS_POLL_INTERVAL);
+        return () => clearInterval(interval);
+    }, [loadTasks]);
 
     const handleApply = async (taskId) => {
-        if (!currentUser || profile?.status !== 'approved') return;
-
-        const targetTask = tasks.find((task) => task.id === taskId);
-        if (targetTask?.appliedUsers?.includes(currentUser.uid)) {
-            return;
-        }
+        if (!user?.token || myTaskIds.has(taskId)) return;
 
         setApplyingId(taskId);
         setTasksError('');
         try {
-            await updateDoc(doc(db, 'volunteerTasks', taskId), {
-                appliedUsers: arrayUnion(currentUser.uid)
-            });
+            await applyToTask(user.token, taskId);
+            setMyTaskIds((prev) => new Set([...prev, taskId]));
         } catch (error) {
-            console.error('Error applying to task:', error);
-            setTasksError('Failed to apply for this task. Please try again.');
+            setTasksError(error.message || 'Failed to apply for this task. Please try again.');
         }
         setApplyingId(null);
     };
 
-    const handleLogout = async () => {
-        await signOut(auth);
+    const handleLogout = () => {
+        logout();
         navigate('/volunteer-portal/login');
     };
 
-    if (loading) {
-        return (
-            <div className={styles.portalPage}>
-                <div className={styles.pendingCard}>
-                    <span className={styles.portalEyebrow}>Volunteer Portal</span>
-                    <h2 className={styles.panelTitle}>Loading dashboard...</h2>
-                </div>
-            </div>
-        );
-    }
-
-    if (!currentUser) {
+    if (!user) {
         return null;
     }
 
-    if (!profile) {
-        return (
-            <div className={styles.portalPage}>
-                <div className={styles.pendingCard}>
-                    <span className={styles.statusPill}>Profile Required</span>
-                    <h2 className={styles.authTitle}>Volunteer Profile Missing</h2>
-                    <p className={styles.authText}>
-                        This account is logged in, but no volunteer profile was found. Please contact an administrator so we can link your account.
-                    </p>
-                    <div className={styles.actionRow}>
-                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    // ─── Status screens ──────────────────────────────────────────────────────
 
-    if (profile.status === 'rejected') {
+    if (user.status === 'rejected') {
         return (
             <div className={styles.portalPage}>
                 <div className={styles.pendingCard}>
@@ -190,14 +149,14 @@ const Dashboard = () => {
         );
     }
 
-    if (profile.status !== 'approved') {
+    if (user.status !== 'approved') {
         return (
             <div className={styles.portalPage}>
                 <div className={styles.pendingCard}>
                     <span className={styles.statusPill}>Pending Review</span>
                     <h2 className={styles.authTitle}>Registration Pending</h2>
                     <p className={styles.authText}>
-                        Thank you for registering, {profile.name || 'volunteer'}. Your profile is currently under review by the administrators.
+                        Thank you for registering, {user.name || 'volunteer'}. Your profile is currently under review by the administrators.
                         Once approved, you will get full access to tasks, profile settings, and internal coordination tools.
                     </p>
                     <p className={styles.helper}>We use this step to keep the volunteer space safe and organised for everyone.</p>
@@ -209,8 +168,9 @@ const Dashboard = () => {
         );
     }
 
-    const assignedTasks = tasks.filter((task) => task.appliedUsers?.includes(currentUser.uid));
-    const isManager = profile?.role === 'manager' || profile?.role === 'admin';
+    // ─── Approved dashboard ──────────────────────────────────────────────────
+
+    const myTasks = tasks.filter((t) => myTaskIds.has(t.id));
 
     const volunteerMenu = [
         { id: 'tasks', label: 'Available Tasks', Icon: ClipboardList },
@@ -241,18 +201,15 @@ const Dashboard = () => {
                         {tasks.length === 0 ? (
                             <p className={styles.emptyState}>No tasks are available right now.</p>
                         ) : (
-                            tasks.map((task) => {
-                                const hasApplied = task.appliedUsers?.includes(currentUser.uid);
-                                return (
-                                    <TaskCard
-                                        key={task.id}
-                                        task={task}
-                                        hasApplied={hasApplied}
-                                        applyingId={applyingId}
-                                        onApply={handleApply}
-                                    />
-                                );
-                            })
+                            tasks.map((task) => (
+                                <TaskCard
+                                    key={task.id}
+                                    task={task}
+                                    hasApplied={myTaskIds.has(task.id)}
+                                    applyingId={applyingId}
+                                    onApply={handleApply}
+                                />
+                            ))
                         )}
                     </div>
                 </section>
@@ -269,13 +226,11 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {tasksError && <p className={styles.errorBanner}>{tasksError}</p>}
-
                     <div className={styles.taskList}>
-                        {assignedTasks.length === 0 ? (
+                        {myTasks.length === 0 ? (
                             <p className={styles.emptyState}>You haven't applied for any tasks yet.</p>
                         ) : (
-                            assignedTasks.map((task) => (
+                            myTasks.map((task) => (
                                 <article key={task.id} className={styles.taskCard}>
                                     <div className={styles.taskTop}>
                                         <h3 className={styles.taskTitle}>{task.title}</h3>
@@ -300,9 +255,7 @@ const Dashboard = () => {
         }
 
         if (activeTab === 'pending') {
-            return isManager ? (
-                <PendingApprovals />
-            ) : (
+            return isManager ? <PendingApprovals /> : (
                 <section className={styles.panel}>
                     <h2 className={styles.panelTitle}>Pending Approvals</h2>
                     <p className={styles.errorBanner}>You do not have permission to access this section.</p>
@@ -311,9 +264,7 @@ const Dashboard = () => {
         }
 
         if (activeTab === 'roles') {
-            return isManager ? (
-                <RoleManager />
-            ) : (
+            return isManager ? <RoleManager /> : (
                 <section className={styles.panel}>
                     <h2 className={styles.panelTitle}>Role Manager</h2>
                     <p className={styles.errorBanner}>You do not have permission to access this section.</p>
@@ -322,9 +273,7 @@ const Dashboard = () => {
         }
 
         if (activeTab === 'manage_tasks') {
-            return isManager ? (
-                <TaskManager />
-            ) : (
+            return isManager ? <TaskManager /> : (
                 <section className={styles.panel}>
                     <h2 className={styles.panelTitle}>Manage Tasks</h2>
                     <p className={styles.errorBanner}>You do not have permission to access this section.</p>
@@ -350,7 +299,7 @@ const Dashboard = () => {
                 <header className={styles.portalHeader}>
                     <div className={styles.portalHeaderCopy}>
                         <span className={styles.portalEyebrow}>Volunteer Dashboard</span>
-                        <h1 className={styles.portalTitle}>Hei, {profile?.name?.split(' ')[0] || 'Volunteer'}</h1>
+                        <h1 className={styles.portalTitle}>Hei, {user?.name?.split(' ')[0] || 'Volunteer'}</h1>
                         <p className={styles.portalSubtitle}>
                             Track tasks, update your availability, and coordinate with the MriJa team from one place.
                         </p>
@@ -367,11 +316,11 @@ const Dashboard = () => {
                         <span className={styles.metricLabel}>Open Tasks</span>
                     </div>
                     <div className={styles.metricCard}>
-                        <span className={styles.metricValue}>{assignedTasks.length}</span>
+                        <span className={styles.metricValue}>{myTasks.length}</span>
                         <span className={styles.metricLabel}>My Tasks</span>
                     </div>
                     <div className={styles.metricCard}>
-                        <span className={styles.metricValue}>{profile?.skills?.length || 0}</span>
+                        <span className={styles.metricValue}>{user?.skills?.length || 0}</span>
                         <span className={styles.metricLabel}>Listed Skills</span>
                     </div>
                 </div>
@@ -417,13 +366,13 @@ const Dashboard = () => {
                         <section className={`${styles.panel} ${styles.panelAccent}`}>
                             <div className={styles.sectionStack}>
                                 <span className={styles.adminBadge}>Profile</span>
-                                <h3 className={styles.profileName}>{profile?.name}</h3>
+                                <h3 className={styles.profileName}>{user?.name}</h3>
                                 <p className={styles.profileMeta}>
-                                    Role: <span style={{ textTransform: 'capitalize' }}>{profile?.role || 'volunteer'}</span>
+                                    Role: <span style={{ textTransform: 'capitalize' }}>{user?.role || 'volunteer'}</span>
                                 </p>
                                 <div className={styles.chipRow}>
-                                    {profile?.skills?.length ? (
-                                        profile.skills.map((skill) => (
+                                    {user?.skills?.length ? (
+                                        user.skills.map((skill) => (
                                             <span key={skill} className={styles.chip}>{skill}</span>
                                         ))
                                     ) : (

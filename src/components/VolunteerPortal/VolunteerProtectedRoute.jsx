@@ -5,12 +5,12 @@ import { motion } from 'framer-motion';
 
 /**
  * Protects volunteer portal routes.
+ * - Loading auth state → show spinner
  * - Not logged in → redirect to /volunteer-portal/login
- * - Logged in but pending approval → show pending screen (handled in Dashboard)
- * - Logged in + approved → render children
+ * - Logged in (any status) → render children (Dashboard handles pending/rejected UI)
  */
 const VolunteerProtectedRoute = ({ children }) => {
-    const { currentUser, loading } = useVolunteerAuth();
+    const { user, loading } = useVolunteerAuth();
     const location = useLocation();
 
     if (loading) {
@@ -40,8 +40,7 @@ const VolunteerProtectedRoute = ({ children }) => {
         );
     }
 
-    if (!currentUser) {
-        // Preserve the URL they tried to visit so we can redirect back after login
+    if (!user) {
         return <Navigate to="/volunteer-portal/login" state={{ from: location }} replace />;
     }
 

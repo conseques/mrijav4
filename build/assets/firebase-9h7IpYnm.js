@@ -1,0 +1,1 @@
+import{b as e}from"./@firebase-CkxihT-w.js";e(`firebase`,`12.11.0`,`app`);

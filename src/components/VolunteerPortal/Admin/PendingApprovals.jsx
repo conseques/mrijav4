@@ -1,38 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../../firebase';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
+import { fetchAdminVolunteers, reviewVolunteer } from '../../../services/volunteerApi';
 import styles from '../VolunteerPortal.module.css';
 
 const PendingApprovals = () => {
-    const { profile } = useVolunteerAuth();
+    const { user } = useVolunteerAuth();
     const [pendingUsers, setPendingUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const canReviewUsers = profile?.role === 'manager' || profile?.role === 'admin';
+    const [actionId, setActionId] = useState('');
+    const [error, setError] = useState('');
+
+    const canReview = user?.role === 'manager' || user?.role === 'admin';
 
     const fetchPendingUsers = async () => {
+        if (!canReview || !user?.token) return;
         setLoading(true);
+        setError('');
         try {
-            const q = query(collection(db, 'volunteers'), where('status', '==', 'pending'));
-            const querySnapshot = await getDocs(q);
-            const users = querySnapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
-            setPendingUsers(users);
-        } catch (error) {
-            console.error('Error fetching pending users', error);
+            const { items } = await fetchAdminVolunteers(user.token, 'pending');
+            setPendingUsers(items || []);
+        } catch (err) {
+            setError(err.message || 'Unable to load pending registrations.');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
-        if (canReviewUsers) {
-            fetchPendingUsers();
-        } else {
-            setPendingUsers([]);
-            setLoading(false);
-        }
-    }, [canReviewUsers]);
+        fetchPendingUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [canReview, user?.token]);
 
-    if (!canReviewUsers) {
+    if (!canReview) {
         return (
             <section className={styles.panel}>
                 <h2 className={styles.panelTitle}>Pending Approvals</h2>
@@ -41,43 +40,29 @@ const PendingApprovals = () => {
         );
     }
 
-    const handleApprove = async (userId) => {
+    const handleReview = async (userId, status) => {
+        const targetUser = pendingUsers.find((u) => u.id === userId);
+        if (status === 'rejected') {
+            if (!window.confirm(`Reject registration for ${targetUser?.name || userId}?`)) return;
+        }
+
+        setActionId(userId);
         try {
-            const userRef = doc(db, 'volunteers', userId);
-            await updateDoc(userRef, {
-                status: 'approved',
-                role: 'volunteer'
-            });
-            setPendingUsers((prev) => prev.filter((user) => user.id !== userId));
-        } catch (error) {
-            console.error('Error approving user', error);
-            alert('Failed to approve user.');
+            await reviewVolunteer(user.token, userId, status);
+            setPendingUsers((prev) => prev.filter((u) => u.id !== userId));
+        } catch (err) {
+            setError(err.message || `Failed to ${status} this volunteer.`);
+        } finally {
+            setActionId('');
         }
     };
 
-    const handleReject = async (userId) => {
-        if (!window.confirm('Are you sure you want to reject this registration?')) return;
-
-        try {
-            const userRef = doc(db, 'volunteers', userId);
-            await updateDoc(userRef, {
-                status: 'rejected'
-            });
-            setPendingUsers((prev) => prev.filter((user) => user.id !== userId));
-        } catch (error) {
-            console.error('Error rejecting user', error);
-            alert('Failed to reject user.');
-        }
+    const formatDate = (ts) => {
+        if (!ts?.seconds) return 'Recently';
+        return new Date(ts.seconds * 1000).toLocaleDateString('en-GB', {
+            day: '2-digit', month: 'short', year: 'numeric'
+        });
     };
-
-    if (loading) {
-        return (
-            <section className={styles.panel}>
-                <h2 className={styles.panelTitle}>Pending Approvals</h2>
-                <p className={styles.panelDescription}>Loading registrations...</p>
-            </section>
-        );
-    }
 
     return (
         <section className={styles.panel}>
@@ -86,31 +71,44 @@ const PendingApprovals = () => {
                     <h2 className={styles.panelTitle}>Pending Approvals</h2>
                     <p className={styles.panelDescription}>Review new volunteer registrations before granting portal access.</p>
                 </div>
+                <button onClick={fetchPendingUsers} className={styles.ghostButton} disabled={loading}>
+                    Refresh
+                </button>
             </div>
 
+            {error && <p className={styles.errorBanner}>{error}</p>}
+
             <div className={styles.taskList}>
-                {pendingUsers.length === 0 ? (
+                {loading ? (
+                    <p className={styles.emptyState}>Loading registrations...</p>
+                ) : pendingUsers.length === 0 ? (
                     <p className={styles.emptyState}>No pending registrations.</p>
                 ) : (
-                    pendingUsers.map((user) => (
-                        <article key={user.id} className={styles.taskCard}>
+                    pendingUsers.map((volunteer) => (
+                        <article key={volunteer.id} className={styles.taskCard}>
                             <div className={styles.taskTop}>
                                 <div>
-                                    <h3 className={styles.taskTitle}>{user.name}</h3>
-                                    <p className={styles.profileMeta}>{user.email} | {user.phone}</p>
+                                    <h3 className={styles.taskTitle}>{volunteer.name}</h3>
+                                    <p className={styles.profileMeta}>{volunteer.email}{volunteer.phone ? ` | ${volunteer.phone}` : ''}</p>
                                 </div>
                                 <span className={styles.badgeMedium}>Pending</span>
                             </div>
 
-                            <p className={styles.helper}>
-                                Registered: {user.createdAt ? new Date(user.createdAt.seconds * 1000).toLocaleDateString() : 'Recently'}
-                            </p>
+                            <p className={styles.helper}>Registered: {formatDate(volunteer.createdAt)}</p>
 
                             <div className={styles.actionRow}>
-                                <button onClick={() => handleApprove(user.id)} className={styles.successButton}>
-                                    Approve
+                                <button
+                                    onClick={() => handleReview(volunteer.id, 'approved')}
+                                    className={styles.successButton}
+                                    disabled={actionId === volunteer.id}
+                                >
+                                    {actionId === volunteer.id ? 'Saving...' : 'Approve'}
                                 </button>
-                                <button onClick={() => handleReject(user.id)} className={styles.dangerButton}>
+                                <button
+                                    onClick={() => handleReview(volunteer.id, 'rejected')}
+                                    className={styles.dangerButton}
+                                    disabled={actionId === volunteer.id}
+                                >
                                     Reject
                                 </button>
                             </div>

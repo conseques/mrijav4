@@ -1,67 +1,70 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { fetchMe, loginVolunteer } from '../services/volunteerApi';
 
-const VolunteerAuthContext = createContext();
+const TOKEN_KEY = 'mrija_volunteer_token';
+
+const VolunteerAuthContext = createContext(null);
 
 export const useVolunteerAuth = () => useContext(VolunteerAuthContext);
 
 export const VolunteerAuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Restore session from localStorage on mount
   useEffect(() => {
-    let unsubscribeProfile = null;
+    const storedToken = localStorage.getItem(TOKEN_KEY);
+    if (!storedToken) {
+      setLoading(false);
+      return;
+    }
 
-    const cleanupProfileListener = () => {
-      if (unsubscribeProfile) {
-        unsubscribeProfile();
-        unsubscribeProfile = null;
-      }
-    };
-
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      cleanupProfileListener();
-      setCurrentUser(user);
-      setLoading(true);
-
-      if (user) {
-        const docRef = doc(db, 'volunteers', user.uid);
-        unsubscribeProfile = onSnapshot(docRef, (docSnap) => {
-          if (docSnap.exists()) {
-            setProfile(docSnap.data());
-          } else {
-            setProfile(null);
-          }
-          setLoading(false);
-        }, (error) => {
-          console.error('Error fetching volunteer profile', error);
-          setProfile(null);
-          setLoading(false);
-        });
-      } else {
-        setProfile(null);
-        setLoading(false);
-      }
-    });
-
-    return () => {
-      cleanupProfileListener();
-      unsubscribeAuth();
-    };
+    fetchMe(storedToken)
+      .then(({ user: fetchedUser }) => {
+        setUser({ ...fetchedUser, token: storedToken });
+      })
+      .catch(() => {
+        localStorage.removeItem(TOKEN_KEY);
+        setUser(null);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
+  const login = useCallback(async (email, password) => {
+    const { token, user: loggedInUser } = await loginVolunteer({ email, password });
+    localStorage.setItem(TOKEN_KEY, token);
+    setUser({ ...loggedInUser, token });
+    return loggedInUser;
+  }, []);
+
+  const logout = useCallback(() => {
+    localStorage.removeItem(TOKEN_KEY);
+    setUser(null);
+  }, []);
+
+  const refreshUser = useCallback(async () => {
+    const storedToken = localStorage.getItem(TOKEN_KEY);
+    if (!storedToken) return;
+
+    try {
+      const { user: refreshed } = await fetchMe(storedToken);
+      setUser({ ...refreshed, token: storedToken });
+    } catch {
+      logout();
+    }
+  }, [logout]);
+
   const value = {
-    currentUser,
-    profile, // contains { status: 'pending'|'approved', role: 'user'|'volunteer'|'manager'|'admin', etc }
-    loading // Indicates if auth or profile is loading
+    user,       // { id, email, name, phone, status, role, skills, token } | null
+    loading,
+    login,
+    logout,
+    refreshUser
   };
 
   return (
     <VolunteerAuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </VolunteerAuthContext.Provider>
   );
 };

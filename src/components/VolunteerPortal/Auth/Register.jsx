@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../../../firebase';
 import { motion } from 'framer-motion';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
+import { registerVolunteer } from '../../../services/volunteerApi';
 import styles from '../VolunteerPortal.module.css';
 
 const Register = () => {
@@ -14,30 +12,24 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
     const { isDarkMode, toggleTheme } = useTheme();
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            await setDoc(doc(db, 'volunteers', user.uid), {
-                name,
-                email,
-                phone,
-                status: 'pending',
-                role: 'user',
-                skills: [],
-                createdAt: serverTimestamp()
-            });
-
-            navigate('/volunteer-portal');
+            await registerVolunteer({ name, email, phone, password });
+            setSuccess(true);
+            setTimeout(() => navigate('/volunteer-portal/login'), 3500);
         } catch (err) {
-            setError(err.message || 'Registration failed.');
+            setError(err.message || 'Registration failed. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -72,72 +64,86 @@ const Register = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                 >
-                    <div className={styles.sectionStack}>
-                        <h2 className={styles.authTitle}>Become a Volunteer</h2>
-                        <p className={styles.authText}>Create your profile and we will review it before opening portal access.</p>
-                    </div>
-
-                    {error && <p className={styles.errorBanner}>{error}</p>}
-
-                    <form onSubmit={handleRegister} className={styles.authForm}>
-                        <div className={styles.fieldGroup}>
-                            <label className={styles.fieldLabel}>Full Name</label>
-                            <input
-                                type="text"
-                                placeholder="Full Name"
-                                required
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className={styles.fieldInput}
-                            />
+                    {success ? (
+                        <div className={styles.sectionStack} style={{ alignItems: 'center', textAlign: 'center', gap: '16px' }}>
+                            <CheckCircle2 size={52} style={{ color: 'var(--primary-color)' }} />
+                            <h2 className={styles.authTitle}>Registration Submitted!</h2>
+                            <p className={styles.authText}>
+                                Your application has been received and is now pending review by an administrator.
+                                You will be able to log in once your profile is approved.
+                            </p>
+                            <p className={styles.helper}>Redirecting you to login...</p>
                         </div>
-
-                        <div className={styles.splitRow}>
-                            <div className={styles.fieldGroup}>
-                                <label className={styles.fieldLabel}>Email</label>
-                                <input
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className={styles.fieldInput}
-                                />
+                    ) : (
+                        <>
+                            <div className={styles.sectionStack}>
+                                <h2 className={styles.authTitle}>Become a Volunteer</h2>
+                                <p className={styles.authText}>Create your profile and we will review it before opening portal access.</p>
                             </div>
 
-                            <div className={styles.fieldGroup}>
-                                <label className={styles.fieldLabel}>Phone</label>
-                                <input
-                                    type="tel"
-                                    placeholder="+47 ..."
-                                    required
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    className={styles.fieldInput}
-                                />
-                            </div>
-                        </div>
+                            {error && <p className={styles.errorBanner}>{error}</p>}
 
-                        <div className={styles.fieldGroup}>
-                            <label className={styles.fieldLabel}>Password</label>
-                            <input
-                                type="password"
-                                placeholder="Choose a secure password"
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className={styles.fieldInput}
-                            />
-                        </div>
+                            <form onSubmit={handleRegister} className={styles.authForm}>
+                                <div className={styles.fieldGroup}>
+                                    <label className={styles.fieldLabel}>Full Name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Full Name"
+                                        required
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className={styles.fieldInput}
+                                    />
+                                </div>
 
-                        <button type="submit" className={styles.authSubmit}>
-                            Register
-                        </button>
+                                <div className={styles.splitRow}>
+                                    <div className={styles.fieldGroup}>
+                                        <label className={styles.fieldLabel}>Email</label>
+                                        <input
+                                            type="email"
+                                            placeholder="you@example.com"
+                                            required
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className={styles.fieldInput}
+                                        />
+                                    </div>
 
-                        <p className={styles.authFooter}>
-                            Already have an account? <Link to="/volunteer-portal/login" className={styles.authLink}>Login</Link>
-                        </p>
-                    </form>
+                                    <div className={styles.fieldGroup}>
+                                        <label className={styles.fieldLabel}>Phone (optional)</label>
+                                        <input
+                                            type="tel"
+                                            placeholder="+47 ..."
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                            className={styles.fieldInput}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className={styles.fieldGroup}>
+                                    <label className={styles.fieldLabel}>Password</label>
+                                    <input
+                                        type="password"
+                                        placeholder="Choose a secure password (min 8 characters)"
+                                        required
+                                        minLength={8}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className={styles.fieldInput}
+                                    />
+                                </div>
+
+                                <button type="submit" disabled={loading} className={styles.authSubmit}>
+                                    {loading ? 'Submitting...' : 'Register'}
+                                </button>
+
+                                <p className={styles.authFooter}>
+                                    Already have an account? <Link to="/volunteer-portal/login" className={styles.authLink}>Login</Link>
+                                </p>
+                            </form>
+                        </>
+                    )}
                 </motion.div>
             </div>
         </div>

@@ -50,6 +50,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
+      sessionStorage.removeItem('mrija_admin_backend_token');
       await signOut(auth);
       navigate('/admin/login');
     } catch (err) {

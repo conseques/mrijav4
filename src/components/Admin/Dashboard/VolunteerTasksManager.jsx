@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import { useAdminBackendToken } from '../../../hooks/useAdminBackendToken';
+import { fetchTasks, createTask, deleteTask } from '../../../services/volunteerApi';
 import styles from './VolunteerTasksManager.module.css';
 
 const initialFormState = {
@@ -13,9 +13,8 @@ const initialFormState = {
   urgency: 'Medium'
 };
 
-const getCreatedAtSeconds = (task) => task?.createdAt?.seconds || 0;
-
 const VolunteerTasksManager = () => {
+  const { backendToken, loading: tokenLoading } = useAdminBackendToken();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -24,33 +23,20 @@ const VolunteerTasksManager = () => {
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, 'volunteerTasks'),
-      (snapshot) => {
-        const rows = snapshot.docs.map((taskDoc) => ({
-          id: taskDoc.id,
-          ...taskDoc.data()
-        }));
+    if (!backendToken) {
+      if (!tokenLoading) setLoading(false);
+      return;
+    }
 
-        rows.sort((a, b) => getCreatedAtSeconds(b) - getCreatedAtSeconds(a));
-        setTasks(rows);
-        setLoading(false);
-      },
-      (error) => {
-        console.error('Error loading volunteer tasks:', error);
-        setLoading(false);
-      }
-    );
-
-    return () => unsubscribe();
-  }, []);
+    fetchTasks(backendToken)
+      .then(({ items }) => setTasks(items || []))
+      .catch((err) => setFormError(err.message || 'Unable to load tasks.'))
+      .finally(() => setLoading(false));
+  }, [backendToken, tokenLoading]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((current) => ({
-      ...current,
-      [name]: value
-    }));
+    setFormData((current) => ({ ...current, [name]: value }));
   };
 
   const resetForm = () => {
@@ -70,38 +56,33 @@ const VolunteerTasksManager = () => {
         .map((skill) => skill.trim())
         .filter(Boolean);
 
-      await addDoc(collection(db, 'volunteerTasks'), {
+      const { item } = await createTask(backendToken, {
         title: formData.title.trim(),
         description: formData.description.trim(),
         date: formData.date.trim(),
         location: formData.location.trim(),
         marker: formData.marker.trim(),
         urgency: formData.urgency,
-        skillsRequired,
-        appliedUsers: [],
-        createdAt: serverTimestamp()
+        skillsRequired
       });
 
+      setTasks((prev) => [item, ...prev]);
       resetForm();
     } catch (error) {
-      console.error('Error adding volunteer task:', error);
-      setFormError('Unable to create this task right now. Please try again.');
+      setFormError(error.message || 'Unable to create this task right now. Please try again.');
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (taskId) => {
-    const confirmed = window.confirm('Delete this volunteer task?');
-    if (!confirmed) {
-      return;
-    }
+    if (!window.confirm('Delete this volunteer task?')) return;
 
     try {
-      await deleteDoc(doc(db, 'volunteerTasks', taskId));
+      await deleteTask(backendToken, taskId);
+      setTasks((prev) => prev.filter((t) => t.id !== taskId));
     } catch (error) {
-      console.error('Error deleting volunteer task:', error);
-      setFormError('Unable to delete this task right now. Please try again.');
+      setFormError(error.message || 'Unable to delete this task right now. Please try again.');
     }
   };
 
@@ -146,12 +127,7 @@ const VolunteerTasksManager = () => {
 
             <div className={styles.inputGroup}>
               <label>Description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                required
-              />
+              <textarea name="description" value={formData.description} onChange={handleInputChange} required />
             </div>
 
             <div className={styles.formGrid}>
@@ -199,7 +175,7 @@ const VolunteerTasksManager = () => {
       )}
 
       <div className={styles.listCard}>
-        {loading ? (
+        {loading || tokenLoading ? (
           <p className={styles.emptyState}>Loading tasks...</p>
         ) : tasks.length === 0 ? (
           <p className={styles.emptyState}>No volunteer tasks found.</p>
