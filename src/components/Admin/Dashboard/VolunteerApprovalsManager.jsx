@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BadgeCheck, Clock3, Mail, Phone, RefreshCw, ShieldAlert, UserRound, XCircle } from 'lucide-react';
+import { BadgeCheck, Clock3, Mail, Phone, RefreshCw, ShieldAlert, UserRound, XCircle, Trash2 } from 'lucide-react';
 import { useAdminBackendToken } from '../../../hooks/useAdminBackendToken';
-import { fetchAdminVolunteers, reviewVolunteer } from '../../../services/volunteerApi';
+import { fetchAdminVolunteers, reviewVolunteer, deleteVolunteer } from '../../../services/volunteerApi';
 import styles from './VolunteerApprovalsManager.module.css';
 
 const formatDate = (ts) => {
@@ -96,6 +96,28 @@ const VolunteerApprovalsManager = () => {
     }
   };
 
+  const handleDeleteVolunteer = async (volunteer) => {
+    const confirmed = window.confirm(`Are you sure you want to permanently delete ${volunteer.name || volunteer.email}? This action cannot be undone.`);
+    if (!confirmed) return;
+
+    setActionId(volunteer.id);
+    setErrorMessage('');
+    setStatusMessage('');
+
+    try {
+      await deleteVolunteer(backendToken, volunteer.id);
+      
+      setVolunteers((current) => current.filter((v) => v.id !== volunteer.id));
+
+      setStatusMessage(`${volunteer.name || volunteer.email} has been permanently deleted.`);
+    } catch (error) {
+      console.error('Error deleting volunteer:', error);
+      setErrorMessage(error.message || 'Failed to delete this volunteer. Please try again.');
+    } finally {
+      setActionId('');
+    }
+  };
+
   // Show token acquisition error (e.g. admin email not in backend)
   if (tokenError) {
     return (
@@ -170,10 +192,21 @@ const VolunteerApprovalsManager = () => {
                     <h4 className={styles.applicantName}>{volunteer.name || 'Volunteer applicant'}</h4>
                     <p className={styles.metaLine}>Registered {formatDate(volunteer.createdAt)}</p>
                   </div>
-                  <span className={styles.statusPill}>
-                    <Clock3 size={14} />
-                    <span>Pending</span>
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span className={styles.statusPill}>
+                      <Clock3 size={14} />
+                      <span>Pending</span>
+                    </span>
+                    <button
+                      type="button"
+                      className={styles.deleteIconBtn}
+                      onClick={() => handleDeleteVolunteer(volunteer)}
+                      disabled={actionId === volunteer.id}
+                      title="Delete profile"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </div>
 
                 <div className={styles.contactList}>
@@ -255,10 +288,21 @@ const VolunteerApprovalsManager = () => {
                     <h4 className={styles.reviewName}>{volunteer.name || volunteer.email}</h4>
                     <p className={styles.metaLine}>{volunteer.email}</p>
                   </div>
-                  <span className={volunteer.status === 'approved' ? styles.approvedBadge : styles.rejectedBadge}>
-                    {volunteer.status === 'approved' ? <BadgeCheck size={14} /> : <ShieldAlert size={14} />}
-                    <span>{volunteer.status}</span>
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span className={volunteer.status === 'approved' ? styles.approvedBadge : styles.rejectedBadge}>
+                      {volunteer.status === 'approved' ? <BadgeCheck size={14} /> : <ShieldAlert size={14} />}
+                      <span>{volunteer.status}</span>
+                    </span>
+                    <button
+                      type="button"
+                      className={styles.deleteIconBtn}
+                      onClick={() => handleDeleteVolunteer(volunteer)}
+                      disabled={actionId === volunteer.id}
+                      title="Permanently Delete"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </div>
 
                 <div className={styles.reviewMeta}>

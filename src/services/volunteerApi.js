@@ -118,6 +118,13 @@ export async function reviewVolunteer(token, userId, status) {
   });
 }
 
+export async function deleteVolunteer(token, userId) {
+  return apiFetch(`/api/admin/volunteers/${userId}`, {
+    method: 'DELETE',
+    headers: authHeader(token)
+  });
+}
+
 export async function changeVolunteerRole(token, userId, role) {
   return apiFetch(`/api/admin/volunteers/${userId}/role`, {
     method: 'PATCH',

@@ -271,9 +271,30 @@
 }
 
 .approveBtn:disabled,
-.rejectBtn:disabled {
+.rejectBtn:disabled,
+.deleteIconBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.deleteIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: none;
+  background: rgba(220, 38, 38, 0.08);
+  color: #b91c1c;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.deleteIconBtn:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.15);
+  transform: translateY(-1px);
 }
 
 .reviewList {

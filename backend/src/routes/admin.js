@@ -99,6 +99,22 @@ router.patch('/volunteers/:id/review', (req, res) => {
   return res.json({ item: mapUserRow(updated) });
 });
 
+router.delete('/volunteers/:id', (req, res) => {
+  const userId = String(req.params.id || '').trim();
+  if (!userId) {
+    return res.status(400).json({ error: 'User id is required.' });
+  }
+
+  const existingUser = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+  if (!existingUser) {
+    return res.status(404).json({ error: 'User not found.' });
+  }
+
+  db.prepare('DELETE FROM users WHERE id = ?').run(userId);
+  
+  return res.json({ success: true, message: 'User deleted successfully.' });
+});
+
 router.patch('/volunteers/:id/role', (req, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Only admins can change volunteer roles.' });
