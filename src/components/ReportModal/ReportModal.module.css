@@ -60,6 +60,8 @@
   padding-top: 1rem;
   padding-right: 4px;
   overflow-y: auto;
+  flex: 1;
+  min-height: 0;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
