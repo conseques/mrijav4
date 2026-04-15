@@ -1,13 +1,14 @@
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 
 async function apiFetch(path, options = {}) {
+  const { headers, ...restOptions } = options;
   const url = `${BASE_URL}${path}`;
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
-      ...(options.headers || {})
+      ...(headers || {})
     },
-    ...options
+    ...restOptions
   });
 
   const data = await response.json().catch(() => ({}));
