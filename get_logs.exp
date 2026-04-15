@@ -1,0 +1,6 @@
+#!/usr/bin/expect -f
+set timeout 15
+spawn ssh -o StrictHostKeyChecking=no root@185.139.228.94 "pm2 logs mrija-backend --lines 30 --nostream"
+expect "assword:"
+send "Zxcvbnmasdfghjkl123\r"
+expect eof

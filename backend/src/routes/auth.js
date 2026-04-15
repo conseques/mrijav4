@@ -33,6 +33,11 @@ const skillsSchema = z.object({
   skills: z.array(z.string().trim().min(1).max(64)).max(30)
 });
 
+const passwordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(8).max(120)
+});
+
 router.post('/register-volunteer', async (req, res) => {
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -138,6 +143,40 @@ router.patch('/me', requireAuth, (req, res) => {
 
   const updated = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
   return res.json({ user: mapUserRow(updated) });
+});
+
+router.patch('/me/password', requireAuth, async (req, res) => {
+  const parsed = passwordSchema.safeParse(req.body || {});
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid password payload. Password must be at least 8 characters.' });
+  }
+
+  const { currentPassword, newPassword } = parsed.data;
+  const userRow = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
+
+  if (!userRow) {
+    return res.status(404).json({ error: 'User not found.' });
+  }
+
+  if (String(userRow.password_hash).startsWith('firebase-migrated:')) {
+    return res.status(403).json({
+      error: 'This account was migrated from Firebase. Please ask the administrator to reset your password.'
+    });
+  }
+
+  const isValid = await verifyPassword(currentPassword, userRow.password_hash);
+  if (!isValid) {
+    return res.status(401).json({ error: 'Current password is incorrect.' });
+  }
+
+  const newHash = await hashPassword(newPassword);
+  db.prepare('UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?').run(
+    newHash,
+    nowIso(),
+    req.user.id
+  );
+
+  return res.json({ message: 'Password updated successfully' });
 });
 
 router.patch('/me/skills', requireApprovedVolunteer, (req, res) => {

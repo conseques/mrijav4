@@ -63,6 +63,14 @@ export async function updateSkills(token, skills) {
   });
 }
 
+export async function changePassword(token, currentPassword, newPassword) {
+  return apiFetch('/api/auth/me/password', {
+    method: 'PATCH',
+    headers: authHeader(token),
+    body: JSON.stringify({ currentPassword, newPassword })
+  });
+}
+
 // ─── Firebase token exchange (for admin panel) ────────────────────────────
 
 export async function exchangeFirebaseToken(idToken) {
