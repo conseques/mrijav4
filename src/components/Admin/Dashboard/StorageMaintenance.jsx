@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { HardDrive, RefreshCw, Trash2, TriangleAlert } from 'lucide-react';
+import { HardDrive, RefreshCw, Trash2, TriangleAlert, Download, Database } from 'lucide-react';
 import { db, storage } from '../../../firebase';
 import styles from './StorageMaintenance.module.css';
 import { deleteManagedStorageFiles, scanManagedStorage } from './storageMaintenanceUtils';
+import { useAdminBackendToken } from '../../../hooks/useAdminBackendToken';
+import { downloadSystemBackup } from '../../../services/volunteerApi';
 
 const StorageMaintenance = () => {
   const [scanResult, setScanResult] = useState(null);
@@ -10,6 +12,27 @@ const StorageMaintenance = () => {
   const [cleaningUp, setCleaningUp] = useState(false);
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
+
+  const [downloadingBackup, setDownloadingBackup] = useState(false);
+  const [backupError, setBackupError] = useState('');
+  const { backendToken } = useAdminBackendToken();
+
+  const handleDownloadBackup = async () => {
+    if (!backendToken) {
+      setBackupError('You must be logged in as an admin to download a backup.');
+      return;
+    }
+    setDownloadingBackup(true);
+    setBackupError('');
+    try {
+      await downloadSystemBackup(backendToken);
+    } catch (err) {
+      console.error('Error downloading backup:', err);
+      setBackupError(err.message || 'Failed to download the system backup.');
+    } finally {
+      setDownloadingBackup(false);
+    }
+  };
 
   const handleScan = async () => {
     setLoadingScan(true);
@@ -76,9 +99,39 @@ const StorageMaintenance = () => {
   };
 
   return (
-    <div className={styles.panel}>
-      <div className={styles.hero}>
-        <div className={styles.heroCopy}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+      <div className={styles.panel}>
+        <div className={styles.hero}>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>Server Details</span>
+            <h2 className={styles.title}>System Data Backup</h2>
+            <p className={styles.description}>
+              Download a complete archive of the core SQLite database and all uploaded files (events, volunteers, etc.).
+              This is useful if you are migrating the backend.
+            </p>
+          </div>
+          <div className={styles.iconWrap}>
+            <Database size={28} />
+          </div>
+        </div>
+
+        <div className={styles.actions} style={{ marginTop: '20px' }}>
+          <button 
+            className={styles.primaryBtn} 
+            onClick={handleDownloadBackup} 
+            disabled={downloadingBackup || !backendToken}
+          >
+            <Download size={16} className={downloadingBackup ? styles.spinningIcon : ''} />
+            <span>{downloadingBackup ? 'Archiving & Downloading...' : 'Download Full Backup (.tar.gz)'}</span>
+          </button>
+        </div>
+
+        {backupError && <p className={styles.errorMessage} style={{ marginTop: '16px' }}>{backupError}</p>}
+      </div>
+
+      <div className={styles.panel}>
+        <div className={styles.hero}>
+          <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>Firebase Storage</span>
           <h2 className={styles.title}>Storage maintenance</h2>
           <p className={styles.description}>
@@ -163,6 +216,7 @@ const StorageMaintenance = () => {
           )}
         </>
       )}
+      </div>
     </div>
   );
 };

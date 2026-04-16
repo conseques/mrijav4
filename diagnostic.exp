@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+set timeout 30
+
+spawn ssh -o StrictHostKeyChecking=no root@185.139.228.94
+expect "assword:"
+send "Zxcvbnmasdfghjkl123\r"
+expect "# "
+send "pm2 status\r"
+expect "# "
+send "pm2 logs --lines 50 --nostream mrija-backend\r"
+expect "# "
+send "cd /var/www/mrijav4/backend\r"
+expect "# "
+send "sqlite3 data/mrija.db 'PRAGMA integrity_check;'\r"
+expect "# "
+send "curl -sI https://api.mrija.no/\r"
+expect "# "
+send "exit\r"
+expect eof

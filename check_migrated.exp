@@ -1,6 +1,0 @@
-#!/usr/bin/expect -f
-set timeout 15
-spawn ssh -o StrictHostKeyChecking=no root@185.139.228.94 "cd /var/www/mrijav4/backend && sqlite3 data/mrija.db \"SELECT email, role FROM users WHERE password_hash LIKE 'firebase-migrated:%';\""
-expect "assword:"
-send "Zxcvbnmasdfghjkl123\r"
-expect eof

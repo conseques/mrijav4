@@ -260,3 +260,40 @@ export async function updateAdminReport(token, payload) {
     body: JSON.stringify(payload)
   });
 }
+
+// ─── Admin: System Maintenance ──────────────────────────────────────────────
+
+export async function downloadSystemBackup(token) {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+  const url = `${backendUrl}/api/admin/system/backup`;
+  
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: authHeader(token)
+  });
+  
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to download backup');
+  }
+  
+  const blob = await res.blob();
+  const fileUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  
+  const disposition = res.headers.get('content-disposition');
+  let filename = `mrija-backup-${Date.now()}.tar.gz`;
+  if (disposition && disposition.indexOf('attachment') !== -1) {
+    const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
+    if (matches != null && matches[1]) {
+      filename = matches[1].replace(/['"]/g, '');
+    }
+  }
+  
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(fileUrl);
+}

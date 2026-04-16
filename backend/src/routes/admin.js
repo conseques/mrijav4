@@ -1,6 +1,9 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const { z } = require('zod');
+const { exec } = require('child_process');
+const path = require('path');
+const fs = require('fs');
 const { db } = require('../db/connection');
 const { requireRole } = require('../middleware/auth');
 const {
@@ -14,6 +17,31 @@ const { parseJson, stringifyJson } = require('../utils/json');
 const { nowIso } = require('../utils/time');
 
 const router = express.Router();
+
+// System Backup Route
+router.get('/system/backup', requireRole('admin'), (req, res) => {
+  const dataDir = path.resolve(__dirname, '../../data');
+  const backupFile = `mrija-backup-${Date.now()}.tar.gz`;
+  const backupPath = path.resolve(__dirname, '../../data', backupFile);
+
+  const command = `tar -czf ${backupPath} -C ${path.dirname(dataDir)} ${path.basename(dataDir)}`;
+  
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error('Backup failed:', error, stderr);
+      return res.status(500).json({ error: 'Failed to create backup archive.' });
+    }
+    
+    res.download(backupPath, backupFile, (err) => {
+      if (err) console.error('Error downloading backup:', err);
+      
+      // Cleanup backup file after download finishes or fails
+      fs.unlink(backupPath, (unlinkErr) => {
+        if (unlinkErr) console.error('Error cleaning up backup:', unlinkErr);
+      });
+    });
+  });
+});
 
 const localesSchema = z.record(z.any()).refine((value) => Object.keys(value || {}).length > 0, {
   message: 'Locales are required.'
