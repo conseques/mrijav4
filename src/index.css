@@ -8,7 +8,8 @@
 
 :root {
   --font-sans: 'Titillium Web', sans-serif;
-  --font-display: 'Vollkorn', serif;
+  --font-display: 'Fjalla One', sans-serif;
+  --font-serif: 'Vollkorn', serif;
   --bg-color: #f5f7fb;
   --text-color: #1b1c1c;
   --text-muted: #4b5362;
