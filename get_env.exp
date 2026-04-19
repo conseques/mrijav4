@@ -1,6 +1,0 @@
-#!/usr/bin/expect -f
-set timeout 15
-spawn ssh -o StrictHostKeyChecking=no root@185.139.228.94 "cat /var/www/mrijav4/backend/.env"
-expect "assword:"
-send "Zxcvbnmasdfghjkl123\r"
-expect eof

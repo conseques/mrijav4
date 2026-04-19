@@ -7,8 +7,8 @@
 }
 
 :root {
-  --font-sans: 'Titillium Web', sans-serif;
-  --font-display: 'Fjalla One', sans-serif;
+  --font-sans: 'Vollkorn', serif;
+  --font-display: 'Vollkorn', serif;
   --font-serif: 'Vollkorn', serif;
   --bg-color: #f5f7fb;
   --text-color: #1b1c1c;
@@ -55,6 +55,10 @@ html,
 body,
 #root {
   min-height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
 }
 
 html,
