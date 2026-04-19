@@ -118,7 +118,11 @@
     font-weight: 600;
     line-height: 0.84;
     letter-spacing: -0.06em;
-    color: #fffdf8;
+    background: linear-gradient(180deg, #6c9dff 20%, #ffe27a 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
     text-wrap: balance;
 }
 
