@@ -13,6 +13,7 @@ const publicRoutes = require('./routes/public');
 const volunteerRoutes = require('./routes/volunteer');
 const adminRoutes = require('./routes/admin');
 const uploadRoutes = require('./routes/upload');
+const vippsRoutes = require('./routes/vipps');
 
 initSchema();
 
@@ -58,6 +59,7 @@ app.use('/api/public', publicRoutes);
 app.use('/api/volunteer', volunteerRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/vipps', vippsRoutes);
 
 
 app.use((error, _req, res, _next) => {

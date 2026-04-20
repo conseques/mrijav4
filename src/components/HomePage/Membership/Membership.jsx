@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Membership.module.css'
 import individual from '../../../images/membership/individual.png';
 import organization from '../../../images/membership/organization.png';
@@ -7,64 +7,10 @@ import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { startMembershipCheckout } from '../../../services/membershipApi';
 
-const VIPPS_BUTTON_SCRIPT_ID = 'vipps-checkout-button-script';
-const VIPPS_BUTTON_SCRIPT_SRC = 'https://checkout.vipps.no/checkout-button/v1/vipps-checkout-button.js';
-
 const Membership = () => {
-    const { t, i18n } = useTranslation("membership");
+    const { t } = useTranslation("membership");
     const [isStartingCheckout, setIsStartingCheckout] = useState(false);
     const [checkoutError, setCheckoutError] = useState('');
-    const [isVippsButtonReady, setIsVippsButtonReady] = useState(
-        () => typeof window !== 'undefined' && Boolean(window.customElements?.get('vipps-mobilepay-button'))
-    );
-
-    const vippsLanguage = useMemo(() => {
-        const language = i18n.resolvedLanguage || i18n.language || 'en';
-
-        if (language.startsWith('no')) {
-            return 'no';
-        }
-
-        return 'en';
-    }, [i18n.language, i18n.resolvedLanguage]);
-
-    useEffect(() => {
-        if (typeof window === 'undefined') {
-            return undefined;
-        }
-
-        if (window.customElements?.get('vipps-mobilepay-button')) {
-            setIsVippsButtonReady(true);
-            return undefined;
-        }
-
-        const markReady = () => {
-            setIsVippsButtonReady(Boolean(window.customElements?.get('vipps-mobilepay-button')));
-        };
-
-        const existingScript = document.getElementById(VIPPS_BUTTON_SCRIPT_ID);
-
-        if (existingScript) {
-            existingScript.addEventListener('load', markReady);
-            window.setTimeout(markReady, 100);
-
-            return () => {
-                existingScript.removeEventListener('load', markReady);
-            };
-        }
-
-        const script = document.createElement('script');
-        script.id = VIPPS_BUTTON_SCRIPT_ID;
-        script.async = true;
-        script.type = 'text/javascript';
-        script.src = VIPPS_BUTTON_SCRIPT_SRC;
-        script.addEventListener('load', markReady);
-        document.head.appendChild(script);
-
-        return () => {
-            script.removeEventListener('load', markReady);
-        };
-    }, []);
 
     const handleMembershipCheckout = async () => {
         if (isStartingCheckout) {
@@ -129,28 +75,13 @@ const Membership = () => {
                                     </button>
                                 ) : (
                                     <div className={styles.vippsButtonShell}>
-                                        {isVippsButtonReady ? (
-                                            <vipps-mobilepay-button
-                                                className={styles.vippsNativeButton}
-                                                brand="vipps"
-                                                language={vippsLanguage}
-                                                rounded="true"
-                                                branded="true"
-                                                stretched="true"
-                                                variant="primary"
-                                                verb="continue"
-                                                onClick={handleMembershipCheckout}
-                                                aria-label={t("continueWithVipps", "Continue with Vipps")}
-                                            />
-                                        ) : (
-                                            <button
-                                                type="button"
-                                                className={styles.vippsFallbackButton}
-                                                onClick={handleMembershipCheckout}
-                                            >
-                                                {t("continueWithVipps", "Continue with Vipps")}
-                                            </button>
-                                        )}
+                                        <button
+                                            type="button"
+                                            className={styles.vippsFallbackButton}
+                                            onClick={handleMembershipCheckout}
+                                        >
+                                            {t("continueWithVipps", "Continue with Vipps")}
+                                        </button>
                                     </div>
                                 )}
                                 <p className={styles.helperText}>

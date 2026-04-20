@@ -1,13 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, HelpingHand, Sparkles, Heart } from 'lucide-react';
+import { lockBodyScroll, unlockBodyScroll } from '../../../../utils/scrollLock';
 import styles from './HistoryModal.module.css';
 
 const HistoryModal = ({ isOpen, onClose }) => {
     const { t } = useTranslation("missions");
 
-    if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    lockBodyScroll();
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      unlockBodyScroll();
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
     const milestones = [
         {
@@ -49,7 +70,7 @@ const HistoryModal = ({ isOpen, onClose }) => {
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <button className={styles.closeBtn} onClick={onClose}>
+                        <button type="button" className={styles.closeBtn} onClick={onClose} aria-label={t('history.btnClose')}>
                             <X size={20} />
                         </button>
 
@@ -87,10 +108,10 @@ const HistoryModal = ({ isOpen, onClose }) => {
                         <div className={styles.footer}>
                             <p className={styles.quote}>"{t("history.quote")}"</p>
                             <div className={styles.buttons}>
-                                <button className={styles.primaryBtn} onClick={() => { onClose(); window.location.href = '/#donations'; }}>
+                                <button type="button" className={styles.primaryBtn} onClick={() => { onClose(); window.location.href = '/#donations'; }}>
                                     {t("history.btnSupport")}
                                 </button>
-                                <button className={styles.secondaryBtn} onClick={onClose}>
+                                <button type="button" className={styles.secondaryBtn} onClick={onClose}>
                                     {t("history.btnClose")}
                                 </button>
                             </div>

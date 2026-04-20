@@ -23,7 +23,7 @@ module.exports = {
   databasePath: path.resolve(backendRoot, get('DATABASE_PATH', './data/mrija.db')),
   jwtSecret: get('JWT_SECRET', 'change-me-in-production'),
   jwtExpiresIn: get('JWT_EXPIRES_IN', '7d'),
-  corsOrigins: parseOrigins(get('CORS_ORIGIN', 'http://localhost:5173')),
+  corsOrigins: parseOrigins(get('CORS_ORIGIN', 'http://localhost:3000,http://localhost:5173')),
   defaultAdmin: {
     email: get('ADMIN_EMAIL', ''),
     password: get('ADMIN_PASSWORD', ''),

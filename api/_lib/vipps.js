@@ -1,4 +1,10 @@
+const fs = require('node:fs');
+const path = require('node:path');
 const crypto = require('node:crypto');
+const dotenv = require('dotenv');
+
+loadVippsEnv();
+
 const { getFirebaseAdminDb, hasFirebaseAdminConfig } = require('./firebaseAdmin');
 const { sendMembershipDigestEmail } = require('./membershipEmail');
 
@@ -23,6 +29,28 @@ const VIPPS_SYSTEM_HEADERS = {
   'Vipps-System-Plugin-Name': 'mrija-web',
   'Vipps-System-Plugin-Version': '1.0.0',
 };
+
+function loadVippsEnv() {
+  const projectRoot = path.resolve(__dirname, '..', '..');
+  const candidatePaths = [
+    path.join(projectRoot, '.env.local'),
+    path.join(projectRoot, '.env'),
+    path.join(projectRoot, 'backend', '.env.local'),
+    path.join(projectRoot, 'backend', '.env'),
+  ];
+
+  for (const candidatePath of candidatePaths) {
+    if (!fs.existsSync(candidatePath)) {
+      continue;
+    }
+
+    dotenv.config({
+      path: candidatePath,
+      override: false,
+      quiet: true,
+    });
+  }
+}
 
 function createHttpError(statusCode, message, details) {
   const error = new Error(message);
@@ -278,6 +306,15 @@ function normalizeStringValue(value) {
   return String(value || '').trim();
 }
 
+function getAggregateAmountValue(payment, key) {
+  const value = payment?.aggregate?.[key]?.value;
+  return Number.isFinite(value) ? value : Number(value || 0);
+}
+
+function isPaymentCaptured(payment, expectedAmount = payment?.amount?.value || MEMBERSHIP_AMOUNT_ORE) {
+  return getAggregateAmountValue(payment, 'capturedAmount') >= Number(expectedAmount || 0);
+}
+
 function isMembershipReference(reference) {
   return String(reference || '').startsWith(MEMBERSHIP_REFERENCE_PREFIX);
 }
@@ -294,7 +331,7 @@ function buildMembershipRecord(payment, options = {}) {
     phone: member.phone,
     source: options.source || 'vipps_epayment',
     paymentReference: payment.reference,
-    paymentState: payment.state || 'CAPTURED',
+    paymentState: options.paymentState || payment.state || 'CAPTURED',
     vippsSub: member.vippsSub,
     pspReference: payment.pspReference || '',
     msn: payment.msn || getVippsConfig().merchantSerialNumber,
@@ -318,7 +355,7 @@ function buildRegistrationRecord(payment, options = {}) {
     type: 'membership',
     source: options.source || 'vipps_epayment',
     paymentReference: payment.reference,
-    paymentState: payment.state || 'CAPTURED',
+    paymentState: options.paymentState || payment.state || 'CAPTURED',
     createdAt: eventTimestamp,
   };
 }
@@ -419,7 +456,7 @@ async function refreshPaymentAfterCapture(reference, attempts = 4, delayMs = 400
   let payment = await getPayment(reference);
 
   for (let attempt = 0; attempt < attempts; attempt += 1) {
-    if (payment.state === 'CAPTURED') {
+    if (isPaymentCaptured(payment)) {
       return payment;
     }
 
@@ -435,10 +472,12 @@ async function processMembershipPayment(reference, options = {}) {
   let captureTriggered = false;
   let captureError = null;
   let welcomeEmailResult = null;
+  const expectedAmount = payment.amount?.value || MEMBERSHIP_AMOUNT_ORE;
+  const alreadyCaptured = isPaymentCaptured(payment, expectedAmount);
 
-  if (payment.state === 'AUTHORIZED') {
+  if (payment.state === 'AUTHORIZED' && !alreadyCaptured) {
     try {
-      await capturePayment(reference, payment.amount?.value || MEMBERSHIP_AMOUNT_ORE);
+      await capturePayment(reference, expectedAmount);
       captureTriggered = true;
       payment = await refreshPaymentAfterCapture(reference);
     } catch (error) {
@@ -448,9 +487,13 @@ async function processMembershipPayment(reference, options = {}) {
   }
 
   let persistenceResult = null;
+  const paymentCaptured = isPaymentCaptured(payment, expectedAmount);
 
-  if (payment.state === 'CAPTURED') {
-    persistenceResult = await saveMembershipData(payment, options);
+  if (paymentCaptured) {
+    persistenceResult = await saveMembershipData(payment, {
+      ...options,
+      paymentState: 'CAPTURED',
+    });
 
     if (persistenceResult?.stored) {
       const member = normalizeUserDetails(payment);
@@ -464,6 +507,7 @@ async function processMembershipPayment(reference, options = {}) {
 
   return {
     payment,
+    paymentCaptured,
     captureTriggered,
     captureError,
     persistenceResult,
@@ -532,4 +576,5 @@ module.exports = {
   processMembershipPayment,
   saveMembershipData,
   verifyVippsWebhookRequest,
+  isPaymentCaptured,
 };

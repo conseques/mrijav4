@@ -44,7 +44,7 @@ const MembershipCompletePage = () => {
         setPayment(result);
         setError('');
 
-        if (SUCCESS_STATES.has(result.paymentState)) {
+        if (result.paymentCaptured || SUCCESS_STATES.has(result.paymentState)) {
           setPhase('success');
           return;
         }

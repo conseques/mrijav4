@@ -45,13 +45,19 @@ module.exports = async function handler(req, res) {
 
     const payload = rawBody ? JSON.parse(rawBody) : {};
     const reference = String(payload.reference || '').trim();
-    const eventName = String(payload.name || '').toUpperCase();
+    const eventName = String(payload.name || '').trim();
+    const normalizedEventName = eventName.toLowerCase();
 
     if (!reference || !isMembershipReference(reference)) {
       return res.status(200).json({ ok: true, ignored: true, reason: 'non-membership-reference' });
     }
 
-    if (!['AUTHORIZED', 'CAPTURED'].includes(eventName)) {
+    if (
+      ![
+        'epayments.payment.authorized.v1',
+        'epayments.payment.captured.v1',
+      ].includes(normalizedEventName)
+    ) {
       return res.status(200).json({ ok: true, ignored: true, reason: `event-${eventName || 'unknown'}` });
     }
 
@@ -65,7 +71,8 @@ module.exports = async function handler(req, res) {
       ok: true,
       reference,
       eventName,
-      paymentState: result.payment.state,
+      paymentState: result.paymentCaptured ? 'CAPTURED' : result.payment.state,
+      paymentCaptured: result.paymentCaptured,
       captureTriggered: result.captureTriggered,
       captureError: result.captureError,
       persistenceStored: result.persistenceResult?.stored || false,

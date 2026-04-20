@@ -22,7 +22,7 @@ sudo npm install -g pm2
 ## Шаг 2: Клонирование и настройка Бэкенда
 ```bash
 # Клонируем проект (или перенеси файлы через FTP)
-git clone <твой_ссылка_на_github> /var/www/mrijav4
+git clone https://github.com/conseques/mrijav4 /var/www/mrijav4
 cd /var/www/mrijav4
 
 # Ставим зависимости бэкенда
@@ -117,7 +117,7 @@ sudo systemctl restart nginx
 ```bash
 sudo apt install -y certbot python3-certbot-nginx
 sudo certbot --nginx -d mrija.no -d www.mrija.no
-sudo certbot --nginx -d api.mrija.no
+cfq
 ```
 
 **ВСЁ!** Твой сайт на продакшене готов. Фронтенд работает по `https://mrija.no`, а все запросы отсылает на твой собственный `https://api.mrija.no`.

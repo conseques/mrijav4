@@ -1,42 +1,69 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { lockBodyScroll, unlockBodyScroll } from "../../utils/scrollLock";
 
 const Modal = forwardRef(({ children, onClose, className = "" }, ref) => {
     const dialogRef = useRef();
+    const closeTimerRef = useRef(null);
     const [closing, setClosing] = useState(false);
 
     useImperativeHandle(ref, () => ({
         open: () => {
-            if (dialogRef.current) {
+            const dialog = dialogRef.current;
+            if (!dialog) return;
+
+            if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+                closeTimerRef.current = null;
                 setClosing(false);
-                dialogRef.current.showModal();
+                return;
             }
+
+            if (dialog.open) return;
+
+            setClosing(false);
+            dialog.showModal();
+            lockBodyScroll();
         },
         close: () => {
-            if (dialogRef.current) {
-                setClosing(true);
-                setTimeout(() => {
-                    dialogRef.current.close();
-                }, 300);
-            }
+            const dialog = dialogRef.current;
+            if (!dialog || !dialog.open || closeTimerRef.current) return;
+
+            setClosing(true);
+            closeTimerRef.current = window.setTimeout(() => {
+                closeTimerRef.current = null;
+                if (dialog.open) dialog.close();
+            }, 300);
         },
     }));
 
     useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === "Escape") {
-                ref?.current?.close();
-                onClose?.();
+        return () => {
+            if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+                closeTimerRef.current = null;
             }
         };
-        document.addEventListener("keydown", handleKeyDown);
-        return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [onClose]);
+    }, []);
+
+    const requestClose = () => {
+        ref?.current?.close();
+        onClose?.();
+    };
+
+    const handleCancel = (e) => {
+        e.preventDefault();
+        requestClose();
+    };
+
+    const handleNativeClose = () => {
+        setClosing(false);
+        unlockBodyScroll();
+    };
 
     const handleClickOutside = (e) => {
         if (e.target === dialogRef.current) {
-            ref?.current?.close();
-            onClose?.();
+            requestClose();
         }
     };
 
@@ -44,6 +71,8 @@ const Modal = forwardRef(({ children, onClose, className = "" }, ref) => {
         <dialog
             ref={dialogRef}
             onClick={handleClickOutside}
+            onCancel={handleCancel}
+            onClose={handleNativeClose}
             className={`modal ${className} ${closing ? "closing" : ""}`}
         >
             <div className='modal-outline'>

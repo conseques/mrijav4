@@ -26,7 +26,8 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       reference,
-      paymentState: payment.state,
+      paymentState: result.paymentCaptured ? 'CAPTURED' : payment.state,
+      paymentCaptured: result.paymentCaptured,
       captureTriggered: result.captureTriggered,
       captureError: result.captureError,
       registrationStored: storageResult?.stored || false,

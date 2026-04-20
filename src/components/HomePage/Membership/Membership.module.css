@@ -127,15 +127,6 @@
     cursor: pointer;
 }
 
-.vippsButtonShell :global(vipps-mobilepay-button) {
-    display: block;
-    width: 100%;
-}
-
-.vippsNativeButton {
-    width: 100%;
-}
-
 .vippsFallbackButton,
 .vippsLoadingButton {
     width: 100%;
