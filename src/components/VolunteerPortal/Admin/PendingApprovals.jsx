@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import { fetchAdminVolunteers, reviewVolunteer } from '../../../services/volunteerApi';
+import { useTranslation } from 'react-i18next';
+import { getDateLocale } from '../portalText';
 import styles from '../VolunteerPortal.module.css';
 
 const PendingApprovals = () => {
+    const { t, i18n } = useTranslation('volunteerPortal');
     const { user } = useVolunteerAuth();
     const [pendingUsers, setPendingUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,7 +23,7 @@ const PendingApprovals = () => {
             const { items } = await fetchAdminVolunteers(user.token, 'pending');
             setPendingUsers(items || []);
         } catch (err) {
-            setError(err.message || 'Unable to load pending registrations.');
+            setError(err.message || t('admin.pending.loadError'));
         } finally {
             setLoading(false);
         }
@@ -34,8 +37,8 @@ const PendingApprovals = () => {
     if (!canReview) {
         return (
             <section className={styles.panel}>
-                <h2 className={styles.panelTitle}>Pending Approvals</h2>
-                <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                <h2 className={styles.panelTitle}>{t('admin.pending.title')}</h2>
+                <p className={styles.errorBanner}>{t('common.permissionDenied')}</p>
             </section>
         );
     }
@@ -43,7 +46,7 @@ const PendingApprovals = () => {
     const handleReview = async (userId, status) => {
         const targetUser = pendingUsers.find((u) => u.id === userId);
         if (status === 'rejected') {
-            if (!window.confirm(`Reject registration for ${targetUser?.name || userId}?`)) return;
+            if (!window.confirm(t('admin.pending.confirmReject', { name: targetUser?.name || t('admin.pending.fallbackName') }))) return;
         }
 
         setActionId(userId);
@@ -51,15 +54,15 @@ const PendingApprovals = () => {
             await reviewVolunteer(user.token, userId, status);
             setPendingUsers((prev) => prev.filter((u) => u.id !== userId));
         } catch (err) {
-            setError(err.message || `Failed to ${status} this volunteer.`);
+            setError(err.message || t('admin.pending.reviewError', { status }));
         } finally {
             setActionId('');
         }
     };
 
     const formatDate = (ts) => {
-        if (!ts?.seconds) return 'Recently';
-        return new Date(ts.seconds * 1000).toLocaleDateString('en-GB', {
+        if (!ts?.seconds) return t('common.recently');
+        return new Date(ts.seconds * 1000).toLocaleDateString(getDateLocale(i18n.language), {
             day: '2-digit', month: 'short', year: 'numeric'
         });
     };
@@ -68,11 +71,11 @@ const PendingApprovals = () => {
         <section className={styles.panel}>
             <div className={styles.panelTitleRow}>
                 <div>
-                    <h2 className={styles.panelTitle}>Pending Approvals</h2>
-                    <p className={styles.panelDescription}>Review new volunteer registrations before granting portal access.</p>
+                    <h2 className={styles.panelTitle}>{t('admin.pending.title')}</h2>
+                    <p className={styles.panelDescription}>{t('admin.pending.description')}</p>
                 </div>
                 <button onClick={fetchPendingUsers} className={styles.ghostButton} disabled={loading}>
-                    Refresh
+                    {t('common.refresh')}
                 </button>
             </div>
 
@@ -80,9 +83,9 @@ const PendingApprovals = () => {
 
             <div className={styles.taskList}>
                 {loading ? (
-                    <p className={styles.emptyState}>Loading registrations...</p>
+                    <p className={styles.emptyState}>{t('admin.pending.loading')}</p>
                 ) : pendingUsers.length === 0 ? (
-                    <p className={styles.emptyState}>No pending registrations.</p>
+                    <p className={styles.emptyState}>{t('admin.pending.empty')}</p>
                 ) : (
                     pendingUsers.map((volunteer) => (
                         <article key={volunteer.id} className={styles.taskCard}>
@@ -91,10 +94,10 @@ const PendingApprovals = () => {
                                     <h3 className={styles.taskTitle}>{volunteer.name}</h3>
                                     <p className={styles.profileMeta}>{volunteer.email}{volunteer.phone ? ` | ${volunteer.phone}` : ''}</p>
                                 </div>
-                                <span className={styles.badgeMedium}>Pending</span>
+                                <span className={styles.badgeMedium}>{t('admin.pending.status')}</span>
                             </div>
 
-                            <p className={styles.helper}>Registered: {formatDate(volunteer.createdAt)}</p>
+                            <p className={styles.helper}>{t('admin.pending.registered', { date: formatDate(volunteer.createdAt) })}</p>
 
                             <div className={styles.actionRow}>
                                 <button
@@ -102,14 +105,14 @@ const PendingApprovals = () => {
                                     className={styles.successButton}
                                     disabled={actionId === volunteer.id}
                                 >
-                                    {actionId === volunteer.id ? 'Saving...' : 'Approve'}
+                                    {actionId === volunteer.id ? t('common.saving') : t('admin.pending.approve')}
                                 </button>
                                 <button
                                     onClick={() => handleReview(volunteer.id, 'rejected')}
                                     className={styles.dangerButton}
                                     disabled={actionId === volunteer.id}
                                 >
-                                    Reject
+                                    {t('admin.pending.reject')}
                                 </button>
                             </div>
                         </article>

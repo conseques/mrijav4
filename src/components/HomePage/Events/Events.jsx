@@ -4,12 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useOutletContext } from "react-router-dom";
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { collection, getDocs } from "firebase/firestore";
-
-import { db } from "../../../firebase";
 import Skeleton from "../../Skeleton/Skeleton";
 import { useTilt } from "../../../hooks/useTilt";
 import { cacheService } from "../../../services/cacheService";
+import { filterOutFeaturedConcert } from "../../../content/featuredConcert";
+import { fetchPublicEvents } from "../../../services/publicApi";
 
 
 const EventCard = ({ event, i, currentLang, t, openModal }) => {
@@ -66,7 +65,7 @@ const EventCard = ({ event, i, currentLang, t, openModal }) => {
 
                 <div className={styles.footer}>
                     <button
-                        onClick={() => openModal({ name: localeData.name })}
+                        onClick={() => openModal({ name: localeData.name, type: 'event' })}
                         className={styles.btn}
                     >
                         {t("button")}
@@ -84,7 +83,7 @@ const EventCard = ({ event, i, currentLang, t, openModal }) => {
 const Events = () => {
     const { openModal } = useOutletContext();
     const { t, i18n } = useTranslation("events");
-    const [events, setEvents] = useState(() => cacheService.get('events') || []);
+    const [events, setEvents] = useState(() => filterOutFeaturedConcert(cacheService.get('events') || []));
     const [loading, setLoading] = useState(!cacheService.get('events'));
 
     const currentLang = i18n.language || 'no';
@@ -92,12 +91,8 @@ const Events = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "events"));
-                const eventsList = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                // Try to sort by createdAt if it exists, otherwise leave as is
+                const { items = [] } = await fetchPublicEvents();
+                const eventsList = filterOutFeaturedConcert(items);
                 eventsList.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
                 
                 setEvents(eventsList);

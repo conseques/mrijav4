@@ -57,6 +57,11 @@
     flex-wrap: wrap;
 }
 
+.volunteerNote {
+    max-width: 520px;
+    color: var(--text-muted);
+}
+
 .primaryBtn,
 .secondaryBtn {
     display: inline-flex;
@@ -160,6 +165,10 @@
     .primaryBtn,
     .secondaryBtn {
         width: 100%;
+    }
+
+    .volunteerNote {
+        max-width: none;
     }
 
     .heroMedia {

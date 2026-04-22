@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import { fetchAdminVolunteers, changeVolunteerRole } from '../../../services/volunteerApi';
+import { useTranslation } from 'react-i18next';
+import { getRoleLabel } from '../portalText';
 import styles from '../VolunteerPortal.module.css';
 
 const RoleManager = () => {
+    const { t } = useTranslation('volunteerPortal');
     const { user } = useVolunteerAuth();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +20,7 @@ const RoleManager = () => {
             const { items } = await fetchAdminVolunteers(user.token, 'approved');
             setUsers(items || []);
         } catch (err) {
-            setError(err.message || 'Unable to load users.');
+            setError(err.message || t('admin.roles.loadError'));
         } finally {
             setLoading(false);
         }
@@ -31,15 +34,15 @@ const RoleManager = () => {
     if (user?.role !== 'admin') {
         return (
             <section className={styles.panel}>
-                <h2 className={styles.panelTitle}>Role Manager</h2>
-                <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                <h2 className={styles.panelTitle}>{t('admin.roles.title')}</h2>
+                <p className={styles.errorBanner}>{t('common.permissionDenied')}</p>
             </section>
         );
     }
 
     const handleChangeRole = async (targetUserId, newRole) => {
         if (targetUserId === user.id && newRole !== 'admin') {
-            if (!window.confirm('You are about to change your own role. Proceed?')) return;
+            if (!window.confirm(t('admin.roles.confirmOwnRole'))) return;
         }
 
         try {
@@ -48,7 +51,7 @@ const RoleManager = () => {
                 prev.map((u) => (u.id === targetUserId ? { ...u, role: newRole } : u))
             );
         } catch (err) {
-            setError(err.message || 'Failed to change role.');
+            setError(err.message || t('admin.roles.changeError'));
         }
     };
 
@@ -56,15 +59,15 @@ const RoleManager = () => {
         <section className={styles.panel}>
             <div className={styles.panelTitleRow}>
                 <div>
-                    <h2 className={styles.panelTitle}>Role Manager</h2>
-                    <p className={styles.panelDescription}>Adjust permissions for approved volunteers, managers, and admins.</p>
+                    <h2 className={styles.panelTitle}>{t('admin.roles.title')}</h2>
+                    <p className={styles.panelDescription}>{t('admin.roles.description')}</p>
                 </div>
             </div>
 
             {error && <p className={styles.errorBanner}>{error}</p>}
 
             {loading ? (
-                <p className={styles.emptyState}>Loading users...</p>
+                <p className={styles.emptyState}>{t('admin.roles.loading')}</p>
             ) : (
                 <div className={styles.taskList}>
                     {users.map((u) => (
@@ -74,19 +77,19 @@ const RoleManager = () => {
                                     <h3 className={styles.taskTitle}>{u.name}</h3>
                                     <p className={styles.profileMeta}>{u.email}</p>
                                 </div>
-                                <span className={styles.chip}>Current: {u.role}</span>
+                                <span className={styles.chip}>{t('admin.roles.current', { role: getRoleLabel(t, u.role) })}</span>
                             </div>
 
                             <div className={styles.fieldGroup}>
-                                <label className={styles.fieldLabel}>Role</label>
+                                <label className={styles.fieldLabel}>{t('admin.roles.role')}</label>
                                 <select
                                     value={u.role}
                                     onChange={(e) => handleChangeRole(u.id, e.target.value)}
                                     className={styles.selectInput}
                                 >
-                                    <option value="volunteer">Volunteer</option>
-                                    <option value="manager">Manager</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="volunteer">{getRoleLabel(t, 'volunteer')}</option>
+                                    <option value="manager">{getRoleLabel(t, 'manager')}</option>
+                                    <option value="admin">{getRoleLabel(t, 'admin')}</option>
                                 </select>
                             </div>
                         </article>

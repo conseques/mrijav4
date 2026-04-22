@@ -54,7 +54,7 @@ const CourseCard = ({ item, t, onOpenInfo, onEnroll, index }) => {
                 <button onClick={() => onOpenInfo(item)} className={styles.btn} style={{ background: 'rgba(0,0,0,0.05)', color: 'inherit' }}>
                     {t("moreInfo")}
                 </button>
-                <button onClick={() => onEnroll({ name: t(item.name) })} className={styles.btn}>
+                <button onClick={() => onEnroll({ name: t(item.name), type: 'course' })} className={styles.btn}>
                     {t("enroll")}
                 </button>
             </div>
@@ -94,7 +94,7 @@ const Courses = () => {
 
     const handleEnroll = () => {
         infoModalRef.current.close();
-        openModal({ name: t(selectedCourse.name) });
+        openModal({ name: t(selectedCourse.name), type: 'course' });
     };
 
 

@@ -13,7 +13,7 @@ const registrationSchema = z.object({
   email: z.string().trim().email().max(160),
   phone: z.string().trim().max(40).optional().default(''),
   eventName: z.string().trim().min(1).max(160),
-  type: z.enum(['event', 'membership']).optional().default('event'),
+  type: z.enum(['event', 'membership', 'course']).optional().default('event'),
   source: z.string().trim().max(120).optional().default('website'),
   paymentReference: z.string().trim().max(120).optional().default(''),
   paymentState: z.string().trim().max(80).optional().default('registered')

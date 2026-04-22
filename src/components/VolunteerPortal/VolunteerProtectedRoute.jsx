@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useVolunteerAuth } from '../../context/VolunteerAuthContext';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Protects volunteer portal routes.
@@ -10,6 +11,7 @@ import { motion } from 'framer-motion';
  * - Logged in (any status) → render children (Dashboard handles pending/rejected UI)
  */
 const VolunteerProtectedRoute = ({ children }) => {
+    const { t } = useTranslation('volunteerPortal');
     const { user, loading } = useVolunteerAuth();
     const location = useLocation();
 
@@ -35,7 +37,7 @@ const VolunteerProtectedRoute = ({ children }) => {
                         borderRadius: '50%',
                     }}
                 />
-                <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Loading...</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>{t('common.loading')}</p>
             </div>
         );
     }

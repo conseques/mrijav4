@@ -4,8 +4,10 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Users, CalendarCheck, HelpCircle } from "lucide-react";
 import { motion } from 'framer-motion';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { cacheService } from "../../../services/cacheService";
+import { fetchPublicPastEvents } from "../../../services/publicApi";
+import VolunteerFormNote from "../../VolunteerFormNote/VolunteerFormNote";
+import { VOLUNTEER_FORM_URL } from "../../../content/volunteerForm";
 
 // Helper function to assign colors based on tags
 const getTagStyle = (tag) => {
@@ -22,22 +24,19 @@ const getTagStyle = (tag) => {
 
 const PastEvents = () => {
     const { t, i18n } = useTranslation("events");
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [events, setEvents] = useState(() => cacheService.get('past_events') || []);
+    const [loading, setLoading] = useState(!cacheService.get('past_events'));
 
     const currentLang = i18n.language || 'no';
 
     useEffect(() => {
         const fetchPastEvents = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "past_events"));
-                const eventsData = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                // Sort descending based on createdAt
+                const { items = [] } = await fetchPublicPastEvents();
+                const eventsData = [...items];
                 eventsData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
                 setEvents(eventsData);
+                cacheService.set('past_events', eventsData);
             } catch (err) {
                 console.error("Failed to fetch past events", err);
             }
@@ -132,7 +131,7 @@ const PastEvents = () => {
                     <div className={styles.statCard}>
                         <Users className={styles.statIcon} color="#2563eb" size={28} />
                         <span className={styles.statLabel}>{t("past.stats.volunteers")}</span>
-                        <h4 className={styles.statValue}>500+</h4>
+                        <h4 className={styles.statValue}>400+</h4>
                     </div>
                     <div className={styles.statCard}>
                         <HelpCircle className={styles.statIcon} color="#2563eb" size={28} />
@@ -148,8 +147,16 @@ const PastEvents = () => {
                         <p className={styles.ctaDesc}>{t("past.cta.desc")}</p>
                     </div>
                     <div className={styles.ctaButtons}>
-                        <a href="/#membership" className={styles.btnSolid}>{t("past.cta.volunteer")}</a>
+                        <a
+                            href={VOLUNTEER_FORM_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.btnSolid}
+                        >
+                            {t("past.cta.volunteer")}
+                        </a>
                         <Link to="/events" className={styles.btnOutline}>{t("past.cta.upcoming")}</Link>
+                        <VolunteerFormNote className={styles.ctaNote} />
                     </div>
                 </div>
             </motion.div>

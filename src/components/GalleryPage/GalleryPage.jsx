@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import heroImage from '../../images/gallery/julebord3.jpg';
+import VolunteerFormNote from '../VolunteerFormNote/VolunteerFormNote';
+import { VOLUNTEER_FORM_URL } from '../../content/volunteerForm';
 
 
 const GalleryPage = () => {
@@ -36,8 +38,16 @@ const GalleryPage = () => {
                     <p className={styles.subtitle}>{t("subtitle")}</p>
                     <div className={styles.actions}>
                         <Link to="/events" className={styles.primaryBtn}>{tHero("galleryCtaEventsBtn")}</Link>
-                        <Link to="/#membership" className={styles.secondaryBtn}>{tHero("galleryCtaVolBtn")}</Link>
+                        <a
+                            href={VOLUNTEER_FORM_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.secondaryBtn}
+                        >
+                            {tHero("galleryCtaVolBtn")}
+                        </a>
                     </div>
+                    <VolunteerFormNote className={styles.volunteerNote} />
                 </div>
 
                 <div className={styles.heroMedia}>

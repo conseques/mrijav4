@@ -12,11 +12,17 @@ import TelegramWidget from "../TelegramWidget/TelegramWidget";
 const Layout = () => {
     const modal = useRef();
     const succesModal = useRef();
-    const [selectedEventName, setSelectedEventName] = useState('');
+    const [selectedRegistrationTarget, setSelectedRegistrationTarget] = useState({
+        name: '',
+        type: 'event'
+    });
     const { t, i18n } = useTranslation('header'); // Assuming 'header' has some generic translation or we just use current language
     
-    function handleOpenModal({name}) {
-        setSelectedEventName(name);
+    function handleOpenModal({name, type = 'event'} = {}) {
+        setSelectedRegistrationTarget({
+            name: name || '',
+            type
+        });
         modal.current.open()
 
     }
@@ -44,10 +50,14 @@ const Layout = () => {
             </Helmet>
             <Header/>
             <Modal ref={modal}>
-                <Registration onSuccesOpen={handleOpenSuccesModal} onClose={handleCloseModal}  selectedEventName={selectedEventName} />
+                <Registration
+                    onSuccesOpen={handleOpenSuccesModal}
+                    onClose={handleCloseModal}
+                    selectedTarget={selectedRegistrationTarget}
+                />
             </Modal>
             <Modal ref={succesModal}>
-                <Successfully  onClose={handleCloseSuccesModal} />
+                <Successfully onClose={handleCloseSuccesModal} selectedTarget={selectedRegistrationTarget} />
             </Modal>
             <main>
                 <Outlet  context={{ closeModal: handleCloseModal, openModal: handleOpenModal }} />

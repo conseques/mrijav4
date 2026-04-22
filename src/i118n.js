@@ -21,6 +21,7 @@ import enRegister from './components/Locales/en/register.json'
 import enDonationImpact from './components/Locales/en/donationImpact.json'
 import enReport from './components/Locales/en/report.json'
 import enCourseLeads from './components/Locales/en/courseLeads.json'
+import enVolunteerPortal from './components/Locales/en/volunteerPortal.json'
 
 //no
 import noHeader from './components/Locales/no/header.json'
@@ -41,6 +42,7 @@ import noRegister from './components/Locales/no/register.json'
 import noDonationImpact from './components/Locales/no/donationImpact.json'
 import noReport from './components/Locales/no/report.json'
 import noCourseLeads from './components/Locales/no/courseLeads.json'
+import noVolunteerPortal from './components/Locales/no/volunteerPortal.json'
 
 //ua
 import uaHeader from './components/Locales/ua/header.json'
@@ -61,6 +63,23 @@ import uaRegister from './components/Locales/ua/register.json'
 import uaDonationImpact from './components/Locales/ua/donationImpact.json'
 import uaReport from './components/Locales/ua/report.json'
 import uaCourseLeads from './components/Locales/ua/courseLeads.json'
+import uaVolunteerPortal from './components/Locales/ua/volunteerPortal.json'
+
+const SUPPORTED_LANGUAGES = ['en', 'ua', 'no'];
+const LANGUAGE_STORAGE_KEY = 'mrija_language';
+
+const getInitialLanguage = () => {
+    if (typeof window === 'undefined') {
+        return 'no';
+    }
+
+    try {
+        const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+        return SUPPORTED_LANGUAGES.includes(storedLanguage) ? storedLanguage : 'no';
+    } catch {
+        return 'no';
+    }
+};
 
 
 i18n.use(initReactI18next).init({
@@ -84,6 +103,7 @@ i18n.use(initReactI18next).init({
             donationImpact: enDonationImpact,
             report: enReport,
             courseLeads: enCourseLeads,
+            volunteerPortal: enVolunteerPortal,
         },
         ua: {
             header: uaHeader,
@@ -104,6 +124,7 @@ i18n.use(initReactI18next).init({
             donationImpact: uaDonationImpact,
             report: uaReport,
             courseLeads: uaCourseLeads,
+            volunteerPortal: uaVolunteerPortal,
         },
         no: {
             header: noHeader,
@@ -124,13 +145,29 @@ i18n.use(initReactI18next).init({
             donationImpact: noDonationImpact,
             report: noReport,
             courseLeads: noCourseLeads,
+            volunteerPortal: noVolunteerPortal,
         },
     },
-    lng: "no",
+    lng: getInitialLanguage(),
     fallbackLng: "no",
     interpolation: {
         escapeValue: false,
     },
+});
+
+i18n.on('languageChanged', (language) => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+
+    const normalizedLanguage = String(language || '').split('-')[0];
+    if (SUPPORTED_LANGUAGES.includes(normalizedLanguage)) {
+        try {
+            window.localStorage.setItem(LANGUAGE_STORAGE_KEY, normalizedLanguage);
+        } catch {
+            // Ignore storage failures; the active i18n instance still changes language.
+        }
+    }
 });
 
 export default i18n;

@@ -7,20 +7,22 @@ import {useTranslation} from "react-i18next";
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Magnetic from "../../Magnetic/Magnetic";
 import { ArrowUpRight, CalendarDays, HeartHandshake, Users } from 'lucide-react';
+import { getFeaturedConcertContent } from "../../../content/featuredConcert";
 
 const Hero = () => {
-    const { t } = useTranslation("hero");
+    const { t, i18n } = useTranslation("hero");
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
     });
+    const featuredConcert = getFeaturedConcertContent(i18n.language);
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
     const panelY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
     const heroStats = [
-        { Icon: Users, value: "500+", label: t("statsMembers") },
+        { Icon: Users, value: "400+", label: t("statsMembers") },
         { Icon: CalendarDays, value: "50+", label: t("statsEvents") },
         { Icon: HeartHandshake, value: "3+", label: t("statsSupport") },
     ];
@@ -58,14 +60,14 @@ const Hero = () => {
                         <Magnetic strength={0.3}>
                             <motion.button
                                 onClick={() => {
-                                    const el = document.getElementById("membership");
+                                    const el = document.getElementById("featured-event");
                                     el?.scrollIntoView({ behavior: "smooth" });
                                 }}
                                 whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.97 }}
                                 className={styles.member_btn}
                             >
-                                {t("become")}
+                                {featuredConcert.heroCta}
                             </motion.button>
                         </Magnetic>
                         <Magnetic strength={0.2}>

@@ -19,6 +19,7 @@ const Leadership = () => {
             image: sviatoslav
         },
         { name: t("tetiana"), position: t("tetianaP"), image: tetiana },
+        { name: t("oksanaNenchina"), position: t("oksanaNenchinaP"), image: oksana },
     ];
 
     return (

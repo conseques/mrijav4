@@ -42,6 +42,12 @@
     flex-wrap: wrap;
 }
 
+.volunteerNote {
+    max-width: 540px;
+    margin: 16px auto 0;
+    color: rgba(255, 255, 255, 0.88);
+}
+
 .primaryBtn,
 .secondaryBtn {
     display: inline-flex;
@@ -101,5 +107,9 @@
     .primaryBtn,
     .secondaryBtn {
         width: 100%;
+    }
+
+    .volunteerNote {
+        max-width: none;
     }
 }

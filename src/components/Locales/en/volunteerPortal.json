@@ -1,0 +1,209 @@
+{
+  "language": {
+    "label": "Portal language",
+    "current": "Current language: {{language}}",
+    "options": {
+      "en": "English",
+      "no": "Norsk",
+      "ua": "Українська"
+    }
+  },
+  "common": {
+    "email": "Email",
+    "password": "Password",
+    "logout": "Log Out",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "saving": "Saving...",
+    "submitting": "Submitting...",
+    "permissionDenied": "You do not have permission to access this section.",
+    "recently": "Recently",
+    "delete": "Delete"
+  },
+  "topActions": {
+    "toggleTheme": "Toggle theme"
+  },
+  "auth": {
+    "login": {
+      "badge": "Volunteer Portal",
+      "intro": "Log in to view live tasks, keep your skills updated, and coordinate practical help with the rest of the community.",
+      "footer": "Approved volunteers get access to assignments, admin notes, and the internal workflow used to support events and local aid.",
+      "title": "Volunteer Login",
+      "description": "Use the email and password linked to your volunteer profile.",
+      "submit": "Login",
+      "submitting": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register",
+      "error": "Failed to log in. Check your email and password.",
+      "passwordChanged": "Password updated. Please log in with your new password."
+    },
+    "register": {
+      "badge": "Apply to Volunteer",
+      "intro": "Join the volunteer network that helps with events, translations, logistics, and day-to-day support for the Ukrainian community in Drammen.",
+      "footer": "Your profile is reviewed by an administrator before access is granted, so the portal stays safe and organised for everyone.",
+      "title": "Become a Volunteer",
+      "description": "Create your profile and we will review it before opening portal access.",
+      "successTitle": "Registration Submitted!",
+      "successDescription": "Your application has been received and is now pending review by an administrator. You will be able to log in once your profile is approved.",
+      "redirecting": "Redirecting you to login...",
+      "fullName": "Full Name",
+      "phone": "Phone (optional)",
+      "passwordPlaceholder": "Choose a secure password (min 8 characters)",
+      "submit": "Register",
+      "submitting": "Submitting...",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Login",
+      "error": "Registration failed. Please try again."
+    }
+  },
+  "status": {
+    "rejectedPill": "Rejected",
+    "rejectedTitle": "Registration Rejected",
+    "rejectedText": "Your volunteer application is currently rejected. If you think this is a mistake, please contact the MriJa admin team.",
+    "pendingPill": "Pending Review",
+    "pendingTitle": "Registration Pending",
+    "pendingText": "Thank you for registering, {{name}}. Your profile is currently under review by the administrators. Once approved, you will get full access to tasks, profile settings, and internal coordination tools.",
+    "pendingHelper": "We use this step to keep the volunteer space safe and organised for everyone.",
+    "fallbackName": "volunteer"
+  },
+  "dashboard": {
+    "eyebrow": "Volunteer Dashboard",
+    "title": "Hei, {{name}}",
+    "fallbackName": "Volunteer",
+    "subtitle": "Track tasks, update your availability, and coordinate with the MriJa team from one place.",
+    "metrics": {
+      "openTasks": "Open Tasks",
+      "myTasks": "My Tasks",
+      "listedSkills": "Listed Skills"
+    },
+    "navigation": {
+      "title": "Navigation",
+      "description": "Switch between your tasks, skills, and admin tools.",
+      "availableTasks": "Available Tasks",
+      "myTasks": "My Tasks",
+      "profileSkills": "Profile & Skills"
+    },
+    "profileCard": {
+      "badge": "Profile",
+      "role": "Role:",
+      "noSkills": "No skills added yet."
+    },
+    "adminTools": {
+      "title": "Admin Tools",
+      "description": "Manager actions for tasks, approvals, and roles.",
+      "manageTasks": "Manage Tasks",
+      "pendingApprovals": "Pending Approvals",
+      "assignRoles": "Assign Roles"
+    },
+    "unavailableTitle": "Unavailable Section",
+    "unavailableDescription": "Please choose one of the available workspace tabs."
+  },
+  "tasks": {
+    "title": "Available Tasks",
+    "description": "Choose where you can help right now and apply directly from the task card.",
+    "loadError": "Unable to load tasks right now. Please try again shortly.",
+    "applyError": "Failed to apply for this task. Please try again.",
+    "empty": "No tasks are available right now.",
+    "myTitle": "My Assigned Tasks",
+    "myDescription": "Everything you have applied for or are currently helping with.",
+    "myEmpty": "You haven't applied for any tasks yet.",
+    "priority": "{{urgency}} priority",
+    "when": "When: {{date}}",
+    "where": "Where: {{location}}",
+    "marker": "Marker: {{marker}}",
+    "generalSupport": "General support",
+    "applied": "Applied",
+    "applying": "Applying...",
+    "apply": "Apply for Task"
+  },
+  "profile": {
+    "title": "Profile & Skills",
+    "description": "Keep your profile up to date so coordinators can match you with the right opportunities.",
+    "skillsUpdated": "Skills updated successfully.",
+    "skillsError": "Failed to save skills.",
+    "saveSkills": "Save Skills",
+    "changePasswordTitle": "Change Password",
+    "changePasswordDescription": "Update your password to keep your account secure.",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "newPasswordPlaceholder": "At least 8 characters",
+    "confirmPasswordPlaceholder": "Repeat the new password",
+    "passwordMismatch": "The new passwords do not match.",
+    "passwordSame": "The new password must be different from the current password.",
+    "passwordUpdated": "Password updated successfully. You will be redirected to login.",
+    "passwordError": "Failed to change password.",
+    "updatePassword": "Update Password",
+    "updatingPassword": "Updating..."
+  },
+  "admin": {
+    "pending": {
+      "title": "Pending Approvals",
+      "description": "Review new volunteer registrations before granting portal access.",
+      "loadError": "Unable to load pending registrations.",
+      "empty": "No pending registrations.",
+      "loading": "Loading registrations...",
+      "status": "Pending",
+      "registered": "Registered: {{date}}",
+      "confirmReject": "Reject registration for {{name}}?",
+      "fallbackName": "this volunteer",
+      "reviewError": "Failed to {{status}} this volunteer.",
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "tasks": {
+      "title": "Manage Tasks",
+      "description": "Create new volunteer tasks and keep the board up to date.",
+      "loadError": "Unable to load tasks.",
+      "addError": "Failed to add task.",
+      "deleteError": "Failed to delete task.",
+      "confirmDelete": "Are you sure you want to delete this task?",
+      "newTask": "New Task",
+      "closeForm": "Close Form",
+      "taskTitle": "Task Title",
+      "urgency": "Urgency",
+      "descriptionLabel": "Description",
+      "dateTime": "Date & Time",
+      "location": "Location",
+      "marker": "Marker Label (optional)",
+      "markerPlaceholder": "Zone A / Driver Team / Booth 03",
+      "skills": "Required Skills (comma-separated)",
+      "skillsPlaceholder": "Translator, Driver, Event Helper",
+      "saveTask": "Save Task",
+      "loading": "Loading tasks...",
+      "empty": "No tasks currently available.",
+      "applicants": "Applicants: {{count}}"
+    },
+    "roles": {
+      "title": "Role Manager",
+      "description": "Adjust permissions for approved volunteers, managers, and admins.",
+      "loadError": "Unable to load users.",
+      "changeError": "Failed to change role.",
+      "confirmOwnRole": "You are about to change your own role. Proceed?",
+      "loading": "Loading users...",
+      "current": "Current: {{role}}",
+      "role": "Role"
+    }
+  },
+  "urgency": {
+    "Low": "Low",
+    "Medium": "Medium",
+    "High": "High"
+  },
+  "roles": {
+    "user": "User",
+    "volunteer": "Volunteer",
+    "manager": "Manager",
+    "admin": "Admin"
+  },
+  "skills": {
+    "driver": "Driver (has car)",
+    "translatorEnUa": "Translator (EN/UA)",
+    "translatorNoUa": "Translator (NO/UA)",
+    "eventHelper": "Event Helper",
+    "logistics": "Logistics",
+    "itSupport": "IT Support",
+    "firstAid": "First Aid",
+    "photography": "Photography"
+  }
+}

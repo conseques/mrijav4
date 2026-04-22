@@ -20,7 +20,7 @@ const AboutStats = () => {
                     <div className={styles.iconCircle}>
                         <Users className={styles.icon} size={24} />
                     </div>
-                    <div className={styles.statNumber}>500+</div>
+                    <div className={styles.statNumber}>400+</div>
                     <div className={styles.statLabel}>{t("statsMembers")}</div>
                 </div>
                 

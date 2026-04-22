@@ -40,6 +40,15 @@
     background: var(--surface-strong);
     border: 1px solid rgba(18, 53, 122, 0.08);
     box-shadow: var(--shadow-soft);
+    appearance: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.imageWrapper:focus-visible {
+    outline: 3px solid rgba(31, 99, 217, 0.42);
+    outline-offset: 4px;
 }
 
 .imageWrapper img {
@@ -100,6 +109,73 @@
     backdrop-filter: blur(12px);
 }
 
+.previewDialog {
+    width: min(92vw, 920px);
+}
+
+.previewDialog :global(.modal-outline) {
+    background: rgba(234, 226, 230, 0.9);
+}
+
+.previewDialog :global(.modal-content) {
+    padding: 0;
+    overflow: hidden;
+}
+
+.previewBody {
+    position: relative;
+    background: #ffffff;
+}
+
+.previewClose {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--primary-color);
+    box-shadow: 0 14px 30px rgba(18, 53, 122, 0.18);
+    cursor: pointer;
+}
+
+.previewImage {
+    display: block;
+    width: 100%;
+    max-height: 72dvh;
+    object-fit: contain;
+    background: linear-gradient(180deg, #f7f9ff 0%, #eef3fb 100%);
+}
+
+.previewMeta {
+    padding: 18px 20px 22px;
+}
+
+.previewEyebrow {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    opacity: 0.72;
+}
+
+.previewCaption {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--primary-color);
+}
+
 @media (max-width: 1024px) {
     .galleryGrid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -126,6 +202,21 @@
 
     .wide {
         grid-column: span 2;
+    }
+
+    .previewDialog {
+        width: min(100vw - 20px, 920px);
+    }
+
+    .previewClose {
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .previewMeta {
+        padding: 16px 16px 18px;
     }
 }
 

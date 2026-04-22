@@ -1,32 +1,30 @@
 .container {
-    max-width: 616px;
+    max-width: 640px;
     text-align: center;
     position: relative;
 }
-.type {
-    text-transform: lowercase;
-}
+
 .name {
     color: var(--primary-color, #366CCF);
 }
+
 .title {
     max-width: 600px;
     margin: 0 auto;
-    font-size: 26px;
-    line-height: 100%;
+    font-size: clamp(28px, 4vw, 34px);
+    line-height: 1.02;
     text-align: center;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
+
 .desc {
     font-weight: 400;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 1.65;
     color: var(--text-muted, #8693A5);
 }
-.desc span {
-    color: var(--primary-color, #366CCF);
-}
+
 .close {
     width: 24px;
     height: 24px;
@@ -42,49 +40,86 @@
     justify-content: center;
     padding: 0;
 }
+
 .form {
-    margin-top: 20px;
+    margin-top: 24px;
     text-align: left;
-    max-width: 616px;
+    max-width: 640px;
+    display: grid;
+    gap: 14px;
 }
+
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
 .form label {
     display: block;
-    margin-bottom: 12px;
 }
+
 .form button {
     margin: 0 auto;
-    color: var(--primary-color, #366CCF);
-    font-weight: 400;
+    color: #fff;
+    background: linear-gradient(135deg, #1a5fd0 0%, #0f3d8f 100%);
+    font-weight: 700;
     font-size: 14px;
     line-height: 16px;
-    padding: 10px 90px;
-    border: 1px solid #366CCF;
-    border-radius: 20px;
+    padding: 14px 36px;
+    border-radius: 18px;
     margin-top: 8px;
     transition: 0.2s;
 }
+
 .btn_container {
     text-align: center;
 }
+
 .form button:hover {
-    background-color: #366CCF;
-    color: white;
+    filter: brightness(1.04);
 }
+
 .form button:active {
-    background-color: #184EB1;
-    color: white;
+    transform: translateY(1px);
 }
+
+.form button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
 .form label p {
     font-weight: 400;
     font-size: 16px;
     line-height: 18px;
+    margin-bottom: 8px;
 }
+
 .form input {
     font-size: 16px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 14px;
     border: 1px solid var(--outline-variant, #E6ECF3);
-    padding: 14px 8px;
+    padding: 14px 12px;
     background-color: var(--bg-color, #ffffff);
     color: var(--text-color, #1b1c1c);
+}
+
+.optional {
+    color: var(--text-muted, #8693A5);
+    font-size: 13px;
+}
+
+.error {
+    margin: 4px 0 0;
+    color: #c62828;
+    font-size: 14px;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
 }

@@ -8,11 +8,17 @@
         var(--page-glow);
 }
 
-.themeToggle {
+.topActions {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 20;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.themeToggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -23,6 +29,45 @@
     border: 1px solid rgba(18, 53, 122, 0.12);
     color: var(--text-color);
     box-shadow: var(--shadow-soft);
+}
+
+.languageSwitcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 46px;
+    padding: 4px;
+    border-radius: 16px;
+    background: var(--surface-strong);
+    border: 1px solid rgba(18, 53, 122, 0.12);
+    box-shadow: var(--shadow-soft);
+}
+
+.languageButton,
+.languageButtonActive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.languageButtonActive {
+    background: rgba(18, 53, 122, 0.08);
+    color: var(--primary-color);
+}
+
+.languageFlag {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .authShell {
@@ -209,6 +254,16 @@
     background: rgba(209, 67, 67, 0.1);
     border: 1px solid rgba(209, 67, 67, 0.16);
     color: #b53a3a;
+    font-size: 14px;
+}
+
+.successBanner,
+.statusMessage {
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(35, 154, 89, 0.1);
+    border: 1px solid rgba(35, 154, 89, 0.16);
+    color: #1f7e4b;
     font-size: 14px;
 }
 
@@ -511,9 +566,14 @@
         padding: 16px;
     }
 
-    .themeToggle {
+    .topActions {
         top: 12px;
         right: 12px;
+    }
+
+    .languageButton,
+    .languageButtonActive {
+        padding: 0 8px;
     }
 
     .authShell {

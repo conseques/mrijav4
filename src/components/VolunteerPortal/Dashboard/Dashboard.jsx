@@ -3,8 +3,6 @@ import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Sun,
-    Moon,
     CheckCircle,
     ClipboardList,
     UserRound,
@@ -13,13 +11,15 @@ import {
     Settings2,
     UsersRound
 } from 'lucide-react';
-import { useTheme } from '../../../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { fetchTasks, fetchMyTasks, applyToTask } from '../../../services/volunteerApi';
 
 import PendingApprovals from '../Admin/PendingApprovals';
 import RoleManager from '../Admin/RoleManager';
 import TaskManager from '../Admin/TaskManager';
 import ProfileSettings from './ProfileSettings';
+import PortalTopActions from '../PortalTopActions';
+import { getRoleLabel, getSkillLabel, getUrgencyLabel } from '../portalText';
 import styles from '../VolunteerPortal.module.css';
 
 const TASKS_POLL_INTERVAL = 30_000; // 30 seconds
@@ -30,30 +30,35 @@ const getUrgencyClass = (urgency) => {
     return styles.badgeMedium;
 };
 
-const TaskCard = ({ task, hasApplied, applyingId, onApply }) => (
+const TaskCard = ({ task, hasApplied, applyingId, onApply, t }) => {
+    const urgencyLabel = getUrgencyLabel(t, task.urgency);
+
+    return (
     <article className={styles.taskCard}>
         <div className={styles.taskTop}>
             <div>
                 <h3 className={styles.taskTitle}>{task.title}</h3>
             </div>
-            <span className={getUrgencyClass(task.urgency)}>{task.urgency} priority</span>
+            <span className={getUrgencyClass(task.urgency)}>
+                {t('tasks.priority', { urgency: urgencyLabel })}
+            </span>
         </div>
 
         <p className={styles.taskDescription}>{task.description}</p>
 
         <div className={styles.metaList}>
-            <span className={styles.metaItem}>When: {task.date}</span>
-            <span className={styles.metaItem}>Where: {task.location}</span>
-            {task.marker ? <span className={styles.metaItem}>Marker: {task.marker}</span> : null}
+            <span className={styles.metaItem}>{t('tasks.when', { date: task.date })}</span>
+            <span className={styles.metaItem}>{t('tasks.where', { location: task.location })}</span>
+            {task.marker ? <span className={styles.metaItem}>{t('tasks.marker', { marker: task.marker })}</span> : null}
         </div>
 
         <div className={styles.chipRow}>
             {task.skillsRequired?.length ? (
                 task.skillsRequired.map((skill) => (
-                    <span key={skill} className={styles.chip}>{skill}</span>
+                    <span key={skill} className={styles.chip}>{getSkillLabel(t, skill)}</span>
                 ))
             ) : (
-                <span className={styles.chip}>General support</span>
+                <span className={styles.chip}>{t('tasks.generalSupport')}</span>
             )}
         </div>
 
@@ -64,15 +69,16 @@ const TaskCard = ({ task, hasApplied, applyingId, onApply }) => (
                 className={hasApplied ? styles.statusButtonApplied : styles.statusButton}
             >
                 {hasApplied && <CheckCircle size={16} />}
-                {hasApplied ? 'Applied' : (applyingId === task.id ? 'Applying...' : 'Apply for Task')}
+                {hasApplied ? t('tasks.applied') : (applyingId === task.id ? t('tasks.applying') : t('tasks.apply'))}
             </button>
         </div>
     </article>
-);
+    );
+};
 
 const Dashboard = () => {
+    const { t } = useTranslation('volunteerPortal');
     const { user, logout } = useVolunteerAuth();
-    const { isDarkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('tasks');
     const [tasks, setTasks] = useState([]);
@@ -96,9 +102,9 @@ const Dashboard = () => {
             setTasksError('');
         } catch (err) {
             console.error('Error loading tasks:', err);
-            setTasksError('Unable to load tasks right now. Please try again shortly.');
+            setTasksError(t('tasks.loadError'));
         }
-    }, [isApproved, user?.token]);
+    }, [isApproved, user?.token, t]);
 
     // Initial load + polling
     useEffect(() => {
@@ -116,7 +122,7 @@ const Dashboard = () => {
             await applyToTask(user.token, taskId);
             setMyTaskIds((prev) => new Set([...prev, taskId]));
         } catch (error) {
-            setTasksError(error.message || 'Failed to apply for this task. Please try again.');
+            setTasksError(error.message || t('tasks.applyError'));
         }
         setApplyingId(null);
     };
@@ -135,14 +141,15 @@ const Dashboard = () => {
     if (user.status === 'rejected') {
         return (
             <div className={styles.portalPage}>
+                <PortalTopActions />
                 <div className={styles.pendingCard}>
-                    <span className={styles.statusPill}>Rejected</span>
-                    <h2 className={styles.authTitle}>Registration Rejected</h2>
+                    <span className={styles.statusPill}>{t('status.rejectedPill')}</span>
+                    <h2 className={styles.authTitle}>{t('status.rejectedTitle')}</h2>
                     <p className={styles.authText}>
-                        Your volunteer application is currently rejected. If you think this is a mistake, please contact the MriJa admin team.
+                        {t('status.rejectedText')}
                     </p>
                     <div className={styles.actionRow}>
-                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
+                        <button onClick={handleLogout} className={styles.ghostButton}>{t('common.logout')}</button>
                     </div>
                 </div>
             </div>
@@ -152,16 +159,16 @@ const Dashboard = () => {
     if (user.status !== 'approved') {
         return (
             <div className={styles.portalPage}>
+                <PortalTopActions />
                 <div className={styles.pendingCard}>
-                    <span className={styles.statusPill}>Pending Review</span>
-                    <h2 className={styles.authTitle}>Registration Pending</h2>
+                    <span className={styles.statusPill}>{t('status.pendingPill')}</span>
+                    <h2 className={styles.authTitle}>{t('status.pendingTitle')}</h2>
                     <p className={styles.authText}>
-                        Thank you for registering, {user.name || 'volunteer'}. Your profile is currently under review by the administrators.
-                        Once approved, you will get full access to tasks, profile settings, and internal coordination tools.
+                        {t('status.pendingText', { name: user.name || t('status.fallbackName') })}
                     </p>
-                    <p className={styles.helper}>We use this step to keep the volunteer space safe and organised for everyone.</p>
+                    <p className={styles.helper}>{t('status.pendingHelper')}</p>
                     <div className={styles.actionRow}>
-                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
+                        <button onClick={handleLogout} className={styles.ghostButton}>{t('common.logout')}</button>
                     </div>
                 </div>
             </div>
@@ -173,15 +180,15 @@ const Dashboard = () => {
     const myTasks = tasks.filter((t) => myTaskIds.has(t.id));
 
     const volunteerMenu = [
-        { id: 'tasks', label: 'Available Tasks', Icon: ClipboardList },
-        { id: 'my_tasks', label: 'My Tasks', Icon: BriefcaseBusiness },
-        { id: 'profile', label: 'Profile & Skills', Icon: UserRound }
+        { id: 'tasks', label: t('dashboard.navigation.availableTasks'), Icon: ClipboardList },
+        { id: 'my_tasks', label: t('dashboard.navigation.myTasks'), Icon: BriefcaseBusiness },
+        { id: 'profile', label: t('dashboard.navigation.profileSkills'), Icon: UserRound }
     ];
 
     const adminMenu = [
-        { id: 'manage_tasks', label: 'Manage Tasks', Icon: Settings2 },
-        { id: 'pending', label: 'Pending Approvals', Icon: UsersRound },
-        { id: 'roles', label: 'Assign Roles', Icon: ShieldCheck }
+        { id: 'manage_tasks', label: t('dashboard.adminTools.manageTasks'), Icon: Settings2 },
+        { id: 'pending', label: t('dashboard.adminTools.pendingApprovals'), Icon: UsersRound },
+        { id: 'roles', label: t('dashboard.adminTools.assignRoles'), Icon: ShieldCheck }
     ];
 
     const renderMainPanel = () => {
@@ -190,8 +197,8 @@ const Dashboard = () => {
                 <section className={styles.panel}>
                     <div className={styles.panelTitleRow}>
                         <div>
-                            <h2 className={styles.panelTitle}>Available Tasks</h2>
-                            <p className={styles.panelDescription}>Choose where you can help right now and apply directly from the task card.</p>
+                            <h2 className={styles.panelTitle}>{t('tasks.title')}</h2>
+                            <p className={styles.panelDescription}>{t('tasks.description')}</p>
                         </div>
                     </div>
 
@@ -199,7 +206,7 @@ const Dashboard = () => {
 
                     <div className={styles.taskList}>
                         {tasks.length === 0 ? (
-                            <p className={styles.emptyState}>No tasks are available right now.</p>
+                            <p className={styles.emptyState}>{t('tasks.empty')}</p>
                         ) : (
                             tasks.map((task) => (
                                 <TaskCard
@@ -208,6 +215,7 @@ const Dashboard = () => {
                                     hasApplied={myTaskIds.has(task.id)}
                                     applyingId={applyingId}
                                     onApply={handleApply}
+                                    t={t}
                                 />
                             ))
                         )}
@@ -221,25 +229,25 @@ const Dashboard = () => {
                 <section className={styles.panel}>
                     <div className={styles.panelTitleRow}>
                         <div>
-                            <h2 className={styles.panelTitle}>My Assigned Tasks</h2>
-                            <p className={styles.panelDescription}>Everything you have applied for or are currently helping with.</p>
+                            <h2 className={styles.panelTitle}>{t('tasks.myTitle')}</h2>
+                            <p className={styles.panelDescription}>{t('tasks.myDescription')}</p>
                         </div>
                     </div>
 
                     <div className={styles.taskList}>
                         {myTasks.length === 0 ? (
-                            <p className={styles.emptyState}>You haven't applied for any tasks yet.</p>
+                            <p className={styles.emptyState}>{t('tasks.myEmpty')}</p>
                         ) : (
                             myTasks.map((task) => (
                                 <article key={task.id} className={styles.taskCard}>
                                     <div className={styles.taskTop}>
                                         <h3 className={styles.taskTitle}>{task.title}</h3>
-                                        <span className={styles.statusButtonApplied}>Applied</span>
+                                        <span className={styles.statusButtonApplied}>{t('tasks.applied')}</span>
                                     </div>
                                     <div className={styles.metaList}>
-                                        <span className={styles.metaItem}>When: {task.date}</span>
-                                        <span className={styles.metaItem}>Where: {task.location}</span>
-                                        {task.marker ? <span className={styles.metaItem}>Marker: {task.marker}</span> : null}
+                                        <span className={styles.metaItem}>{t('tasks.when', { date: task.date })}</span>
+                                        <span className={styles.metaItem}>{t('tasks.where', { location: task.location })}</span>
+                                        {task.marker ? <span className={styles.metaItem}>{t('tasks.marker', { marker: task.marker })}</span> : null}
                                     </div>
                                     <p className={styles.taskDescription}>{task.description}</p>
                                 </article>
@@ -257,8 +265,8 @@ const Dashboard = () => {
         if (activeTab === 'pending') {
             return isManager ? <PendingApprovals /> : (
                 <section className={styles.panel}>
-                    <h2 className={styles.panelTitle}>Pending Approvals</h2>
-                    <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                    <h2 className={styles.panelTitle}>{t('dashboard.adminTools.pendingApprovals')}</h2>
+                    <p className={styles.errorBanner}>{t('common.permissionDenied')}</p>
                 </section>
             );
         }
@@ -266,8 +274,8 @@ const Dashboard = () => {
         if (activeTab === 'roles') {
             return isManager ? <RoleManager /> : (
                 <section className={styles.panel}>
-                    <h2 className={styles.panelTitle}>Role Manager</h2>
-                    <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                    <h2 className={styles.panelTitle}>{t('admin.roles.title')}</h2>
+                    <p className={styles.errorBanner}>{t('common.permissionDenied')}</p>
                 </section>
             );
         }
@@ -275,53 +283,51 @@ const Dashboard = () => {
         if (activeTab === 'manage_tasks') {
             return isManager ? <TaskManager /> : (
                 <section className={styles.panel}>
-                    <h2 className={styles.panelTitle}>Manage Tasks</h2>
-                    <p className={styles.errorBanner}>You do not have permission to access this section.</p>
+                    <h2 className={styles.panelTitle}>{t('dashboard.adminTools.manageTasks')}</h2>
+                    <p className={styles.errorBanner}>{t('common.permissionDenied')}</p>
                 </section>
             );
         }
 
         return (
             <section className={styles.panel}>
-                <h2 className={styles.panelTitle}>Unavailable Section</h2>
-                <p className={styles.panelDescription}>Please choose one of the available workspace tabs.</p>
+                <h2 className={styles.panelTitle}>{t('dashboard.unavailableTitle')}</h2>
+                <p className={styles.panelDescription}>{t('dashboard.unavailableDescription')}</p>
             </section>
         );
     };
 
     return (
         <div className={styles.portalPage}>
-            <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-                {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
-            </button>
+            <PortalTopActions />
 
             <div className={styles.portalShell}>
                 <header className={styles.portalHeader}>
                     <div className={styles.portalHeaderCopy}>
-                        <span className={styles.portalEyebrow}>Volunteer Dashboard</span>
-                        <h1 className={styles.portalTitle}>Hei, {user?.name?.split(' ')[0] || 'Volunteer'}</h1>
+                        <span className={styles.portalEyebrow}>{t('dashboard.eyebrow')}</span>
+                        <h1 className={styles.portalTitle}>{t('dashboard.title', { name: user?.name?.split(' ')[0] || t('dashboard.fallbackName') })}</h1>
                         <p className={styles.portalSubtitle}>
-                            Track tasks, update your availability, and coordinate with the MriJa team from one place.
+                            {t('dashboard.subtitle')}
                         </p>
                     </div>
 
                     <div className={styles.portalActionGroup}>
-                        <button onClick={handleLogout} className={styles.ghostButton}>Log Out</button>
+                        <button onClick={handleLogout} className={styles.ghostButton}>{t('common.logout')}</button>
                     </div>
                 </header>
 
                 <div className={styles.metricGrid}>
                     <div className={styles.metricCard}>
                         <span className={styles.metricValue}>{tasks.length}</span>
-                        <span className={styles.metricLabel}>Open Tasks</span>
+                        <span className={styles.metricLabel}>{t('dashboard.metrics.openTasks')}</span>
                     </div>
                     <div className={styles.metricCard}>
                         <span className={styles.metricValue}>{myTasks.length}</span>
-                        <span className={styles.metricLabel}>My Tasks</span>
+                        <span className={styles.metricLabel}>{t('dashboard.metrics.myTasks')}</span>
                     </div>
                     <div className={styles.metricCard}>
                         <span className={styles.metricValue}>{user?.skills?.length || 0}</span>
-                        <span className={styles.metricLabel}>Listed Skills</span>
+                        <span className={styles.metricLabel}>{t('dashboard.metrics.listedSkills')}</span>
                     </div>
                 </div>
 
@@ -344,8 +350,8 @@ const Dashboard = () => {
                         <section className={styles.panel}>
                             <div className={styles.panelTitleRow}>
                                 <div>
-                                    <h2 className={styles.panelTitle}>Navigation</h2>
-                                    <p className={styles.panelDescription}>Switch between your tasks, skills, and admin tools.</p>
+                                    <h2 className={styles.panelTitle}>{t('dashboard.navigation.title')}</h2>
+                                    <p className={styles.panelDescription}>{t('dashboard.navigation.description')}</p>
                                 </div>
                             </div>
 
@@ -365,18 +371,18 @@ const Dashboard = () => {
 
                         <section className={`${styles.panel} ${styles.panelAccent}`}>
                             <div className={styles.sectionStack}>
-                                <span className={styles.adminBadge}>Profile</span>
+                                <span className={styles.adminBadge}>{t('dashboard.profileCard.badge')}</span>
                                 <h3 className={styles.profileName}>{user?.name}</h3>
                                 <p className={styles.profileMeta}>
-                                    Role: <span style={{ textTransform: 'capitalize' }}>{user?.role || 'volunteer'}</span>
+                                    {t('dashboard.profileCard.role')} <span style={{ textTransform: 'capitalize' }}>{getRoleLabel(t, user?.role || 'volunteer')}</span>
                                 </p>
                                 <div className={styles.chipRow}>
                                     {user?.skills?.length ? (
                                         user.skills.map((skill) => (
-                                            <span key={skill} className={styles.chip}>{skill}</span>
+                                            <span key={skill} className={styles.chip}>{getSkillLabel(t, skill)}</span>
                                         ))
                                     ) : (
-                                        <p className={styles.emptyState}>No skills added yet.</p>
+                                        <p className={styles.emptyState}>{t('dashboard.profileCard.noSkills')}</p>
                                     )}
                                 </div>
                             </div>
@@ -386,8 +392,8 @@ const Dashboard = () => {
                             <section className={styles.panel}>
                                 <div className={styles.panelTitleRow}>
                                     <div>
-                                        <h2 className={styles.panelTitle}>Admin Tools</h2>
-                                        <p className={styles.panelDescription}>Manager actions for tasks, approvals, and roles.</p>
+                                        <h2 className={styles.panelTitle}>{t('dashboard.adminTools.title')}</h2>
+                                        <p className={styles.panelDescription}>{t('dashboard.adminTools.description')}</p>
                                     </div>
                                 </div>
 

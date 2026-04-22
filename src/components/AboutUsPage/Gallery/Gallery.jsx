@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Gallery.module.css';
 import { useTranslation } from "react-i18next";
 import pic1 from '../../../images/gallery/8ca31.jpg'
@@ -10,9 +10,13 @@ import pic6 from '../../../images/gallery/julebord.jpg'
 import pic7 from '../../../images/gallery/poezikveld1.jpg'
 import pic8 from '../../../images/gallery/6d126.jpg'
 import { motion } from 'framer-motion';
+import { X } from 'lucide-react';
+import Modal from '../../Modal/Modal';
 
 const Gallery = () => {
     const { t } = useTranslation("gallery");
+    const previewModalRef = useRef(null);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     const galleryItems = [
         { src: pic1, name: t("events.advokat"), class: styles.tall },
@@ -24,6 +28,18 @@ const Gallery = () => {
         { src: pic7, name: t("events.poezikveld1"), class: styles.tall },
         { src: pic8, name: t("events.demo"), class: styles.wide }
     ];
+
+    const openPreview = (item) => {
+        setSelectedItem(item);
+        window.requestAnimationFrame(() => {
+            previewModalRef.current?.open();
+        });
+    };
+
+    const closePreview = () => {
+        previewModalRef.current?.close();
+        setSelectedItem(null);
+    };
 
     return (
         <div className={styles.container}>
@@ -43,15 +59,40 @@ const Gallery = () => {
                 
                 <div className={styles.galleryGrid}>
                     {galleryItems.map((item, index) => (
-                        <div key={index} className={`${styles.imageWrapper} ${item.class}`}>
+                        <button
+                            key={index}
+                            type="button"
+                            className={`${styles.imageWrapper} ${item.class}`}
+                            onClick={() => openPreview(item)}
+                            aria-label={item.name}
+                        >
                             <img src={item.src} alt={item.name} loading="lazy" />
                             <div className={styles.hoverOverlay}>
                                 <span className={styles.eventName}>{item.name}</span>
                             </div>
-                        </div>
+                        </button>
                     ))}
                 </div>
             </motion.div>
+            <Modal ref={previewModalRef} onClose={() => setSelectedItem(null)} className={styles.previewDialog}>
+                {selectedItem && (
+                    <div className={styles.previewBody}>
+                        <button
+                            type="button"
+                            className={styles.previewClose}
+                            onClick={closePreview}
+                            aria-label="Close preview"
+                        >
+                            <X size={20} />
+                        </button>
+                        <img src={selectedItem.src} alt={selectedItem.name} className={styles.previewImage} />
+                        <div className={styles.previewMeta}>
+                            <p className={styles.previewEyebrow}>{t("moments")}</p>
+                            <h3 className={styles.previewCaption}>{selectedItem.name}</h3>
+                        </div>
+                    </div>
+                )}
+            </Modal>
         </div>
     );
 };

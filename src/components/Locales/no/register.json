@@ -1,10 +1,23 @@
 {
-  "title": "Registrer deg for",
-  "desc": "Vi gleder oss til å se deg på arrangementene våre! For å registrere deg, vennligst fyll ut skjemaet med de samme opplysningene du oppga da du ble medlem. Husk at tilgang til arrangementet kun er tilgjengelig for",
-  "active": "aktive medlemmer.",
+  "eventTitle": "Reserver plass til",
+  "courseTitle": "Meld interesse for",
+  "eventDesc": "Legg igjen kontaktinformasjonen din, så lagrer vi registreringen direkte i vårt eget system. Opplysningene brukes bare til praktisk informasjon om arrangementet.",
+  "courseDesc": "Legg igjen kontaktinformasjonen din, så tar vi kontakt med neste praktiske steg for kurset.",
   "name": "Navn",
   "surname": "Etternavn",
+  "email": "E-post",
   "phone": "Telefonnummer",
-  "register": "Register",
-  "notCorrectPhone": "Skriv inn minst 8 sifre"
+  "phoneOptional": "valgfritt",
+  "register": "Send registrering",
+  "submitting": "Sender...",
+  "error": "Vi klarte ikke å lagre registreringen. Prøv igjen.",
+  "successEventBadge": "Registrering mottatt",
+  "successCourseBadge": "Kursinteresse mottatt",
+  "successTitleEvent": "Du er registrert",
+  "successTitleCourse": "Interessen din er lagret",
+  "successDescEvent": "Takk for at du registrerte deg til {{name}}. Vi gleder oss til å se deg der.",
+  "successDescCourse": "Takk for interessen for {{name}}. Vi tar kontakt med de neste detaljene.",
+  "membershipPrompt": "Vil du støtte flere kvelder som dette? Medlemskap er det beste neste steget.",
+  "membershipCta": "Se medlemskap",
+  "closeCta": "Fortsett å utforske"
 }

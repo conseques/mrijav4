@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sun, Moon, CheckCircle2 } from 'lucide-react';
-import { useTheme } from '../../../context/ThemeContext';
+import { CheckCircle2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { registerVolunteer } from '../../../services/volunteerApi';
+import PortalTopActions from '../PortalTopActions';
 import styles from '../VolunteerPortal.module.css';
 
 const Register = () => {
+    const { t } = useTranslation('volunteerPortal');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +16,6 @@ const Register = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-    const { isDarkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
@@ -27,7 +28,7 @@ const Register = () => {
             setSuccess(true);
             setTimeout(() => navigate('/volunteer-portal/login'), 3500);
         } catch (err) {
-            setError(err.message || 'Registration failed. Please try again.');
+            setError(err.message || t('auth.register.error'));
         } finally {
             setLoading(false);
         }
@@ -35,9 +36,7 @@ const Register = () => {
 
     return (
         <div className={styles.authPage}>
-            <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-                {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
-            </button>
+            <PortalTopActions />
 
             <div className={styles.authShell}>
                 <motion.div
@@ -46,15 +45,15 @@ const Register = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                 >
-                    <span className={styles.authBadge}>Apply to Volunteer</span>
+                    <span className={styles.authBadge}>{t('auth.register.badge')}</span>
                     <div className={styles.sectionStack}>
                         <h1 className={styles.authBrand}>MriJa</h1>
                         <p className={styles.authText}>
-                            Join the volunteer network that helps with events, translations, logistics, and day-to-day support for the Ukrainian community in Drammen.
+                            {t('auth.register.intro')}
                         </p>
                     </div>
                     <p className={styles.authFooter}>
-                        Your profile is reviewed by an administrator before access is granted, so the portal stays safe and organised for everyone.
+                        {t('auth.register.footer')}
                     </p>
                 </motion.div>
 
@@ -67,28 +66,27 @@ const Register = () => {
                     {success ? (
                         <div className={styles.sectionStack} style={{ alignItems: 'center', textAlign: 'center', gap: '16px' }}>
                             <CheckCircle2 size={52} style={{ color: 'var(--primary-color)' }} />
-                            <h2 className={styles.authTitle}>Registration Submitted!</h2>
+                            <h2 className={styles.authTitle}>{t('auth.register.successTitle')}</h2>
                             <p className={styles.authText}>
-                                Your application has been received and is now pending review by an administrator.
-                                You will be able to log in once your profile is approved.
+                                {t('auth.register.successDescription')}
                             </p>
-                            <p className={styles.helper}>Redirecting you to login...</p>
+                            <p className={styles.helper}>{t('auth.register.redirecting')}</p>
                         </div>
                     ) : (
                         <>
                             <div className={styles.sectionStack}>
-                                <h2 className={styles.authTitle}>Become a Volunteer</h2>
-                                <p className={styles.authText}>Create your profile and we will review it before opening portal access.</p>
+                                <h2 className={styles.authTitle}>{t('auth.register.title')}</h2>
+                                <p className={styles.authText}>{t('auth.register.description')}</p>
                             </div>
 
                             {error && <p className={styles.errorBanner}>{error}</p>}
 
                             <form onSubmit={handleRegister} className={styles.authForm}>
                                 <div className={styles.fieldGroup}>
-                                    <label className={styles.fieldLabel}>Full Name</label>
+                                    <label className={styles.fieldLabel}>{t('auth.register.fullName')}</label>
                                     <input
                                         type="text"
-                                        placeholder="Full Name"
+                                        placeholder={t('auth.register.fullName')}
                                         required
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
@@ -98,7 +96,7 @@ const Register = () => {
 
                                 <div className={styles.splitRow}>
                                     <div className={styles.fieldGroup}>
-                                        <label className={styles.fieldLabel}>Email</label>
+                                        <label className={styles.fieldLabel}>{t('common.email')}</label>
                                         <input
                                             type="email"
                                             placeholder="you@example.com"
@@ -110,7 +108,7 @@ const Register = () => {
                                     </div>
 
                                     <div className={styles.fieldGroup}>
-                                        <label className={styles.fieldLabel}>Phone (optional)</label>
+                                        <label className={styles.fieldLabel}>{t('auth.register.phone')}</label>
                                         <input
                                             type="tel"
                                             placeholder="+47 ..."
@@ -122,10 +120,10 @@ const Register = () => {
                                 </div>
 
                                 <div className={styles.fieldGroup}>
-                                    <label className={styles.fieldLabel}>Password</label>
+                                    <label className={styles.fieldLabel}>{t('common.password')}</label>
                                     <input
                                         type="password"
-                                        placeholder="Choose a secure password (min 8 characters)"
+                                        placeholder={t('auth.register.passwordPlaceholder')}
                                         required
                                         minLength={8}
                                         value={password}
@@ -135,11 +133,11 @@ const Register = () => {
                                 </div>
 
                                 <button type="submit" disabled={loading} className={styles.authSubmit}>
-                                    {loading ? 'Submitting...' : 'Register'}
+                                    {loading ? t('auth.register.submitting') : t('auth.register.submit')}
                                 </button>
 
                                 <p className={styles.authFooter}>
-                                    Already have an account? <Link to="/volunteer-portal/login" className={styles.authLink}>Login</Link>
+                                    {t('auth.register.hasAccount')} <Link to="/volunteer-portal/login" className={styles.authLink}>{t('auth.register.loginLink')}</Link>
                                 </p>
                             </form>
                         </>

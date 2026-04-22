@@ -3,17 +3,17 @@ import styles from './AllEvents.module.css'
 import {useTranslation} from "react-i18next";
 import {useOutletContext} from "react-router-dom";
 import { motion } from 'framer-motion';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../firebase";
 import { cacheService } from "../../../services/cacheService";
 import SEO from "../../SEO/SEO";
+import { filterOutFeaturedConcert } from "../../../content/featuredConcert";
+import { fetchPublicEvents } from "../../../services/publicApi";
 
 
 
 const AllEvents = () => {
     const { t, i18n } = useTranslation("events");
     const { openModal } = useOutletContext();
-    const [events, setEvents] = useState(() => cacheService.get('events_all') || []);
+    const [events, setEvents] = useState(() => filterOutFeaturedConcert(cacheService.get('events_all') || []));
     const [loading, setLoading] = useState(!cacheService.get('events_all'));
 
     const currentLang = i18n.language || 'no';
@@ -21,12 +21,8 @@ const AllEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "events"));
-                const eventsList = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                // Sort by creation date
+                const { items = [] } = await fetchPublicEvents();
+                const eventsList = filterOutFeaturedConcert(items);
                 eventsList.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
                 
                 setEvents(eventsList);
@@ -85,7 +81,7 @@ const AllEvents = () => {
                                         <p className={styles.description}>
                                             {localeData.description}
                                         </p>
-                                        <button onClick={() => openModal({ name: localeData.name })}>{t("button")}</button>
+                                        <button onClick={() => openModal({ name: localeData.name, type: 'event' })}>{t("button")}</button>
                                     </div>
                                 </div>
                             );

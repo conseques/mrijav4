@@ -7,6 +7,7 @@ import Support from "./Support/Support";
 import Newsletter from "./Newsletter/Newsletter";
 import {useLocation} from "react-router-dom";
 import DonationImpact from "./DonationImpact/DonationImpact";
+import FeaturedEvent from "../EventsPage/FeaturedEvent/FeaturedEvent";
 
 import SEO from "../SEO/SEO";
 import { useTranslation } from "react-i18next";
@@ -38,6 +39,7 @@ const HomePage = () => {
             />
             <h1 className="visually-hidden">Mrija - Ukrainian Association in Drammen, Norway</h1>
             <Hero />
+            <FeaturedEvent />
             <DonationImpact />
             <Events />
             <Courses />

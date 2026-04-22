@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom';
 import styles from './GalleryCTA.module.css';
 import { motion } from 'framer-motion';
+import VolunteerFormNote from '../../VolunteerFormNote/VolunteerFormNote';
+import { VOLUNTEER_FORM_URL } from '../../../content/volunteerForm';
 
 const GalleryCTA = () => {
     const { t } = useTranslation("hero");
@@ -21,9 +23,17 @@ const GalleryCTA = () => {
                     {t("galleryCtaDesc")}
                 </p>
                 <div className={styles.btnGroup}>
-                    <Link to="/#membership" className={styles.primaryBtn}>{t("galleryCtaVolBtn")}</Link>
+                    <a
+                        href={VOLUNTEER_FORM_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.primaryBtn}
+                    >
+                        {t("galleryCtaVolBtn")}
+                    </a>
                     <Link to="/events" className={styles.secondaryBtn}>{t("galleryCtaEventsBtn")}</Link>
                 </div>
+                <VolunteerFormNote className={styles.volunteerNote} />
                 
                 {/* Decorative Paper Airplane icon resembling the one in Figma bottom right */}
                 <div className={styles.decorativeSend}>

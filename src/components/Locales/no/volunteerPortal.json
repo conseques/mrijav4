@@ -1,0 +1,209 @@
+{
+  "language": {
+    "label": "Språk i portalen",
+    "current": "Valgt språk: {{language}}",
+    "options": {
+      "en": "English",
+      "no": "Norsk",
+      "ua": "Українська"
+    }
+  },
+  "common": {
+    "email": "E-post",
+    "password": "Passord",
+    "logout": "Logg ut",
+    "loading": "Laster...",
+    "refresh": "Oppdater",
+    "saving": "Lagrer...",
+    "submitting": "Sender...",
+    "permissionDenied": "Du har ikke tilgang til denne delen.",
+    "recently": "Nylig",
+    "delete": "Slett"
+  },
+  "topActions": {
+    "toggleTheme": "Bytt tema"
+  },
+  "auth": {
+    "login": {
+      "badge": "Frivilligportal",
+      "intro": "Logg inn for å se aktive oppgaver, holde ferdighetene dine oppdatert og koordinere praktisk hjelp med resten av fellesskapet.",
+      "footer": "Godkjente frivillige får tilgang til oppgaver, adminnotater og den interne arbeidsflyten som brukes til arrangementer og lokal hjelp.",
+      "title": "Innlogging for frivillige",
+      "description": "Bruk e-posten og passordet som er knyttet til frivilligprofilen din.",
+      "submit": "Logg inn",
+      "submitting": "Logger inn...",
+      "noAccount": "Har du ikke konto?",
+      "registerLink": "Registrer deg",
+      "error": "Kunne ikke logge inn. Sjekk e-post og passord.",
+      "passwordChanged": "Passordet er oppdatert. Logg inn med det nye passordet."
+    },
+    "register": {
+      "badge": "Bli frivillig",
+      "intro": "Bli med i frivillignettverket som hjelper med arrangementer, oversettelser, logistikk og daglig støtte til det ukrainske fellesskapet i Drammen.",
+      "footer": "Profilen din blir vurdert av en administrator før du får tilgang, slik at portalen forblir trygg og ryddig for alle.",
+      "title": "Bli frivillig",
+      "description": "Opprett profilen din, så vurderer vi den før tilgangen åpnes.",
+      "successTitle": "Registreringen er sendt!",
+      "successDescription": "Søknaden din er mottatt og venter på vurdering fra en administrator. Du kan logge inn når profilen din er godkjent.",
+      "redirecting": "Sender deg videre til innlogging...",
+      "fullName": "Fullt navn",
+      "phone": "Telefon (valgfritt)",
+      "passwordPlaceholder": "Velg et sikkert passord (minst 8 tegn)",
+      "submit": "Registrer",
+      "submitting": "Sender...",
+      "hasAccount": "Har du allerede konto?",
+      "loginLink": "Logg inn",
+      "error": "Registreringen mislyktes. Prøv igjen."
+    }
+  },
+  "status": {
+    "rejectedPill": "Avslått",
+    "rejectedTitle": "Registreringen ble avslått",
+    "rejectedText": "Frivilligsøknaden din er avslått. Hvis du tror dette er en feil, kontakt MriJa-administrasjonen.",
+    "pendingPill": "Venter på vurdering",
+    "pendingTitle": "Registrering venter",
+    "pendingText": "Takk for registreringen, {{name}}. Profilen din vurderes nå av administratorene. Når du er godkjent, får du full tilgang til oppgaver, profilinnstillinger og interne koordineringsverktøy.",
+    "pendingHelper": "Vi bruker dette steget for å holde frivilligområdet trygt og organisert for alle.",
+    "fallbackName": "frivillig"
+  },
+  "dashboard": {
+    "eyebrow": "Frivilligportal",
+    "title": "Hei, {{name}}",
+    "fallbackName": "Frivillig",
+    "subtitle": "Følg oppgaver, oppdater tilgjengeligheten din og koordiner med MriJa-teamet fra ett sted.",
+    "metrics": {
+      "openTasks": "Åpne oppgaver",
+      "myTasks": "Mine oppgaver",
+      "listedSkills": "Ferdigheter"
+    },
+    "navigation": {
+      "title": "Navigasjon",
+      "description": "Bytt mellom oppgaver, ferdigheter og adminverktøy.",
+      "availableTasks": "Tilgjengelige oppgaver",
+      "myTasks": "Mine oppgaver",
+      "profileSkills": "Profil og ferdigheter"
+    },
+    "profileCard": {
+      "badge": "Profil",
+      "role": "Rolle:",
+      "noSkills": "Ingen ferdigheter er lagt til ennå."
+    },
+    "adminTools": {
+      "title": "Adminverktøy",
+      "description": "Lederhandlinger for oppgaver, godkjenninger og roller.",
+      "manageTasks": "Administrer oppgaver",
+      "pendingApprovals": "Venter på godkjenning",
+      "assignRoles": "Tildel roller"
+    },
+    "unavailableTitle": "Utilgjengelig del",
+    "unavailableDescription": "Velg en av de tilgjengelige fanene."
+  },
+  "tasks": {
+    "title": "Tilgjengelige oppgaver",
+    "description": "Velg hvor du kan bidra akkurat nå og meld deg direkte fra oppgavekortet.",
+    "loadError": "Kan ikke laste oppgaver akkurat nå. Prøv igjen om litt.",
+    "applyError": "Kunne ikke melde deg på oppgaven. Prøv igjen.",
+    "empty": "Ingen oppgaver er tilgjengelige akkurat nå.",
+    "myTitle": "Mine tildelte oppgaver",
+    "myDescription": "Alt du har meldt deg på eller hjelper med nå.",
+    "myEmpty": "Du har ikke meldt deg på noen oppgaver ennå.",
+    "priority": "{{urgency}} prioritet",
+    "when": "Når: {{date}}",
+    "where": "Hvor: {{location}}",
+    "marker": "Markør: {{marker}}",
+    "generalSupport": "Generell støtte",
+    "applied": "Påmeldt",
+    "applying": "Melder på...",
+    "apply": "Meld deg på"
+  },
+  "profile": {
+    "title": "Profil og ferdigheter",
+    "description": "Hold profilen oppdatert slik at koordinatorer kan koble deg med riktige muligheter.",
+    "skillsUpdated": "Ferdighetene ble oppdatert.",
+    "skillsError": "Kunne ikke lagre ferdigheter.",
+    "saveSkills": "Lagre ferdigheter",
+    "changePasswordTitle": "Endre passord",
+    "changePasswordDescription": "Oppdater passordet for å holde kontoen trygg.",
+    "currentPassword": "Nåværende passord",
+    "newPassword": "Nytt passord",
+    "confirmPassword": "Bekreft nytt passord",
+    "newPasswordPlaceholder": "Minst 8 tegn",
+    "confirmPasswordPlaceholder": "Gjenta det nye passordet",
+    "passwordMismatch": "De nye passordene er ikke like.",
+    "passwordSame": "Det nye passordet må være forskjellig fra det nåværende.",
+    "passwordUpdated": "Passordet er oppdatert. Du blir sendt til innlogging.",
+    "passwordError": "Kunne ikke endre passord.",
+    "updatePassword": "Oppdater passord",
+    "updatingPassword": "Oppdaterer..."
+  },
+  "admin": {
+    "pending": {
+      "title": "Venter på godkjenning",
+      "description": "Vurder nye frivilligregistreringer før portaltilgang gis.",
+      "loadError": "Kan ikke laste ventende registreringer.",
+      "empty": "Ingen registreringer venter.",
+      "loading": "Laster registreringer...",
+      "status": "Venter",
+      "registered": "Registrert: {{date}}",
+      "confirmReject": "Avslå registreringen for {{name}}?",
+      "fallbackName": "denne frivillige",
+      "reviewError": "Kunne ikke {{status}} denne frivillige.",
+      "approve": "Godkjenn",
+      "reject": "Avslå"
+    },
+    "tasks": {
+      "title": "Administrer oppgaver",
+      "description": "Opprett nye frivilligoppgaver og hold tavlen oppdatert.",
+      "loadError": "Kan ikke laste oppgaver.",
+      "addError": "Kunne ikke legge til oppgaven.",
+      "deleteError": "Kunne ikke slette oppgaven.",
+      "confirmDelete": "Er du sikker på at du vil slette denne oppgaven?",
+      "newTask": "Ny oppgave",
+      "closeForm": "Lukk skjema",
+      "taskTitle": "Oppgavetittel",
+      "urgency": "Haster",
+      "descriptionLabel": "Beskrivelse",
+      "dateTime": "Dato og tid",
+      "location": "Sted",
+      "marker": "Markøretikett (valgfritt)",
+      "markerPlaceholder": "Sone A / Sjåførteam / Stand 03",
+      "skills": "Nødvendige ferdigheter (kommaseparert)",
+      "skillsPlaceholder": "Oversetter, sjåfør, arrangementshjelper",
+      "saveTask": "Lagre oppgave",
+      "loading": "Laster oppgaver...",
+      "empty": "Ingen oppgaver er tilgjengelige.",
+      "applicants": "Påmeldte: {{count}}"
+    },
+    "roles": {
+      "title": "Rolleadministrasjon",
+      "description": "Juster tilganger for godkjente frivillige, ledere og administratorer.",
+      "loadError": "Kan ikke laste brukere.",
+      "changeError": "Kunne ikke endre rolle.",
+      "confirmOwnRole": "Du er i ferd med å endre din egen rolle. Fortsette?",
+      "loading": "Laster brukere...",
+      "current": "Nåværende: {{role}}",
+      "role": "Rolle"
+    }
+  },
+  "urgency": {
+    "Low": "Lav",
+    "Medium": "Middels",
+    "High": "Høy"
+  },
+  "roles": {
+    "user": "Bruker",
+    "volunteer": "Frivillig",
+    "manager": "Leder",
+    "admin": "Admin"
+  },
+  "skills": {
+    "driver": "Sjåfør (har bil)",
+    "translatorEnUa": "Oversetter (EN/UA)",
+    "translatorNoUa": "Oversetter (NO/UA)",
+    "eventHelper": "Arrangementshjelper",
+    "logistics": "Logistikk",
+    "itSupport": "IT-støtte",
+    "firstAid": "Førstehjelp",
+    "photography": "Foto"
+  }
+}

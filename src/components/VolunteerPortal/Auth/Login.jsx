@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sun, Moon } from 'lucide-react';
-import { useTheme } from '../../../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { useVolunteerAuth } from '../../../context/VolunteerAuthContext';
+import PortalTopActions from '../PortalTopActions';
 import styles from '../VolunteerPortal.module.css';
 
 const Login = () => {
+    const { t } = useTranslation('volunteerPortal');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { isDarkMode, toggleTheme } = useTheme();
     const { login } = useVolunteerAuth();
     const from = location.state?.from?.pathname || '/volunteer-portal';
+    const passwordChanged = Boolean(location.state?.passwordChanged);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -38,7 +39,7 @@ const Login = () => {
 
             navigate(from, { replace: true });
         } catch (err) {
-            setError(err.message || 'Failed to log in. Check your email and password.');
+            setError(err.message || t('auth.login.error'));
         } finally {
             setLoading(false);
         }
@@ -46,9 +47,7 @@ const Login = () => {
 
     return (
         <div className={styles.authPage}>
-            <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
-                {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
-            </button>
+            <PortalTopActions />
 
             <div className={styles.authShell}>
                 <motion.div
@@ -57,15 +56,15 @@ const Login = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                 >
-                    <span className={styles.authBadge}>Volunteer Portal</span>
+                    <span className={styles.authBadge}>{t('auth.login.badge')}</span>
                     <div className={styles.sectionStack}>
                         <h1 className={styles.authBrand}>MriJa</h1>
                         <p className={styles.authText}>
-                            Log in to view live tasks, keep your skills updated, and coordinate practical help with the rest of the community.
+                            {t('auth.login.intro')}
                         </p>
                     </div>
                     <p className={styles.authFooter}>
-                        Approved volunteers get access to assignments, admin notes, and the internal workflow used to support events and local aid.
+                        {t('auth.login.footer')}
                     </p>
                 </motion.div>
 
@@ -76,15 +75,16 @@ const Login = () => {
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                 >
                     <div className={styles.sectionStack}>
-                        <h2 className={styles.authTitle}>Volunteer Login</h2>
-                        <p className={styles.authText}>Use the email and password linked to your volunteer profile.</p>
+                        <h2 className={styles.authTitle}>{t('auth.login.title')}</h2>
+                        <p className={styles.authText}>{t('auth.login.description')}</p>
                     </div>
 
+                    {passwordChanged && <p className={styles.successBanner}>{t('auth.login.passwordChanged')}</p>}
                     {error && <p className={styles.errorBanner}>{error}</p>}
 
                     <form onSubmit={handleLogin} className={styles.authForm}>
                         <div className={styles.fieldGroup}>
-                            <label className={styles.fieldLabel}>Email</label>
+                            <label className={styles.fieldLabel}>{t('common.email')}</label>
                             <input
                                 type="email"
                                 placeholder="you@example.com"
@@ -96,7 +96,7 @@ const Login = () => {
                         </div>
 
                         <div className={styles.fieldGroup}>
-                            <label className={styles.fieldLabel}>Password</label>
+                            <label className={styles.fieldLabel}>{t('common.password')}</label>
                             <input
                                 type="password"
                                 placeholder="••••••••"
@@ -108,11 +108,11 @@ const Login = () => {
                         </div>
 
                         <button type="submit" disabled={loading} className={styles.authSubmit}>
-                            {loading ? 'Logging in...' : 'Login'}
+                            {loading ? t('auth.login.submitting') : t('auth.login.submit')}
                         </button>
 
                         <p className={styles.authFooter}>
-                            Don't have an account? <Link to="/volunteer-portal/register" className={styles.authLink}>Register</Link>
+                            {t('auth.login.noAccount')} <Link to="/volunteer-portal/register" className={styles.authLink}>{t('auth.login.registerLink')}</Link>
                         </p>
                     </form>
                 </motion.div>

@@ -1,108 +1,119 @@
-import React, {useRef, useState} from 'react';
+import React, { useState } from 'react';
 import styles from './Registration.module.css';
-import {useTranslation} from "react-i18next";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
+import { submitPublicRegistration } from "../../../services/publicApi";
 
-const Registration = ({selectedEventName, onClose, onSuccesOpen}) => {
-    const iframeRef = useRef(null);
+const Registration = ({ selectedTarget, onClose, onSuccesOpen }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const {t} = useTranslation(['register', 'courses']);
+    const [error, setError] = useState('');
+    const { t } = useTranslation('register');
+    const targetName = selectedTarget?.name || '';
+    const registrationType = selectedTarget?.type === 'course' ? 'course' : 'event';
+    const isCourse = registrationType === 'course';
+    const resolveErrorMessage = (err) => {
+        const message = String(err?.message || '').trim();
+        const isNetworkError =
+            err instanceof TypeError ||
+            /failed to fetch|networkerror|load failed/i.test(message);
 
-
-    // ТУТ БУДЕТ ССЫЛКА НА ТВОЙ СКРИПТ (которую ты опубликуешь как Web App)
-    const GOOGLE_SCRIPT_WEBHOOK_URL = "СЮДА_ВСТАВИТЬ_ССЫЛКУ_НА_APPS_SCRIPT";
+        return isNetworkError ? t('error') : message || t('error');
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        
-        // 1. Собираем данные из формы для нашего вебхука
-        const formData = new FormData(e.target);
-        const dataForWebhook = {
-            name: formData.get("entry.524126650"),
-            surname: formData.get("entry.181395569"),
-            event: formData.get("entry.195333573"), // Это selectedEventName
-            email: formData.get("entry.email_placeholder") // ЗАМЕНИТЬ НА РЕАЛЬНЫЙ entry.* ОТ GOOGLE ФОРМЫ
-        };
+        setError('');
 
+        const formData = new FormData(e.currentTarget);
+        const firstName = String(formData.get('firstName') || '').trim();
+        const lastName = String(formData.get('lastName') || '').trim();
+        const email = String(formData.get('email') || '').trim();
+        const phone = String(formData.get('phone') || '').trim();
 
-        // 2. Асинхронно стучим в твой скрипт
-        if (GOOGLE_SCRIPT_WEBHOOK_URL !== "СЮДА_ВСТАВИТЬ_ССЫЛКУ_НА_APPS_SCRIPT") {
-             fetch(GOOGLE_SCRIPT_WEBHOOK_URL, {
-                method: "POST",
-                mode: "no-cors", 
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(dataForWebhook)
-            }).catch(err => console.error("Ошибка вебхука: ", err));
-        }
-
-        // 2.5 Сохраняем в Firebase
         try {
-            await addDoc(collection(db, "registrations"), {
-                name: `${dataForWebhook.name} ${dataForWebhook.surname}`.trim(),
-                email: dataForWebhook.email || '',
-                eventName: dataForWebhook.event,
-                type: 'event',
-                source: 'website_event_form',
-                createdAt: serverTimestamp()
+            await submitPublicRegistration({
+                name: [firstName, lastName].filter(Boolean).join(' ').trim(),
+                email,
+                phone,
+                eventName: targetName,
+                type: registrationType,
+                source: isCourse ? 'website_course_form' : 'website_event_form',
             });
 
+            e.currentTarget.reset();
+            onClose();
+            onSuccesOpen();
         } catch (err) {
-            console.error("Firebase Registration Error: ", err);
-        }
-
-        // 3. Стандартная отправка в Google Forms
-        e.target.submit();
-        e.target.reset();
-        onClose();
-        onSuccesOpen();
-    };
-
-    const handleIframeLoad = () => {
-        if (isSubmitting) {
+            setError(resolveErrorMessage(err));
+        } finally {
             setIsSubmitting(false);
         }
     };
+
     return (
         <div className={styles.container}>
-            <h3 className={styles.title}>{t("title")} <span className={styles.name}>{t(selectedEventName, { ns: 'courses' })}</span> </h3>
-
             <button onClick={onClose} className={styles.close} aria-label="Close">
                 <X size={24} />
             </button>
-            <p className={styles.desc}>{t("desc")} <span>{t("active")}</span> </p>
-            <form className={styles.form}
-                  action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScXLP6ZTgUkpgUjH81ujvFqzWCWx2kXJhbh3X9Bg1Qf4jZeKQ/formResponse"
-                  method="POST" target="hidden_iframe" onSubmit={handleSubmit}>
-                <label>
-                    <p>{t("name")}</p>
-                    <input type="text" name="entry.524126650" placeholder='Enter name' required/>
 
-                </label>
-                <label>
-                    <p>{t("surname")}</p>
-                    <input type="text" name="entry.181395569" placeholder='Enter surname' required/>
-                </label>
-                <label>
-                    <p>{t("email", "Email")}</p>
-                    <input type="email" name="entry.email_placeholder" placeholder='Enter email' required/>
-                </label>
+            <h3 className={styles.title}>
+                {t(isCourse ? 'courseTitle' : 'eventTitle')}{' '}
+                <span className={styles.name}>{targetName}</span>
+            </h3>
+            <p className={styles.desc}>{t(isCourse ? 'courseDesc' : 'eventDesc')}</p>
 
-                <input style={{display: "none"}} name="entry.195333573" value={selectedEventName} type="text" readOnly />
-                <div className={styles.btn_container}>
-                    <button type="submit">{t("register")}</button>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.formGrid}>
+                    <label>
+                        <p>{t("name")}</p>
+                        <input
+                            type="text"
+                            name="firstName"
+                            autoComplete="given-name"
+                            required
+                        />
+                    </label>
+
+                    <label>
+                        <p>{t("surname")}</p>
+                        <input
+                            type="text"
+                            name="lastName"
+                            autoComplete="family-name"
+                            required
+                        />
+                    </label>
                 </div>
-                <iframe
-                    name="hidden_iframe"
-                    ref={iframeRef}
-                    style={{display: "none"}}
-                    title="hidden_iframe"
-                    onLoad={handleIframeLoad}
-                ></iframe>
+
+                <label>
+                    <p>{t("email")}</p>
+                    <input
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        required
+                    />
+                </label>
+
+                <label>
+                    <p>
+                        {t("phone")} <span className={styles.optional}>{t("phoneOptional")}</span>
+                    </p>
+                    <input
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
+                    />
+                </label>
+
+                {error ? <p className={styles.error}>{error}</p> : null}
+
+                <div className={styles.btn_container}>
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? t("submitting") : t("register")}
+                    </button>
+                </div>
             </form>
         </div>
     );
