@@ -1,5 +1,9 @@
 
 node_modules/
+.superpowers/
+.tmp-*
+test-results/
+src/images/events/impact-concert-*.png
 .vercel
 .env
 .env.local

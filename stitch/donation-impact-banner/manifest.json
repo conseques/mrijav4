@@ -1,0 +1,41 @@
+{
+  "project": {
+    "title": "Donation Impact Banner",
+    "id": "9532162277622020703",
+    "deviceType": "DESKTOP",
+    "source": "Stitch"
+  },
+  "screens": [
+    {
+      "title": "image.png",
+      "id": "2855329923784295940",
+      "width": 960,
+      "height": 1280,
+      "imagePath": "screen-2855329923784295940.png",
+      "codePath": "code/screen-2855329923784295940.html",
+      "htmlCodeAvailable": false
+    },
+    {
+      "title": "image.png",
+      "id": "7794292904947456115",
+      "width": 960,
+      "height": 1280,
+      "imagePath": "screen-7794292904947456115.png",
+      "codePath": "code/screen-7794292904947456115.html",
+      "htmlCodeAvailable": false
+    },
+    {
+      "title": "image.png",
+      "id": "703160042332379264",
+      "width": 960,
+      "height": 1280,
+      "imagePath": "screen-703160042332379264.png",
+      "codePath": "code/screen-703160042332379264.html",
+      "htmlCodeAvailable": false
+    }
+  ],
+  "notes": [
+    "Stitch get_screen returned screenshot download URLs for all requested screens.",
+    "Stitch get_screen returned an empty htmlCode object for all requested screens, so no generated HTML code was available to download from the screen records."
+  ]
+}

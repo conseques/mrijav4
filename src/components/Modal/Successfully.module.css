@@ -51,7 +51,8 @@
 }
 
 .primaryButton,
-.secondaryButton {
+.secondaryButton,
+.ticketButton {
     min-height: 46px;
     padding: 0 24px;
     border-radius: 18px;
@@ -79,7 +80,25 @@
     background: rgba(54, 108, 207, 0.08);
 }
 
+.ticketButton {
+    color: #1f6c4a;
+    border: 1px solid rgba(31, 108, 74, 0.18);
+    background: rgba(31, 108, 74, 0.08);
+}
+
+.ticketButton:hover {
+    background: rgba(31, 108, 74, 0.14);
+}
+
 .primaryButton:active,
-.secondaryButton:active {
+.secondaryButton:active,
+.ticketButton:active {
     opacity: 0.75;
+}
+
+.ticketNote {
+    max-width: 38ch;
+    margin: 14px auto 0;
+    font-size: 14px;
+    line-height: 1.5;
 }

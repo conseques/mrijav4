@@ -3,12 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import icon from './Frame 264.png';
 import styles from './Successfully.module.css';
+import { getRegistrationTicketAction } from "./Registration/registrationTarget.mjs";
 
 const Successfully = ({ onClose, selectedTarget }) => {
-    const { t } = useTranslation('register');
+    const { t, i18n } = useTranslation('register');
     const navigate = useNavigate();
     const isCourse = selectedTarget?.type === 'course';
     const targetName = selectedTarget?.name || '';
+    const ticketAction = getRegistrationTicketAction(selectedTarget, i18n.language);
 
     const handleMembershipClick = () => {
         onClose();
@@ -28,10 +30,23 @@ const Successfully = ({ onClose, selectedTarget }) => {
                 <button className={styles.primaryButton} onClick={handleMembershipClick}>
                     {t('membershipCta')}
                 </button>
+                {ticketAction ? (
+                    <a
+                        className={styles.ticketButton}
+                        href={ticketAction.url}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {ticketAction.label}
+                    </a>
+                ) : null}
                 <button className={styles.secondaryButton} onClick={onClose}>
                     {t('closeCta')}
                 </button>
             </div>
+            {ticketAction ? (
+                <p className={styles.ticketNote}>{ticketAction.note}</p>
+            ) : null}
         </div>
     );
 };

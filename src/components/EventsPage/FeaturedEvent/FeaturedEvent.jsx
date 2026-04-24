@@ -1,39 +1,33 @@
 import React from 'react';
 import styles from './FeaturedEvent.module.css';
 import { useTranslation } from "react-i18next";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
 import {
     ArrowRight,
-    CalendarDays,
-    Clock3,
     HeartHandshake,
-    MapPin,
-    Music4,
-    Sparkles,
-    Ticket
+    Images,
+    Megaphone,
 } from 'lucide-react';
-import { FEATURED_CONCERT_EVENT, getFeaturedConcertContent } from "../../../content/featuredConcert";
+import { getFeaturedConcertImpactContent } from "../../../content/featuredConcertImpact.mjs";
+import performancePhoto from "../../../images/events/impact-concert-performance.webp";
+import foodPhoto from "../../../images/events/impact-concert-food.webp";
+import audiencePhoto from "../../../images/events/impact-concert-audience.webp";
 
-const highlightIcons = [Music4, Sparkles, HeartHandshake];
+const metricIcons = [HeartHandshake, Images, Megaphone];
 
-const FeaturedEvent = () => {
+const FeaturedEvent = ({ topOffset = false }) => {
     const { i18n } = useTranslation();
-    const { openModal } = useOutletContext();
-    const content = getFeaturedConcertContent(i18n.language);
-    const localizedName =
-        FEATURED_CONCERT_EVENT.locales?.[i18n.language]?.name ||
-        FEATURED_CONCERT_EVENT.locales?.[String(i18n.language || '').split('-')[0]]?.name ||
-        FEATURED_CONCERT_EVENT.locales?.no?.name;
-
-    const detailItems = [
-        { Icon: CalendarDays, label: content.detailLabels.date, value: content.dateLabel },
-        { Icon: Clock3, label: content.detailLabels.time, value: content.timeLabel },
-        { Icon: Ticket, label: content.detailLabels.ticket, value: content.priceLabel },
+    const content = getFeaturedConcertImpactContent(i18n.language);
+    const headlineText = content.headline.replace(content.amountLabel, '').trim();
+    const photos = [
+        { src: performancePhoto, alt: content.photoAlts[0], className: styles.photoPrimary },
+        { src: foodPhoto, alt: content.photoAlts[1], className: styles.photoSecondary },
+        { src: audiencePhoto, alt: content.photoAlts[2], className: styles.photoTertiary },
     ];
 
     return (
-        <section id="featured-event" className={styles.wrapper}>
+        <section id="featured-event" className={`${styles.wrapper} ${topOffset ? styles.topOffset : ''}`}>
             <motion.div
                 className={styles.surface}
                 initial={{ opacity: 0, y: 24 }}
@@ -41,76 +35,63 @@ const FeaturedEvent = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
             >
-                <div className={styles.posterColumn}>
-                    <div className={styles.posterFrame}>
-                        <div className={styles.posterGlow} />
-                        <img
-                            className={styles.poster}
-                            src={FEATURED_CONCERT_EVENT.imageUrl}
-                            alt={localizedName}
-                            loading="lazy"
-                        />
-                    </div>
-                </div>
-
                 <div className={styles.contentColumn}>
                     <div className={styles.badges}>
                         <span className={styles.eyebrow}>{content.eyebrow}</span>
                         <span className={styles.impactBadge}>{content.impactLabel}</span>
                     </div>
 
-                    <h2 className={styles.title}>{content.headline}</h2>
+                    <h2 className={styles.title}>
+                        <span className={styles.amount}>{content.amountLabel}</span>
+                        <span>{headlineText}</span>
+                    </h2>
                     <p className={styles.lead}>{content.lead}</p>
 
-                    <div className={styles.venueCard}>
-                        <div className={styles.venueIcon}>
-                            <MapPin size={18} />
-                        </div>
-                        <div className={styles.venueContent}>
-                            <span className={styles.venueLabel}>{content.venueLabel}</span>
-                            <strong className={styles.venueName}>{content.venueName}</strong>
-                            <p className={styles.venueAddress}>{content.venueAddress}</p>
-                        </div>
+                    <div className={styles.destinationCard}>
+                        <HeartHandshake size={22} aria-hidden="true" />
+                        <p>{content.destination}</p>
                     </div>
 
-                    <div className={styles.detailGrid}>
-                        {detailItems.map(({ Icon, label, value }) => (
-                            <div key={label} className={styles.detailCard}>
-                                <div className={styles.detailIcon}>
-                                    <Icon size={18} />
-                                </div>
-                                <span className={styles.detailLabel}>{label}</span>
-                                <strong className={styles.detailValue}>{value}</strong>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className={styles.highlights}>
-                        {content.highlights.map((item, index) => {
-                            const Icon = highlightIcons[index] || Sparkles;
+                    <div className={styles.metricGrid}>
+                        {content.metrics.map((item, index) => {
+                            const Icon = metricIcons[index] || HeartHandshake;
                             return (
-                                <div key={item} className={styles.highlightCard}>
-                                    <div className={styles.highlightIcon}>
-                                        <Icon size={18} />
+                                <div key={`${item.value}-${item.label}`} className={styles.metricCard}>
+                                    <div className={styles.metricIcon}>
+                                        <Icon size={18} aria-hidden="true" />
                                     </div>
-                                    <p>{item}</p>
+                                    <strong>{item.value}</strong>
+                                    <span>{item.label}</span>
                                 </div>
                             );
                         })}
                     </div>
 
                     <div className={styles.actions}>
-                        <button
-                            className={styles.primaryAction}
-                            onClick={() => openModal({ name: localizedName, type: 'event' })}
-                        >
+                        <Link className={styles.primaryAction} to="/gallery">
                             {content.primaryCta}
-                            <ArrowRight size={18} />
-                        </button>
-                        <Link className={styles.secondaryAction} to="/events">
-                            {content.secondaryCta}
+                            <ArrowRight size={18} aria-hidden="true" />
+                        </Link>
+                        <Link className={styles.secondaryAction} to="/#membership">
+                            {content.membershipCta}
+                        </Link>
+                        <Link className={styles.textAction} to="/events">
+                            {content.eventsCta}
                         </Link>
                     </div>
+                </div>
+
+                <div className={styles.photoColumn} aria-label={content.eyebrow}>
+                    {photos.map((photo, index) => (
+                        <figure key={photo.src} className={`${styles.photoFrame} ${photo.className}`}>
+                            <img
+                                src={photo.src}
+                                alt={photo.alt}
+                                loading={index === 0 ? 'eager' : 'lazy'}
+                                fetchPriority={index === 0 ? 'high' : 'auto'}
+                            />
+                        </figure>
+                    ))}
                 </div>
             </motion.div>
         </section>

@@ -7,7 +7,7 @@ import {useTranslation} from "react-i18next";
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Magnetic from "../../Magnetic/Magnetic";
 import { ArrowUpRight, CalendarDays, HeartHandshake, Users } from 'lucide-react';
-import { getFeaturedConcertContent } from "../../../content/featuredConcert";
+import { getFeaturedConcertImpactContent } from "../../../content/featuredConcertImpact.mjs";
 
 const Hero = () => {
     const { t, i18n } = useTranslation("hero");
@@ -16,7 +16,7 @@ const Hero = () => {
         target: containerRef,
         offset: ["start start", "end start"]
     });
-    const featuredConcert = getFeaturedConcertContent(i18n.language);
+    const featuredImpact = getFeaturedConcertImpactContent(i18n.language);
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
@@ -67,7 +67,7 @@ const Hero = () => {
                                 whileTap={{ scale: 0.97 }}
                                 className={styles.member_btn}
                             >
-                                {featuredConcert.heroCta}
+                                {featuredImpact.heroCta}
                             </motion.button>
                         </Magnetic>
                         <Magnetic strength={0.2}>

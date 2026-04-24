@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Registration.module.css';
 import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
 import { submitPublicRegistration } from "../../../services/publicApi";
+import { transitionRegistrationSuccess } from "./registrationSuccessFlow.mjs";
 
 const Registration = ({ selectedTarget, onClose, onSuccesOpen }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const successTimerRef = useRef(null);
     const { t } = useTranslation('register');
     const targetName = selectedTarget?.name || '';
     const registrationType = selectedTarget?.type === 'course' ? 'course' : 'event';
@@ -19,6 +21,12 @@ const Registration = ({ selectedTarget, onClose, onSuccesOpen }) => {
 
         return isNetworkError ? t('error') : message || t('error');
     };
+
+    useEffect(() => () => {
+        if (successTimerRef.current !== null) {
+            clearTimeout(successTimerRef.current);
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,9 +49,18 @@ const Registration = ({ selectedTarget, onClose, onSuccesOpen }) => {
                 source: isCourse ? 'website_course_form' : 'website_event_form',
             });
 
-            e.currentTarget.reset();
-            onClose();
-            onSuccesOpen();
+            if (successTimerRef.current !== null) {
+                clearTimeout(successTimerRef.current);
+            }
+
+            successTimerRef.current = transitionRegistrationSuccess({
+                form: e.currentTarget,
+                closeRegistration: onClose,
+                openSuccess: () => {
+                    successTimerRef.current = null;
+                    onSuccesOpen();
+                },
+            });
         } catch (err) {
             setError(resolveErrorMessage(err));
         } finally {

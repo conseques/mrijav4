@@ -1,17 +1,115 @@
 .managerContainer {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 .header {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 4px;
 }
 
 .title {
   font-size: 24px;
   margin: 0;
   font-weight: 700;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted, #64748B);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.exportButton {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: var(--primary-color, #0047AB);
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.exportButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.exportButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.summaryItem {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--container-bg, #ffffff);
+  border: 1px solid var(--outline-variant, #e2e8f0);
+}
+
+.summaryItem span {
+  display: block;
+  color: var(--text-muted, #64748B);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.summaryItem strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-color, #0F172A);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) repeat(2, minmax(150px, 220px));
+  gap: 12px;
+  align-items: end;
+}
+
+.searchField,
+.filterField {
+  display: grid;
+  gap: 6px;
+}
+
+.searchField span,
+.filterField span {
+  color: var(--text-muted, #64748B);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.searchField input,
+.filterField select {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid var(--outline-variant, #e2e8f0);
+  border-radius: 10px;
+  padding: 0 12px;
+  background: var(--container-bg, #ffffff);
+  color: var(--text-color, #0F172A);
+}
+
+.resultCount {
+  margin: -8px 0 0;
+  color: var(--text-muted, #64748B);
+  font-size: 13px;
 }
 
 .tableContainer {
@@ -122,4 +220,28 @@
   padding: 40px !important;
   color: #94a3b8 !important;
   font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .summaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .exportButton {
+    width: 100%;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
 }

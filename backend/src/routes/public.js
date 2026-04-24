@@ -1,23 +1,16 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
-const { z } = require('zod');
 const { db } = require('../db/connection');
 const { mapCourseRow, mapEventRow, mapPastEventRow } = require('../utils/mappers');
 const { parseJson } = require('../utils/json');
+const {
+  registrationSchema,
+  getRegistrationValidationErrorMessage,
+  getRegistrationValidationLogDetails,
+} = require('../utils/publicRegistration');
 const { nowIso } = require('../utils/time');
 
 const router = express.Router();
-
-const registrationSchema = z.object({
-  name: z.string().trim().min(1).max(120),
-  email: z.string().trim().email().max(160),
-  phone: z.string().trim().max(40).optional().default(''),
-  eventName: z.string().trim().min(1).max(160),
-  type: z.enum(['event', 'membership', 'course']).optional().default('event'),
-  source: z.string().trim().max(120).optional().default('website'),
-  paymentReference: z.string().trim().max(120).optional().default(''),
-  paymentState: z.string().trim().max(80).optional().default('registered')
-});
 
 router.get('/events', (_req, res) => {
   const rows = db.prepare('SELECT * FROM events ORDER BY created_at DESC').all();
@@ -58,7 +51,16 @@ router.get('/report', (_req, res) => {
 router.post('/registrations', (req, res) => {
   const parsed = registrationSchema.safeParse(req.body || {});
   if (!parsed.success) {
-    return res.status(400).json({ error: 'Invalid registration payload.' });
+    const issues = parsed.error.issues || [];
+
+    console.warn(
+      'Invalid public registration payload:',
+      getRegistrationValidationLogDetails(req.body || {}, issues, req)
+    );
+
+    return res.status(400).json({
+      error: getRegistrationValidationErrorMessage(issues),
+    });
   }
 
   const payload = parsed.data;

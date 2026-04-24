@@ -8,7 +8,7 @@ import PastEvents from "./PastEvents/PastEvents";
 const EventsPage = () => {
     return (
         <>
-            <FeaturedEvent/>
+            <FeaturedEvent topOffset />
             <AllEvents />
             <PastEvents />
             <ReachOut/>

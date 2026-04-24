@@ -8,21 +8,16 @@ import Successfully from "../Modal/Successfully";
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from "react-i18next";
 import TelegramWidget from "../TelegramWidget/TelegramWidget";
+import { createRegistrationTarget } from "../Modal/Registration/registrationTarget.mjs";
 
 const Layout = () => {
     const modal = useRef();
     const succesModal = useRef();
-    const [selectedRegistrationTarget, setSelectedRegistrationTarget] = useState({
-        name: '',
-        type: 'event'
-    });
+    const [selectedRegistrationTarget, setSelectedRegistrationTarget] = useState(() => createRegistrationTarget());
     const { t, i18n } = useTranslation('header'); // Assuming 'header' has some generic translation or we just use current language
     
-    function handleOpenModal({name, type = 'event'} = {}) {
-        setSelectedRegistrationTarget({
-            name: name || '',
-            type
-        });
+    function handleOpenModal(target = {}) {
+        setSelectedRegistrationTarget(createRegistrationTarget(target));
         modal.current.open()
 
     }
