@@ -14,16 +14,16 @@ export const getReportData = async () => {
     } else {
       // Default data if none exists
       const defaultData = {
-        totalAmountRaised: 35000,
+        totalAmountRaised: 35450,
         goalAmount: 150000,
         livesImpacted: 850,
         activeProjects: 5,
         updatedAt: new Date().toISOString(),
         distribution: {
-          militaryAid: 21000, // 60% of 35k
-          humanitarianAid: 8750, // 25%
-          otherOrgsSupport: 3500, // 10%
-          other: 1750 // 5%
+          militaryAid: 21270, // 60%
+          humanitarianAid: 8863, // 25%
+          otherOrgsSupport: 3545, // 10%
+          other: 1772 // 5%
         },
         recentAllocations: [
           {

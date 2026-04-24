@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowUpRight, Droplets, MapPin, Plus, ShieldCheck, Users, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { getReportData } from '../../services/reportService';
+import { applyConcertImpactDonation } from '../HomePage/DonationImpact/donationImpactTotals.mjs';
 import styles from './ReportModal.module.css';
 
 const distributionKeys = [
@@ -111,7 +112,7 @@ const ReportModal = ({ isOpen, onClose }) => {
       try {
         const reportData = await getReportData();
         if (isActive) {
-          setData(reportData);
+          setData(applyConcertImpactDonation(reportData));
         }
       } catch (err) {
         console.error('Error loading report data:', err);

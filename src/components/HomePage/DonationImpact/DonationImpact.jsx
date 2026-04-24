@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { getReportData } from '../../../services/reportService';
 import styles from './DonationImpact.module.css';
 import ReportModal from '../../ReportModal/ReportModal';
+import {
+  DONATION_TOTAL_BEFORE_CONCERT_IMPACT,
+  applyConcertImpactDonation,
+} from './donationImpactTotals.mjs';
 
 import { motion } from 'framer-motion';
 import { useTilt } from '../../../hooks/useTilt';
@@ -50,19 +54,19 @@ const DonationImpact = () => {
   const { t } = useTranslation('donationImpact');
   
   const [isReportOpen, setIsReportOpen] = useState(false);
-  const [reportData, setReportData] = useState({
-    totalAmountRaised: 35000,
+  const [reportData, setReportData] = useState(() => applyConcertImpactDonation({
+    totalAmountRaised: DONATION_TOTAL_BEFORE_CONCERT_IMPACT,
     goalAmount: 150000
-  });
+  }));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getReportData();
-        setReportData({
+        setReportData(applyConcertImpactDonation({
           totalAmountRaised: data.totalAmountRaised,
           goalAmount: data.goalAmount
-        });
+        }));
       } catch (err) {
         console.error("Error fetching donation impact data:", err);
       }

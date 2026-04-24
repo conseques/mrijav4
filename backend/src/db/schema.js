@@ -121,7 +121,7 @@ const createDefaultReportSql = `
 INSERT INTO reports (id, payload, updated_at)
 VALUES (
   'main',
-  '{"totalAmountRaised":35000,"goalAmount":150000,"livesImpacted":850,"activeProjects":5,"distribution":{"militaryAid":21000,"humanitarianAid":8750,"otherOrgsSupport":3500,"other":1750},"recentAllocations":[{"id":"1","project":"Slava Ukraini!","categoryKey":"militaryAidTitle","date":"Oct 24, 2023","amount":"13,450.00"},{"id":"2","project":"Ukrainian Freedom Convoys","categoryKey":"otherOrgsTitle","date":"Oct 22, 2023","amount":"10,000.00"}]}',
+  '{"totalAmountRaised":35450,"goalAmount":150000,"livesImpacted":850,"activeProjects":5,"distribution":{"militaryAid":21270,"humanitarianAid":8863,"otherOrgsSupport":3545,"other":1772},"recentAllocations":[{"id":"1","project":"Slava Ukraini!","categoryKey":"militaryAidTitle","date":"Oct 24, 2023","amount":"13,450.00"},{"id":"2","project":"Ukrainian Freedom Convoys","categoryKey":"otherOrgsTitle","date":"Oct 22, 2023","amount":"10,000.00"}]}',
   @updatedAt
 )
 ON CONFLICT(id) DO NOTHING;
