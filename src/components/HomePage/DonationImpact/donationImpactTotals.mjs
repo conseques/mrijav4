@@ -10,13 +10,28 @@ function toFiniteNumber(value) {
 
 export function applyConcertImpactDonation(reportData = {}) {
   const currentTotal = toFiniteNumber(reportData.totalAmountRaised);
+  const shouldAddToTotal = currentTotal < DONATION_TOTAL_AFTER_CONCERT_IMPACT;
   const totalAmountRaised =
-    currentTotal >= DONATION_TOTAL_AFTER_CONCERT_IMPACT
-      ? currentTotal
-      : currentTotal + CONCERT_IMPACT_DONATION_AMOUNT;
+    shouldAddToTotal ? currentTotal + CONCERT_IMPACT_DONATION_AMOUNT : currentTotal;
 
-  return {
+  const distribution = reportData.distribution
+    ? {
+        ...reportData.distribution,
+        militaryAid:
+          shouldAddToTotal || toFiniteNumber(reportData.distribution.militaryAid) < CONCERT_IMPACT_DONATION_AMOUNT
+            ? toFiniteNumber(reportData.distribution.militaryAid) + CONCERT_IMPACT_DONATION_AMOUNT
+            : toFiniteNumber(reportData.distribution.militaryAid),
+      }
+    : reportData.distribution;
+
+  const nextReportData = {
     ...reportData,
     totalAmountRaised,
   };
+
+  if (distribution) {
+    nextReportData.distribution = distribution;
+  }
+
+  return nextReportData;
 }

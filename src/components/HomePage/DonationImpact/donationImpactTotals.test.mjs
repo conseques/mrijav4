@@ -25,15 +25,52 @@ test('adds the concert donation to the current displayed fundraising total', () 
   );
 });
 
+test('adds the concert donation to military aid in the detailed report breakdown', () => {
+  assert.deepEqual(
+    applyConcertImpactDonation({
+      totalAmountRaised: 35450,
+      goalAmount: 150000,
+      distribution: {
+        militaryAid: 0,
+        humanitarianAid: 7000,
+        otherOrgsSupport: 23100,
+        other: 4900,
+      },
+    }),
+    {
+      totalAmountRaised: 41950,
+      goalAmount: 150000,
+      distribution: {
+        militaryAid: 6500,
+        humanitarianAid: 7000,
+        otherOrgsSupport: 23100,
+        other: 4900,
+      },
+    }
+  );
+});
+
 test('does not double-count the concert donation once the source total already includes it', () => {
   assert.deepEqual(
     applyConcertImpactDonation({
       totalAmountRaised: 41950,
       goalAmount: 150000,
+      distribution: {
+        militaryAid: 6500,
+        humanitarianAid: 7000,
+        otherOrgsSupport: 23100,
+        other: 4900,
+      },
     }),
     {
       totalAmountRaised: 41950,
       goalAmount: 150000,
+      distribution: {
+        militaryAid: 6500,
+        humanitarianAid: 7000,
+        otherOrgsSupport: 23100,
+        other: 4900,
+      },
     }
   );
 
