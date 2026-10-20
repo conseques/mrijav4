@@ -1,1 +1,0 @@
-import{v as e}from"./@firebase-HMLNGaoq.js";e(`firebase`,`12.11.0`,`app`);
